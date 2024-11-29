@@ -8,47 +8,44 @@
 import SwiftUI
 
 struct Welcome: View {
+    @State private var navigateToRegistration = false // Track navigation state
+    
     var body: some View {
-        ZStack {
-            Image("welcome_screen")
-                .resizable()
-                .scaledToFill()
-                .frame(width: .screenWidth, height: .screenHeight)
-
-            VStack {
-                Image("app_logo")
+        NavigationStack {
+            ZStack {
+                Image("welcome_screen")
                     .resizable()
-                    .scaledToFit()
-                    .frame(width: .widthPer(per: 55), height: 100)
-                    .padding(.top, .topInsets)
-                Spacer()
-                VStack(alignment: .center) {
-                    Text(
-                        "Track your expenses, visualize your finances, and achieve your goals with ease."
-                    )
-                    .appTextStyle(font: .bodyLarge)
-                    .multilineTextAlignment(.center)
-                    .padding(.bottom, 30)
-
-                    PrimaryButton(
-                        title: "Get Started", action: handleGetStarted
-                    ).padding(.bottom, 15)
-                    SecondaryButton(
-                        title: "I have an account", action: handleIHaveAccount
-                    ).padding(.bottom, 10)
-                }.padding()
-
-            }
-
-        }.ignoresSafeArea()
+                    .scaledToFill()
+                    .frame(width: .screenWidth, height: .screenHeight)
+                
+                VStack {
+                    AppLogo()
+                    Spacer()
+                    VStack(alignment: .center) {
+                        Text(
+                            "Track your expenses, visualize your finances, and achieve your goals with ease."
+                        )
+                        .appTextStyle(font: .bodyLarge)
+                        .multilineTextAlignment(.center)
+                        .padding(.bottom, 30)
+                        
+                        PrimaryButton(
+                            title: "Get Started", action: handleGetStarted
+                        ).padding(.bottom, .bottomInsets)
+                    }.padding()
+                    
+                }.padding(.top, .topInsets)
+                
+            }.ignoresSafeArea()
+                .navigationDestination(isPresented: $navigateToRegistration) {
+                    Registration() // Navigate to RegistrationPage
+                }
+        }
     }
 
     private func handleGetStarted() {
-
-    }
-    
-    private func handleIHaveAccount() {
-        
+        print("Get Started button clicked")
+        navigateToRegistration = true
     }
 }
 #Preview {

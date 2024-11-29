@@ -11,13 +11,18 @@ struct PrimaryButton: View {
     var title: String
     var action: () -> Void
     var gradientColors: [Color] = [.secondaryC, .secondaryC]
-    
+    var isEnabled: Bool = true // Enabled by default
+
     var body: some View {
         GeometryReader { geometry in
-            Button(action: action) {
+            Button(action: {
+                if isEnabled {
+                    action()
+                }
+            }) {
                 Text(title)
                     .font(.headline)
-                    .foregroundColor(.white)
+                    .foregroundColor(isEnabled ? .white : .white) // Adjust text color for disabled state
                     .padding()
                     .frame(maxWidth: .infinity)
                     .background(
@@ -25,32 +30,32 @@ struct PrimaryButton: View {
                             .strokeBorder(
                                 LinearGradient(
                                     gradient: Gradient(colors: [
-                                        Color.white.opacity(0.15), // 15% opacity
-                                        Color.white.opacity(50)  // 50% opacity
+                                        Color.white.opacity(isEnabled ? 0.15 : 0.05), // Dim for disabled
+                                        Color.white.opacity(isEnabled ? 0.5 : 0.1)
                                     ]),
                                     startPoint: .topLeading,
                                     endPoint: .bottomTrailing
                                 ),
-                                lineWidth: 1 // Stroke thickness
+                                lineWidth: 1
                             )
                             .fill(
                                 RadialGradient(
-                                    gradient: Gradient(colors: gradientColors),
+                                    gradient: Gradient(colors: isEnabled ? gradientColors : [.gray, .gray]),
                                     center: .center,
                                     startRadius: 0,
-                                    endRadius: geometry.size.height / 2 // 50% of height
+                                    endRadius: geometry.size.height / 2
                                 )
                             )
                             .shadow(
-                                color: gradientColors.first ?? .secondary50,
-                                radius: 15, x: 0, y: 5
+                                color: isEnabled ? (gradientColors.first ?? .secondary50) : .clear,
+                                radius: isEnabled ? 15 : 0, x: 0, y: 5
                             )
-                        
                     )
             }
             .scaleEffectOnPress()
+            .disabled(!isEnabled) // Disable interaction
         }
-        .frame(height: 50) // Set a fixed height for the button
+        .frame(height: 50) // Fixed height
     }
 }
 

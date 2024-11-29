@@ -15,6 +15,8 @@ struct pennyflowApp: App {
         WindowGroup {
             Welcome()
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
+                .background(Color.gray80.edgesIgnoringSafeArea(.all))
+                .preferredColorScheme(.dark)
         }
     }
 }
