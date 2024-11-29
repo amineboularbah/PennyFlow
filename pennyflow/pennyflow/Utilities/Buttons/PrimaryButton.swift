@@ -10,7 +10,7 @@ import SwiftUI
 struct PrimaryButton: View {
     var title: String
     var action: () -> Void
-    var gradientColors: [Color] = [.secondary50, .secondaryC]
+    var gradientColors: [Color] = [.secondaryC, .secondaryC]
     
     var body: some View {
         GeometryReader { geometry in
@@ -22,6 +22,17 @@ struct PrimaryButton: View {
                     .frame(maxWidth: .infinity)
                     .background(
                         RoundedRectangle(cornerRadius: 50)
+                            .strokeBorder(
+                                LinearGradient(
+                                    gradient: Gradient(colors: [
+                                        Color.white.opacity(0.15), // 15% opacity
+                                        Color.white.opacity(50)  // 50% opacity
+                                    ]),
+                                    startPoint: .topLeading,
+                                    endPoint: .bottomTrailing
+                                ),
+                                lineWidth: 1 // Stroke thickness
+                            )
                             .fill(
                                 RadialGradient(
                                     gradient: Gradient(colors: gradientColors),
@@ -34,6 +45,7 @@ struct PrimaryButton: View {
                                 color: gradientColors.first ?? .secondary50,
                                 radius: 15, x: 0, y: 5
                             )
+                        
                     )
             }
             .scaleEffectOnPress()
@@ -56,6 +68,5 @@ struct PrimaryButton_Previews: PreviewProvider {
                 }, gradientColors: [.secondaryC, .secondaryC])
         }
         .padding()
-        .background(Color.black.edgesIgnoringSafeArea(.all)) // Dark background for contrast
     }
 }

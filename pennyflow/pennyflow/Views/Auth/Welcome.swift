@@ -9,13 +9,13 @@ import SwiftUI
 
 struct Welcome: View {
     var body: some View {
-        ZStack{
+        ZStack {
             Image("welcome_screen")
                 .resizable()
                 .scaledToFill()
                 .frame(width: .screenWidth, height: .screenHeight)
-            
-            VStack{
+
+            VStack {
                 Image("app_logo")
                     .resizable()
                     .scaledToFit()
@@ -23,15 +23,32 @@ struct Welcome: View {
                     .padding(.top, .topInsets)
                 Spacer()
                 VStack(alignment: .center) {
-                    Text("Track your expenses, visualize your finances, and achieve your goals with ease.")
-                        .appTextStyle(font: .bodyMedium)
-                        .multilineTextAlignment(.center)
+                    Text(
+                        "Track your expenses, visualize your finances, and achieve your goals with ease."
+                    )
+                    .appTextStyle(font: .bodyLarge)
+                    .multilineTextAlignment(.center)
+                    .padding(.bottom, 30)
+
+                    PrimaryButton(
+                        title: "Get Started", action: handleGetStarted
+                    ).padding(.bottom, 15)
+                    SecondaryButton(
+                        title: "I have an account", action: handleIHaveAccount
+                    ).padding(.bottom, 10)
                 }.padding()
-                    
-                
+
             }
-            
+
         }.ignoresSafeArea()
+    }
+
+    private func handleGetStarted() {
+
+    }
+    
+    private func handleIHaveAccount() {
+        
     }
 }
 #Preview {
