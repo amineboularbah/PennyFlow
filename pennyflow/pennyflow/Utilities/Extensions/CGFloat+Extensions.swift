@@ -17,7 +17,7 @@ extension CGFloat {
     /// - Parameter per: The percentage (0.0 - 1.0) of the screen width.
     /// - Returns: The width value corresponding to the given percentage.
     static func widthPer(per: Double) -> Double {
-        return screenWidth * per
+        return screenWidth * per / 100
     }
     
     /// Calculates a percentage of the screen's height.
@@ -25,7 +25,7 @@ extension CGFloat {
     /// - Parameter per: The percentage (0.0 - 1.0) of the screen height.
     /// - Returns: The height value corresponding to the given percentage.
     static func heightPer(per: Double) -> Double {
-        return screenHeight * per
+        return screenHeight * per / 100
     }
     
     /// The top safe area inset of the screen.

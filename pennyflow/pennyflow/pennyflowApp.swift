@@ -13,7 +13,7 @@ struct pennyflowApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            Welcome()
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }
     }

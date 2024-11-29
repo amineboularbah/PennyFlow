@@ -15,7 +15,31 @@ enum Inter: String {
 
 extension Font {
     
-    static func customfont(_ font: Inter, fontSize: CGFloat) -> Font {
+    /// Returns a custom font with the specified style and size.
+    static func customFont(_ font: Inter, fontSize: CGFloat) -> Font {
         custom(font.rawValue, size: fontSize)
     }
+    
+    // Typography System
+    
+    // Display Styles
+    static var display1: Font { customFont(.bold, fontSize: 72) }
+    
+    // Headline Styles
+    static var headline1: Font { customFont(.bold, fontSize: 56) } // Largest headline
+    static var headline2: Font { customFont(.bold, fontSize: 40) }
+    static var headline3: Font { customFont(.bold, fontSize: 32) }
+    static var headline4: Font { customFont(.bold, fontSize: 24) }
+    static var headline5: Font { customFont(.bold, fontSize: 20) }
+    static var headline6: Font { customFont(.semibold, fontSize: 16) }
+    static var headline7: Font { customFont(.semibold, fontSize: 14) }
+    static var headline8: Font { customFont(.semibold, fontSize: 12) } // Smallest headline
+    
+    // Body Styles
+    static var bodyLarge: Font { customFont(.regular, fontSize: 16) }
+    static var bodyMedium: Font { customFont(.regular, fontSize: 14) }
+    static var bodySmall: Font { customFont(.medium, fontSize: 12) }
+    
+    // Subtitle Style
+    static var subtitle: Font { customFont(.medium, fontSize: 20) }
 }
