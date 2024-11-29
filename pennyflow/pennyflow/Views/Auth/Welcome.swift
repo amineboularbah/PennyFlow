@@ -22,8 +22,11 @@ struct Welcome: View {
                     .frame(width: .widthPer(per: 55), height: 100)
                     .padding(.top, .topInsets)
                 Spacer()
-                Text("Track your expenses, visualize your finances, and achieve your goals with ease.")
-                    .font(.customfont(.medium, fontSize: 14))
+                VStack(alignment: .center) {
+                    Text("Track your expenses, visualize your finances, and achieve your goals with ease.")
+                        .appTextStyle(font: .bodyMedium)
+                        .multilineTextAlignment(.center)
+                }.padding()
                     
                 
             }
