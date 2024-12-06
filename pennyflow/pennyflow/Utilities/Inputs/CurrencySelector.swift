@@ -23,7 +23,7 @@ struct CurrencySelector: View {
                     }) {
                         Text("\(currency.rawValue)")
                             .font(.headline)
-                            .foregroundColor(selectedCurrency == currency ? .orange : .white)
+                            .foregroundColor(selectedCurrency == currency ? .secondaryC : .white)
                             .frame(width: 80, height: 40) // Adjust size for consistent layout
                             .background(
                                 RoundedRectangle(cornerRadius: 8)
