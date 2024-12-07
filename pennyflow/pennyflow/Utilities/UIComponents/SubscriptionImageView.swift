@@ -1,7 +1,15 @@
+//
+//  SubscriptionImageView.swift
+//  pennyflow
+//
+//  Created by Amine on 7/12/2024.
+//
+import SwiftUI
+
 struct SubscriptionImageView: View {
     let imageName: String // The image name in the asset catalog
     let subscriptionTitle: String // The title of the subscription
-    let imageSize: CGFloat = 70 // Image size (width and height)
+    let imageSize: CGFloat? // Image size (width and height)
 
     var body: some View {
         if UIImage(named: imageName) != nil {
@@ -9,8 +17,8 @@ struct SubscriptionImageView: View {
             Image(imageName)
                 .resizable()
                 .aspectRatio(contentMode: .fit)
-                .frame(width: imageSize, height: imageSize)
-                .clipShape(RoundedRectangle(cornerRadius: 10))
+                .frame(width: imageSize ?? 70, height: imageSize ?? 70)
+                .clipShape(RoundedRectangle(cornerRadius: 20))
         } else {
             // Fallback: Display initials
             fallbackWithInitials(for: subscriptionTitle)
@@ -22,12 +30,12 @@ struct SubscriptionImageView: View {
     private func fallbackWithInitials(for title: String) -> some View {
         let initials = extractInitials(from: title)
         ZStack {
-            Circle()
+            RoundedRectangle(cornerRadius: 20) // Square with rounded corners
                 .fill(Color.gray.opacity(0.3))
                 .frame(width: imageSize, height: imageSize)
 
             Text(initials)
-                .font(.system(size: imageSize / 3, weight: .bold))
+                .font(.system(size: (imageSize ?? 70) / 3, weight: .bold))
                 .foregroundColor(.white)
         }
     }

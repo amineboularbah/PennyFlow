@@ -150,6 +150,8 @@ struct NavigationItem {
 // Preview
 struct MainScreenPreview: PreviewProvider {
     static var previews: some View {
+        let subs = SubscriptionData()
         MainScreen()
+            .environmentObject(subs)
     }
 }

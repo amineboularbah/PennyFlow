@@ -10,7 +10,7 @@ struct HomeView: View {
     var body: some View {
         VStack {
             Text("Home Page")
-                .font(.largeTitle)
+                .appTextStyle(font: .bodyLarge)
         }
     }
 }
