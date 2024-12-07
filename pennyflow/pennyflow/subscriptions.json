@@ -1,0 +1,92 @@
+[
+    {
+        "id": 1,
+        "name": "Spotify",
+        "description": "Music App.",
+        "image": "spotify_logo"
+    },
+    {
+        "id": 2,
+        "name": "YouTube",
+        "description": "Enjoy millions of videos and channels on YouTube.",
+        "image": "youtube_logo"
+    },
+    {
+        "id": 3,
+        "name": "OneDrive",
+        "description": "Store, sync, and share files securely with OneDrive.",
+        "image": "onedrive_logo"
+    },
+    {
+        "id": 4,
+        "name": "Netflix",
+        "description": "Stream TV shows and movies anytime on Netflix.",
+        "image": "netflix_logo"
+    },
+    {
+        "id": 5,
+        "name": "HBO Go",
+        "description": "Access your favorite HBO shows and movies.",
+        "image": "hbo_logo"
+    },
+    {
+        "id": 6,
+        "name": "Disney+",
+        "description": "Stream Disney, Pixar, Marvel, and Star Wars movies and shows.",
+        "image": "disney_logo"
+    },
+    {
+        "id": 7,
+        "name": "Amazon Prime",
+        "description": "Fast delivery, exclusive deals, and video streaming.",
+        "image": "prime_logo"
+    },
+    {
+        "id": 8,
+        "name": "Apple Music",
+        "description": "Stream over 75 million songs ad-free.",
+        "image": "applemusic_logo"
+    },
+    {
+        "id": 9,
+        "name": "Hulu",
+        "description": "Watch TV shows, movies, and exclusive originals.",
+        "image": "hulu_logo"
+    },
+    {
+        "id": 10,
+        "name": "Google Drive",
+        "description": "Securely store and access your files online.",
+        "image": "googledrive_logo"
+    },
+    {
+        "id": 11,
+        "name": "Crunchyroll",
+        "description": "Stream the latest anime shows and movies.",
+        "image": "crunchyroll_logo"
+    },
+    {
+        "id": 12,
+        "name": "Slack",
+        "description": "Collaborate and communicate with your team effectively.",
+        "image": "slack_logo"
+    },
+    {
+        "id": 13,
+        "name": "Dropbox",
+        "description": "Cloud storage for your files and documents.",
+        "image": "dropbox_logo"
+    },
+    {
+        "id": 14,
+        "name": "Paramount+",
+        "description": "Stream live sports, news, and a mountain of entertainment.",
+        "image": "paramountplus_logo"
+    },
+    {
+        "id": 15,
+        "name": "Peacock",
+        "description": "Stream TV shows, movies, and live sports.",
+        "image": "peacock_logo"
+    }
+]
