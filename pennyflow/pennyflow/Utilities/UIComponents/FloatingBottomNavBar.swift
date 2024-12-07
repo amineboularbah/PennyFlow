@@ -8,10 +8,17 @@ import SwiftUI
 
 struct FloatingArcBottomNavBar: View {
     @State private var selectedTab: Int = 0
+    
+    let navigationItems: [NavigationItem] = [
+        NavigationItem(id: 0, activeIcon: "home", inactiveIcon: "home", label: "Home"),
+        NavigationItem(id: 1, activeIcon: "budgets", inactiveIcon: "budgets", label: "Budgets"),
+        NavigationItem(id: 2, activeIcon: "calendar", inactiveIcon: "calendar", label: "Calendar"),
+        NavigationItem(id: 3, activeIcon: "creditcards", inactiveIcon: "creditcards", label: "Cards"),
+        
+    ]
 
     var body: some View {
         ZStack {
-     
 
             // Floating Bottom Navigation Bar
             VStack {
@@ -31,38 +38,37 @@ struct FloatingArcBottomNavBar: View {
 
                     // Buttons
                     HStack(spacing: 40) {
-                        // Left Icons
-                        ForEach(0..<2) { index in
+                        ForEach(navigationItems.prefix(2)) { item in
                             Button(action: {
-                                selectedTab = index
+                                selectedTab = item.id
                             }) {
-                                Image(
-                                    systemName: index == selectedTab
-                                        ? "house.fill" : "house"
-                                )
-                                .resizable()
-                                .frame(width: 24, height: 24)
-                                .foregroundColor(
-                                    index == selectedTab ? .blue : .gray)
+                               
+                                    Image(selectedTab == item.id ? item.activeIcon : item.inactiveIcon)
+                                        .resizable()
+                                        .frame(width: 24, height: 24)
+                                        .foregroundColor(selectedTab == item.id ? .white : .gray30)
+                              
+                                
                             }
+                            .frame(maxWidth: .infinity) // Equal spacing for all items
+                            
                         }
-
-                        Spacer()
-
-                        // Right Icons
-                        ForEach(2..<4) { index in
+                        
+                        Spacer() // this should add space between the icons in middle to leave space for the button
+                        
+                        ForEach(navigationItems.suffix(2)) { item in
                             Button(action: {
-                                selectedTab = index
+                                selectedTab = item.id
                             }) {
-                                Image(
-                                    systemName: index == selectedTab
-                                        ? "calendar.fill" : "calendar"
-                                )
-                                .resizable()
-                                .frame(width: 24, height: 24)
-                                .foregroundColor(
-                                    index == selectedTab ? .blue : .gray)
+                             
+                                    Image(selectedTab == item.id ? item.activeIcon : item.inactiveIcon)
+                                        .resizable()
+                                        .frame(width: 24, height: 24)
+                                        .foregroundColor(selectedTab == item.id ? .white : .gray30)
+                              
                             }
+                            .frame(maxWidth: .infinity) // Equal spacing for all items
+                            
                         }
                     }
                     .padding(.horizontal, 40)
@@ -76,10 +82,11 @@ struct FloatingArcBottomNavBar: View {
                             Circle()
                                 .fill(Color.red)
                                 .frame(width: 60, height: 60)
-                                .shadow(color: .red.opacity(0.3), radius: 10, x: 0, y: 5)
-                            Image(systemName: "plus")
+                                .shadow(color: .secondary50.opacity(0.5), radius: 10, x: 0, y: 5)
+                            Image("plus")
+                                .resizable()
+                                .frame(width: 50, height: 50)
                                 .foregroundColor(.white)
-                                .font(.system(size: 24, weight: .bold))
                         }
                     }
                     .offset(y: -20) // Floating above the navigation bar
@@ -88,59 +95,19 @@ struct FloatingArcBottomNavBar: View {
             .edgesIgnoringSafeArea(.bottom)  // Allow the bar to float at the bottom
         }
         .padding(.bottom, 10)
+        .applyDefaultBackground()
     }
 }
 
-// Custom Arc Background Shape
-struct ArcBackground: Shape {
-    func path(in rect: CGRect) -> Path {
-        var path = Path()
-        let cornerRadius: CGFloat = 10  // Radius for the rounded corners
-        let buttonPadding: CGFloat = 10
-        
-        // Starting point of painting
-        path.move(to: CGPoint(x: 0, y: 0))
-        
-        // Add a line from start point to 40% of the container width and remove the padding of the button to keep space between it and the BNB line
-        path.addLine(to: CGPoint(x: rect.width * 0.4, y: 0))
-        
-        // Draw an arc from the point we left off to the corner radius height
-        path.addArc(
-            center: CGPoint(x: rect.width * 0.4 - buttonPadding, y: cornerRadius),
-            radius: cornerRadius, startAngle: Angle(degrees: 270),
-            endAngle: Angle(degrees: 0), clockwise: false)
-        
-        // Draw the half-circle arc from the last checkpoint
-             path.addArc(
-                center: CGPoint(x: rect.width * 0.5, y: cornerRadius), // Center at midpoint
-                 radius: 35,
-                 startAngle: Angle(degrees: 180),
-                 endAngle: Angle(degrees: 0),
-                 clockwise: true
-             )
-        
-        // Once the cercle point ends, since last checkpoint is 0.4, and center of circle is half of the container width (0.5 * width), it means tha tend of the half circle will be at 0.6 of the container width, From there we create new arc towers the point we want (0.6 + padding of the width)
-        path.addArc(
-            center: CGPoint(x: rect.width * 0.6 + buttonPadding, y: cornerRadius),
-            radius: cornerRadius,
-            startAngle: Angle(degrees: 0),
-            endAngle: Angle(degrees: 270), clockwise: false)
-        
-        // Now we're done with the hard part we can safely draw a line to the end of width and beginning if the height
-        path.addLine(to: CGPoint(x: rect.width, y: 0))
-        
-        // draw a line to the bottom right of the container
-        path.addLine(to: CGPoint(x: rect.width, y: rect.height))
-        
-        // Paint a straight line to the bottom left of the container
-        path.addLine(to: CGPoint(x: 0, y: rect.height))
-        
-        // Now we're done, we close the subpath
-        path.closeSubpath()
 
-        return path
-    }
+extension NavigationItem: Identifiable {}
+struct NavigationItem {
+    let id: Int
+    let activeIcon: String
+    let inactiveIcon: String
+    let label: String
 }
+
 
 // Preview
 struct FloatingArcBottomNavBar_Previews: PreviewProvider {

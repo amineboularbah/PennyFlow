@@ -26,9 +26,12 @@ struct MainScreen: View {
                 FloatingArcBottomNavBar()
             }
         }
+        .edgesIgnoringSafeArea(.bottom)  // Allow the bar to float at the bottom
+        .padding(.bottom, .bottomInsets)
+        
     }
 }
 
 #Preview {
-    MainScreen()
+    MainScreen().applyDefaultBackground()
 }
