@@ -14,10 +14,9 @@ struct SubscriptionsGridView: View {
     @State private var topSubscriptions: [Subscription] = []  // Top 6 subscriptions
     var body: some View {
         VStack {
-
             HStack {
                 Text("Top Subscriptions")
-                    .appTextStyle(font: .headline4)
+                    .appTextStyle(font: .headline5)
 
                 Spacer()
 
@@ -29,61 +28,66 @@ struct SubscriptionsGridView: View {
                 }
             }
 
-            ScrollView {
-                LazyVGrid(
-                    columns: [GridItem(.adaptive(minimum: 100), spacing: 20)],
-                    spacing: 20
-                ) {
-                    ForEach(topSubscriptions) { subscription in
-                        VStack {
-                            SubscriptionImageView(
-                                imageName: subscription.image,
-                                subscriptionTitle: subscription.name,
-                                imageSize: 70
-                            )
-
-                            Text(subscription.name)
-                                .appTextStyle(font: .bodyLarge)
-                                .lineLimit(1)
-                        }
-                        .padding()
-                        .background(
-                            RoundedRectangle(cornerRadius: 20)  // Add the border shape
-                                .stroke(
-                                    selectedPlatform == subscription.id
-                                        ? .secondaryC : Color.clear,  // Orange border for selected
-                                    lineWidth: 3
-                                )
+            LazyVGrid(
+                columns: [GridItem(.adaptive(minimum: 100), spacing: 20)],
+                spacing: 20
+            ) {
+                ForEach(topSubscriptions) { subscription in
+                    VStack {
+                        SubscriptionImageView(
+                            imageName: subscription.image,
+                            subscriptionTitle: subscription.name,
+                            imageSize: 70
                         )
-                        .onTapGesture {
-                            selectedPlatform = subscription.id
-                            print("Selected items is: \(subscription.id)")
-                        }
 
+                        Text(subscription.name)
+                            .appTextStyle(font: .bodyLarge)
+                            .lineLimit(1)
                     }
-                }
-                .onAppear {
-                    // Initialize top subscriptions on first render
-                    if topSubscriptions.isEmpty {
-                        topSubscriptions = Array(
-                            subscriptionData.subscriptions.prefix(6))
+                    .padding()
+                    .background(
+                        RoundedRectangle(cornerRadius: 20)  // Add the border shape
+                            .stroke(
+                                selectedPlatform == subscription.id
+                                    ? .secondaryC : Color.clear,  // Orange border for selected
+                                lineWidth: 3
+                            )
+                    )
+                    .onTapGesture {
+                        selectedPlatform = subscription.id
+                        print("Selected items is: \(subscription.id)")
                     }
-                }
-                .sheet(isPresented: $showAllSubscriptions) {
-                            AllSubscriptionsView(selectedPlatform: $selectedPlatform) { selectedID in
-                                updateTopSubscriptions(with: selectedID)
-                            }
-                            .environmentObject(subscriptionData)
-                        }
-            }.padding(.top)
 
+                }
+            }
+            .onAppear {
+                // Initialize top subscriptions on first render
+                if topSubscriptions.isEmpty {
+                    topSubscriptions = Array(
+                        subscriptionData.subscriptions.prefix(6))
+                }
+            }
+            .sheet(isPresented: $showAllSubscriptions) {
+                AllSubscriptionsView(selectedPlatform: $selectedPlatform) {
+                    selectedID in
+                    updateTopSubscriptions(with: selectedID)
+                }
+                .environmentObject(subscriptionData)
+            }
         }.padding()
+            .background(
+                BottomRoundedRectangle(cornerRadius: 40)
+                    .fill(Color.gray70)  // Fill with a color
+
+            )
     }
-    
+
     // Logic to Update Top Subscriptions
     private func updateTopSubscriptions(with selectedID: Int?) {
         guard let selectedID = selectedID,
-              let selectedSubscription = subscriptionData.subscriptions.first(where: { $0.id == selectedID }) else {
+            let selectedSubscription = subscriptionData.subscriptions.first(
+                where: { $0.id == selectedID })
+        else {
             return
         }
 
@@ -93,7 +97,8 @@ struct SubscriptionsGridView: View {
                 topSubscriptions.append(selectedSubscription)
             } else {
                 // Replace the last item if top 6 is full
-                topSubscriptions[topSubscriptions.count - 1] = selectedSubscription
+                topSubscriptions[topSubscriptions.count - 1] =
+                    selectedSubscription
             }
         }
     }
@@ -105,6 +110,5 @@ struct ContentView_Previews: PreviewProvider {
 
         SubscriptionsGridView(selectedPlatform: .constant(nil))
             .environmentObject(mockSubscriptionData)  // Inject into the preview
-            .applyDefaultBackground()
     }
 }

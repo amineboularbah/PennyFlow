@@ -7,20 +7,42 @@
 import SwiftUI
 
 struct AddSubscriptionView: View {
-    @State private var selectedPlatform: Int?
     @EnvironmentObject var subscriptionData: SubscriptionData
+    @State private var description: String = ""
+    @State private var selectedPlatform: Int?
+    
+    init() {
+        // Use SwiftUI Color and convert it to UIColor
+        let backgroundColor = UIColor(.gray70) // Replace with your custom color name
+        let titleColor = UIColor(.gray30) // Replace with your custom color name
+
+        // Customize the navigation bar appearance
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithOpaqueBackground() // Makes the background opaque
+        appearance.backgroundColor = backgroundColor // Use converted UIColor
+        appearance.titleTextAttributes = [.foregroundColor: titleColor] // Title color
+        appearance.largeTitleTextAttributes = [.foregroundColor: titleColor] // Large title color
+        
+
+        UINavigationBar.appearance().standardAppearance = appearance
+        UINavigationBar.appearance().scrollEdgeAppearance = appearance
+    }
+    
     
     var body: some View {
-        VStack {
-            Text("New")
-                .appTextStyle(font: .bodyLarge, color: .gray30)
-                .padding(.bottom)
+        NavigationView {
+            VStack {
+                
+                SubscriptionsGridView(selectedPlatform: $selectedPlatform)
+                CustomTextField(placeholder: "Description", text: $description)
+                    .padding()
+                Spacer()
+            }
+            .applyDefaultBackground()
+            .navigationTitle("New Subscription")
+            .navigationBarTitleDisplayMode(.inline)
             
-            SubscriptionsGridView(selectedPlatform: $selectedPlatform)
-            Spacer()
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity) // Ensures the view fills the sheet
-        .applyDefaultBackground() // Apply background color to the entire sheet
        
     }
 }
@@ -30,5 +52,6 @@ struct AddSubscriptionView_Previews: PreviewProvider {
         let subs = SubscriptionData()
         AddSubscriptionView()
             .environmentObject(subs)
+            .applyDefaultBackground()
     }
 }
