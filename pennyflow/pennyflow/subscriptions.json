@@ -1,0 +1,32 @@
+[
+    {
+        "id": 1
+        "name": "Spotify",
+        "description": "Music App.",
+        "image": "spotify_logo"
+    },
+    {
+        "id": 2
+        "name": "YouTube",
+        "description": "Enjoy millions of videos and channels on YouTube.",
+        "image": "youtube_logo"
+    },
+    {
+        "id": 3
+        "name": "OneDrive",
+        "description": "Store, sync, and share files securely with OneDrive.",
+        "image": "onedrive_logo"
+    },
+    {
+        "id": 4
+        "name": "Netflix",
+        "description": "Stream TV shows and movies anytime on Netflix.",
+        "image": "netflix_logo"
+    },
+    {
+        "id": 5
+        "name": "HBO Go",
+        "description": "Access your favorite HBO shows and movies.",
+        "image": "hbo_logo"
+    }
+]
