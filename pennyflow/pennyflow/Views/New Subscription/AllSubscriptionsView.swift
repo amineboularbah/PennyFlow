@@ -12,7 +12,7 @@ struct AllSubscriptionsView: View {
     @Binding var selectedPlatform: Int?  // Binding to track selected subscription
     var onSelect: (Int?) -> Void  // Callback to handle selection
     @Environment(\.dismiss) private var dismiss  // Environment property to dismiss the sheet
-
+    
     var body: some View {
         NavigationView {
             ScrollView {
@@ -41,7 +41,7 @@ struct AllSubscriptionsView: View {
                             // Checkmark for selected item
                             if selectedPlatform == subscription.id {
                                 Image(systemName: "checkmark.circle.fill")
-                                    .foregroundColor(.orange)
+                                    .foregroundColor(.white)
                             }
                         }
                         .contentShape(Rectangle())  // Makes the entire row tappable
