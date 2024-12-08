@@ -5,6 +5,7 @@
 //  Created by Amine on 6/12/2024.
 //
 import SwiftUI
+
 struct MainScreen: View {
     @State private var selectedTab: Int = 0
     @State private var isAddingSubscription = false  // Push to Add Subscription page
@@ -18,13 +19,17 @@ struct MainScreen: View {
                     BudgetsView().tag(1)
                     CalendarView().tag(2)
                     CardsView().tag(3)
-                }
+                }.padding(.bottom, .bottomInsets)
+                
 
                 // Black to Transparent Gradient at the Bottom
                 GradientLayer()
 
                 // Floating Bottom Navigation Bar
-                FloatingBottomNavigationBar(selectedTab: $selectedTab, isAddingSubscription: $isAddingSubscription)
+                FloatingBottomNavigationBar(
+                    selectedTab: $selectedTab,
+                    isAddingSubscription: $isAddingSubscription
+                )
                 .edgesIgnoringSafeArea(.bottom)  // Allow the bar to float at the bottom
             }
             .applyDefaultBackground()
@@ -56,18 +61,21 @@ struct MainScreenPreview: PreviewProvider {
     }
 }
 
-
 struct GradientLayer: View {
     var body: some View {
         VStack {
             Spacer()
             LinearGradient(
-                gradient: Gradient(colors: [Color.black, Color.black.opacity(0)]),
+                gradient: Gradient(colors: [
+                    Color.gray80,Color.gray80,Color.gray80.opacity(0),
+                ]),
                 startPoint: .bottom,
                 endPoint: .top
             )
-            .frame(height: 120) // Adjust as needed
-            .ignoresSafeArea(edges: .bottom)
+            .frame(maxHeight: 120)  // Define gradient height
+            
+            .ignoresSafeArea(edges: .bottom)  // Completely ignore the bottom safe area
         }
+
     }
 }
