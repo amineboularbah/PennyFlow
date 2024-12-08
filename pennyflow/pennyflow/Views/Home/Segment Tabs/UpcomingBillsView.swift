@@ -14,7 +14,7 @@ struct UpcomingBillsView: View {
                     SubscriptionRowView(subscription: subscription, showDate: true) 
                 }
             }
-            .padding()
+            .padding(.horizontal)
         }
     }
 }

@@ -14,7 +14,7 @@ struct YourSubscriptionsView: View {
                     SubscriptionRowView(subscription: subscription, showDate: false)
                 }
             }
-            .padding()
+            .padding(.horizontal)
         }
     }
 }

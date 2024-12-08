@@ -19,7 +19,7 @@ struct SecondaryButton: View {
         Button(action: action) {
             Text(title)
                 .appTextStyle(font: .headline8, color: textColor ?? .white)
-                .padding()
+                .padding(12)
                 .frame(maxWidth: width ?? .infinity)  // Full-width button
                 .background(
                     RoundedRectangle(cornerRadius: cornerRadius ?? 50)
