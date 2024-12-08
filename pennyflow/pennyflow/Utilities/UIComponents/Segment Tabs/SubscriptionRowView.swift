@@ -17,7 +17,7 @@ struct SubscriptionRowView: View {
             // Subscription Image
             Image(subscription.image)
                 .resizable()
-                .scaledToFit()
+                .scaledToFit() 
                 .frame(width: 50, height: 50)
                 .clipShape(RoundedRectangle(cornerRadius: 10))
 

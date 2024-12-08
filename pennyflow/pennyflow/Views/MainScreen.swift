@@ -5,7 +5,6 @@
 //  Created by Amine on 6/12/2024.
 //
 import SwiftUI
-
 struct MainScreen: View {
     @State private var selectedTab: Int = 0
     @State private var isAddingSubscription = false  // Push to Add Subscription page
@@ -22,7 +21,6 @@ struct MainScreen: View {
         NavigationItem(
             id: 3, activeIcon: "creditcards", inactiveIcon: "creditcards",
             label: "Cards"),
-
     ]
 
     var body: some View {
@@ -35,7 +33,18 @@ struct MainScreen: View {
                     CalendarView().tag(2)
                     CardsView().tag(3)
                 }
-                .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))  // Disable default tab bar
+
+                // Black to Transparent Gradient at the Bottom
+                VStack {
+                    Spacer() // Pushes the gradient to the very bottom
+                    LinearGradient(
+                        gradient: Gradient(colors: [Color.black, Color.black.opacity(0)]),
+                        startPoint: .bottom,
+                        endPoint: .top
+                    )
+                    .frame(height: 120) // Adjust height as needed
+                    .ignoresSafeArea(edges: .bottom) // Ensure it spans the bottom
+                }
 
                 // Floating Bottom Navigation Bar
                 VStack {
@@ -78,7 +87,7 @@ struct MainScreen: View {
 
                             }
 
-                            Spacer()  // this should add space between the icons in middle to leave space for the button
+                            Spacer()  // Adds space between icons in middle for the center button
 
                             ForEach(navigationItems.suffix(2)) { item in
                                 Button(action: {
@@ -122,11 +131,11 @@ struct MainScreen: View {
                             }
                         }
                         .offset(y: -20)  // Floating above the navigation bar
-                    }.padding(.bottom, .bottomInsets )
+                    }
+                    .padding(.bottom, .bottomInsets)
                 }
                 .edgesIgnoringSafeArea(.bottom)  // Allow the bar to float at the bottom
-            }.ignoresSafeArea()
-            
+            }
             .applyDefaultBackground()
         }
         .navigationBarBackButtonHidden(true)  // Hide the navigation bar

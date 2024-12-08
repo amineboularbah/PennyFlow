@@ -10,7 +10,7 @@ struct UpcomingBillsView: View {
     var body: some View {
         VStack(spacing: 8) {
             ForEach(subscriptions) { subscription in
-                SubscriptionRowView(subscription: subscription, showDate: true)
+                SubscriptionRowView(subscription: subscription, showDate: true) 
             }
         }
         .padding()

@@ -7,11 +7,21 @@
 import SwiftUI
 
 struct HomeView: View {
+    @State private var selectedTab: Int = 0
     var body: some View {
             VStack {
                 DashboardView()
+                SegmentedControlView(selectedTab: $selectedTab)
+                // Show the selected page
+                TabView(selection: $selectedTab) {
+                    YourSubscriptionsView().tag(0)
+                    UpcomingBillsView().tag(1)
+                }
+                .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
+                
                 Spacer()
             }.ignoresSafeArea()
+            .applyDefaultBackground()
         
     }
 }
