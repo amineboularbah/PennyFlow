@@ -110,23 +110,23 @@ struct MainScreen: View {
                         }) {
                             ZStack {
                                 Circle()
-                                    .fill(Color.red)
-                                    .frame(width: 60, height: 60)
+                                    .fill(Color.secondaryC)
+                                    .frame(width: 55, height: 55)
                                     .shadow(
                                         color: .secondary50.opacity(0.5),
                                         radius: 10, x: 0, y: 5)
                                 Image("plus")
                                     .resizable()
-                                    .frame(width: 50, height: 50)
+                                    .frame(width: 45, height: 45)
                                     .foregroundColor(.white)
                             }
                         }
                         .offset(y: -20)  // Floating above the navigation bar
-                    }
+                    }.padding(.bottom, .bottomInsets )
                 }
                 .edgesIgnoringSafeArea(.bottom)  // Allow the bar to float at the bottom
-            }
-            .padding(.bottom, 10)
+            }.ignoresSafeArea()
+            
             .applyDefaultBackground()
         }
         .navigationBarBackButtonHidden(true)  // Hide the navigation bar
