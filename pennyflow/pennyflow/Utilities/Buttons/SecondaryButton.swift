@@ -10,36 +10,34 @@ import SwiftUI
 struct SecondaryButton: View {
     var title: String
     var action: () -> Void
+    var cornerRadius: Double?
+    var width: Double?
+    var isFilled: Bool?
+    var textColor: Color?
 
     var body: some View {
         Button(action: action) {
             Text(title)
-                .font(.headline)
-                .foregroundColor(.white) // Text color
+                .appTextStyle(font: .headline8, color: textColor ?? .white)
                 .padding()
-                .frame(maxWidth: .infinity) // Full-width button
+                .frame(maxWidth: width ?? .infinity)  // Full-width button
                 .background(
-                    RoundedRectangle(cornerRadius: 50)
-                        .fill(
-                            LinearGradient(
-                                gradient: Gradient(colors: [
-                                    Color.white.opacity(0.15), // 15% opacity
-                                    Color.white.opacity(0.10)  // 10% opacity
-                                ]),
-                                startPoint: .topLeading,
-                                endPoint: .bottomTrailing
-                            )
-                        )
+                    RoundedRectangle(cornerRadius: cornerRadius ?? 50)
+                        .fill(isFilled == true ? .gray60.opacity(0.2) : Color.clear)
                         .strokeBorder(
                             LinearGradient(
                                 gradient: Gradient(colors: [
-                                    Color.white.opacity(0.15), // 15% opacity
-                                    Color.white.opacity(0.10)  // 10% opacity
+                                    isFilled == true
+                                    ? Color.white.opacity(0.1)
+                                        : Color.clear,  // 15% opacity
+                                    isFilled == true
+                                        ? Color.white.opacity(0)
+                                        : Color.clear  // 10% opacity,
                                 ]),
                                 startPoint: .topLeading,
                                 endPoint: .bottomTrailing
                             ),
-                            lineWidth: 1 // Stroke thickness
+                            lineWidth: 1  // Stroke thickness
                         )
                 )
         }
@@ -54,6 +52,6 @@ struct SecondaryButton_Previews: PreviewProvider {
             }
         }
         .padding()
-        .background(Color.black.edgesIgnoringSafeArea(.all)) // Dark background for contrast
+        .background(Color.black.edgesIgnoringSafeArea(.all))  // Dark background for contrast
     }
 }
