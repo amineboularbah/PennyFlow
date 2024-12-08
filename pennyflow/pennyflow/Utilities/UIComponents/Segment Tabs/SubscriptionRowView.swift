@@ -5,7 +5,6 @@
 //  Created by Amine on 8/12/2024.
 //
 
-
 import SwiftUI
 
 struct SubscriptionRowView: View {
@@ -17,7 +16,7 @@ struct SubscriptionRowView: View {
             // Subscription Image
             Image(subscription.image)
                 .resizable()
-                .scaledToFit() 
+                .scaledToFit()
                 .frame(width: 50, height: 50)
                 .clipShape(RoundedRectangle(cornerRadius: 10))
 
@@ -57,8 +56,8 @@ struct SubscriptionRowView: View {
         }
         .padding()
         .background(
-            RoundedRectangle(cornerRadius: 15)
-                .fill(Color.gray.opacity(0.2))
+            RoundedRectangle(cornerRadius: 24)
+                .stroke(Color.gray70, lineWidth: 1)
         )
     }
 }

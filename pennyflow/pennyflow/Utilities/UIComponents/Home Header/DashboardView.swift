@@ -2,7 +2,7 @@ import SwiftUI
 
 struct DashboardView: View {
     @State private var progress: Double = 0
-    private let circleSize: Double = 280.0
+    private let circleSize: Double = 290.0
     private let circleRotationDegree: Double = 130
 
     var body: some View {
