@@ -7,7 +7,7 @@ struct DashboardView: View {
 
     var body: some View {
         ZStack {
-            VStack(spacing: 20) {
+            VStack(spacing: 0) {
                 topBar
 
                 progressCircle
