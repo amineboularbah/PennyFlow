@@ -48,10 +48,11 @@ struct AddSubscriptionView: View {
                 }.padding()
                 
             }
+            .applyDefaultBackground()
+                .navigationTitle("New Subscription")
+                .navigationBarTitleDisplayMode(.inline)
 
-        }.applyDefaultBackground()
-            .navigationTitle("New Subscription")
-            .navigationBarTitleDisplayMode(.inline)
+        }
 
     }
     
