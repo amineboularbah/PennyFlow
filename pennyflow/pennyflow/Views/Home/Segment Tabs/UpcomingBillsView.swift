@@ -8,12 +8,14 @@ struct UpcomingBillsView: View {
     ]
 
     var body: some View {
-        VStack(spacing: 8) {
-            ForEach(subscriptions) { subscription in
-                SubscriptionRowView(subscription: subscription, showDate: true) 
+        ScrollView {
+            VStack(spacing: 8) {
+                ForEach(subscriptions) { subscription in
+                    SubscriptionRowView(subscription: subscription, showDate: true) 
+                }
             }
+            .padding()
         }
-        .padding()
     }
 }
 
