@@ -7,7 +7,7 @@
 import SwiftUI
 
 struct MainScreen: View {
-    @State private var selectedTab: Int = 0
+    @State private var selectedTab: Int = 1
     @State private var isAddingSubscription = false  // Push to Add Subscription page
 
     var body: some View {
