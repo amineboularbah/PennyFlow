@@ -60,7 +60,15 @@ struct BudgetsView: View {
             // Status Banner
             StatusBannerView(message: "Your budgets are on track 👍")
 
-            // Budget Categories
+            scrollableCategoriesView
+            Spacer().frame(height: 0)
+
+        }
+        .applyDefaultBackground()
+    }
+
+    private var scrollableCategoriesView: some View {
+        return ScrollView {
             VStack(spacing: 16) {
                 ForEach(categories) { category in
                     BudgetCategoryRowView(category: category)
@@ -69,37 +77,42 @@ struct BudgetsView: View {
             .padding(.horizontal)
 
             // Add New Category Button
-            Button(action: {
-                print("Add new category tapped")
-            }) {
-                HStack {
-                    Spacer()  // Push content to the center
-                    Text("Add new category")
-                        .appTextStyle(font: .headline7, color: .gray30)
-                    Image("add")
-                        .resizable()
-                        .renderingMode(.template)
-                        .frame(width: 16, height: 16)
-                        .foregroundColor(.gray30)
-                    Spacer()  // Push content to the center
-                }
-                .frame(height: 64)  // Set the inner content height
-                .background(
-                    RoundedRectangle(cornerRadius: 16)
-                        .strokeBorder(
-                            Color.gray60,
-                            style: StrokeStyle(
-                                lineWidth: 1,
-                                dash: [6]
-                            ))
-                )
-            }
-            .padding(.horizontal)  // Adds padding on the sides
+            AddCategoryButton()  // Ensure total height including padding is 84
 
-            .frame(height: 84)  // Ensure total height including padding is 84
-            Spacer()
-        }.padding(.top, .topInsets)
-            .applyDefaultBackground()
+        }
+    }
+}
+
+struct AddCategoryButton: View {
+    var body: some View {
+        Button(action: {
+            print("Add new category tapped")
+        }) {
+            HStack {
+                Spacer()  // Push content to the center
+                Text("Add new category")
+                    .appTextStyle(font: .headline7, color: .gray30)
+                Image("add")
+                    .resizable()
+                    .renderingMode(.template)
+                    .frame(width: 16, height: 16)
+                    .foregroundColor(.gray30)
+                Spacer()  // Push content to the center
+            }
+            .frame(height: 64)  // Set the inner content height
+            .background(
+                RoundedRectangle(cornerRadius: 16)
+                    .strokeBorder(
+                        Color.gray60,
+                        style: StrokeStyle(
+                            lineWidth: 1,
+                            dash: [6]
+                        ))
+            )
+        }
+        .padding(.horizontal)  // Adds padding on the sides
+
+        .frame(height: 84)
     }
 }
 
@@ -107,7 +120,8 @@ struct BudgetsView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
             // Preview for Default Configuration
-            BudgetsView().applyDefaultBackground()
+            BudgetsView()
+                .applyDefaultBackground()
 
         }
     }

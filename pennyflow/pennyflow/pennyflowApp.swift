@@ -15,10 +15,11 @@ struct pennyflowApp: App {
     var body: some Scene {
         WindowGroup {
             MainScreen()
+                .preferredColorScheme(.dark)
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
                 .environmentObject(subscriptionData)
-                .background(Color.gray80.edgesIgnoringSafeArea(.all))
-                .preferredColorScheme(.dark)
+                .background(Color.gray80)
+                
         }
     }
 }

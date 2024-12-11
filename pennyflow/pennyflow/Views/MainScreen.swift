@@ -20,7 +20,6 @@ struct MainScreen: View {
                     CalendarView().tag(2)
                     CardsView().tag(3)
                 }.padding(.bottom, .bottomInsets)
-                
 
                 // Black to Transparent Gradient at the Bottom
                 GradientLayer()
@@ -34,6 +33,7 @@ struct MainScreen: View {
             }
             .applyDefaultBackground()
         }
+
         .navigationBarBackButtonHidden(true)  // Hide the navigation bar
         .sheet(
             isPresented: $isAddingSubscription
@@ -63,17 +63,20 @@ struct MainScreenPreview: PreviewProvider {
 
 struct GradientLayer: View {
     var body: some View {
+       
+            
+        
         VStack {
             Spacer()
             LinearGradient(
                 gradient: Gradient(colors: [
-                    Color.gray80,Color.gray80,Color.gray80.opacity(0),
+                    Color.gray80, Color.gray80, Color.gray80.opacity(0),
                 ]),
                 startPoint: .bottom,
                 endPoint: .top
             )
             .frame(maxHeight: 120)  // Define gradient height
-            
+
             .ignoresSafeArea(edges: .bottom)  // Completely ignore the bottom safe area
         }
 
