@@ -52,6 +52,5 @@ struct CalendarHeaderView: View {
                 }
             }
         }
-        .padding(.horizontal)
     }
 }

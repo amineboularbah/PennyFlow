@@ -7,7 +7,7 @@
 import SwiftUI
 
 struct CalendarStyles {
-    static let cornerRadius: CGFloat = 10
+    static let cornerRadius: CGFloat = 16
     static let gridSpacing: CGFloat = 16
     static let iconSize: CGFloat = 50
 }

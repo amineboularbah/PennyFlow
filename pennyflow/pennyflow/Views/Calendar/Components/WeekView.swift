@@ -16,28 +16,35 @@ struct WeekView: View {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 12) {
                     ForEach(viewModel.currentMonthDays, id: \.self) { date in
-                        VStack {
+                        VStack(spacing: 4) {
                             Text(viewModel.day(for: date))  // Day (e.g., "13")
-                                .font(.headline)
-                                .foregroundColor(
-                                    viewModel.isSelectedDate(date)
-                                        ? .white : .gray)
+                                .appTextStyle(font: .headline5)
                             Text(viewModel.weekday(for: date))  // Weekday (e.g., "Fr")
-                                .font(.subheadline)
-                                .foregroundColor(
-                                    viewModel.isSelectedDate(date)
-                                        ? .white : .gray)
+                                .appTextStyle(font: .bodySmall, color: .gray30)
+                            Spacer()
+                            
+                            
+                            if viewModel.isSelectedDate(date) {
+                                RoundedRectangle(cornerRadius: CalendarStyles.cornerRadius)
+                                    .frame(width: 6, height: 6)
+                                    .background(Color.secondaryC)
+                                    .foregroundColor(Color.secondaryC)
+                                    .clipShape(RoundedRectangle(cornerRadius: CalendarStyles.cornerRadius))
+                                    .padding(.bottom, 8)
+                            }
+                        
                         }
-                        .padding()
+                        .padding(8)
+                        .frame(width: 50, height: 100)
                         .background(
-                            viewModel.isSelectedDate(date)
-                                ? Color.accentColor : Color.gray.opacity(0.2)
+                            Color.gray60.opacity(viewModel.isSelectedDate(date) ? 1 : 0.2)
                         )
-                        .clipShape(RoundedRectangle(cornerRadius: 10))
+                        .clipShape(RoundedRectangle(cornerRadius: CalendarStyles.cornerRadius))
                         .id(date)  // Assign a unique ID to each date
                         .onTapGesture {
                             viewModel.selectDate(date)
                         }
+                        
                     }
                 }
                 .onAppear {
