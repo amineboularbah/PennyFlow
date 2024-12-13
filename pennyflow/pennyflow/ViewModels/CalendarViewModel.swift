@@ -10,7 +10,8 @@ import SwiftUI
 class CalendarViewModel: ObservableObject {
     // MARK: - Published Properties
     @Published var selectedDate: Date // Tracks the currently selected date
-    @Published var subscriptions: [Subscription] = SubscriptionService.fetchSubscriptions()
+    @Published var showDatePicker: Bool = false
+    @Published var subscriptions: [Subscription] = []
     
     // MARK: - Computed Properties
     /// Generates all the dates for the current month.
@@ -43,6 +44,7 @@ class CalendarViewModel: ObservableObject {
     // MARK: - Initializer
     init() {
         selectedDate = Date() // Default to today's date
+        subscriptions = SubscriptionService.fetchSubscriptions()
     }
     
     // MARK: - Helper Methods
