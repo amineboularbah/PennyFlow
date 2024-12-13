@@ -10,34 +10,30 @@ struct BudgetsView: View {
     let categories: [BudgetCategory] = [
         BudgetCategory(
             name: "Auto & Transport",
-            spent: 140,
+            spent: 400,
             maxBudget: 400.0,
             icon: "auto_&_transport",
             progressColor: .secondaryG
         ),
         BudgetCategory(
             name: "Entertainment",
-            spent: 375.00,
+            spent: 600.00,
             maxBudget: 600.0,
             icon: "entertainment",
             progressColor: .secondary50
         ),
         BudgetCategory(
             name: "Security",
-            spent: 500,
+            spent: 600,
             maxBudget: 600.0,
             icon: "security",
             progressColor: .primary10
         ),
     ]
     
-    let segments: [ProgressSegment] = [
-        ProgressSegment(color: .orange, progress: (500 / 2000)), // Represents 25% of the budget
-        ProgressSegment(color: .purple, progress: (500 / 2000)), // Represents 40% of the budget
-        ProgressSegment(color: .green, progress: (1000 / 2000)),  // Represents 15% of the budget
-
-        
-    ]
+    @State private var segments: [ProgressSegment] = [] // Segments for CircularProgressView
+    @State private var totalBudget: Double = 0          // Total of maxBudget
+    @State private var spentAmount: Double = 0          // Total spent
 
     var body: some View {
         VStack(spacing: 16) {
@@ -60,10 +56,13 @@ struct BudgetsView: View {
 
             // Circular Progress View
             CircularProgressView(
-                segments: segments,
-                totalBudget: 2000.0, // Total budget amount
-                spentAmount: 2000.0  // Amount spent so far
-            )
+                            segments: $segments,
+                            totalBudget: $totalBudget,
+                            spentAmount: $spentAmount
+                        )
+                        .onAppear {
+                            updateSegments() // Reassign segments when the view appears
+                        }
             .padding(.horizontal)
 
             // Status Banner
@@ -74,6 +73,14 @@ struct BudgetsView: View {
 
         }
         .applyDefaultBackground()
+        .onAppear() {
+            print("BudgetsView loaded")
+            segments = [
+                ProgressSegment(color: .orange, progress: (500 / 2000)), // Represents 25% of the budget
+                ProgressSegment(color: .purple, progress: (500 / 2000)), // Represents 40% of the budget
+                ProgressSegment(color: .green, progress: (1000 / 2000)),  // Represents 15% of the budget
+            ]
+        }
     }
 
     private var scrollableCategoriesView: some View {
@@ -88,6 +95,19 @@ struct BudgetsView: View {
             // Add New Category Button
             AddCategoryButton()  // Ensure total height including padding is 84
 
+        }.padding()
+    }
+    
+    // MARK: - Update Segments
+    private func updateSegments() {
+        // Calculate the total budget and total spent amount
+        totalBudget = categories.reduce(0) { $0 + $1.maxBudget }
+        spentAmount = categories.reduce(0) { $0 + $1.spent }
+
+        // Map categories to progress segments
+        segments = categories.map { category in
+            let progress = category.spent / totalBudget
+            return ProgressSegment(color: category.progressColor, progress: progress)
         }
     }
 }

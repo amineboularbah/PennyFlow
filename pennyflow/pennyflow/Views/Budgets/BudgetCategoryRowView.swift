@@ -47,7 +47,7 @@ struct BudgetCategoryRowView: View {
                 RoundedRectangle(cornerRadius: 16)
                     .fill(category.progressColor)
                     .frame(
-                        width: CGFloat(category.progress) * UIScreen.main.bounds.width * 0.8, // Adjust width to fit layout
+                        width: CGFloat(category.progress) * UIScreen.main.bounds.width * 0.9, // Adjust width to fit layout
                         height: 4 // Match the background height
                     )
             }
