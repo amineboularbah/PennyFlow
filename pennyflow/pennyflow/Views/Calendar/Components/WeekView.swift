@@ -11,35 +11,51 @@ import SwiftUI
 struct WeekView: View {
     @ObservedObject var viewModel: CalendarViewModel
 
-     var body: some View {
-         ScrollViewReader { proxy in
-             ScrollView(.horizontal, showsIndicators: false) {
-                 HStack(spacing: 12) {
-                     ForEach(viewModel.currentMonthDays, id: \.self) { date in
-                         VStack {
-                             Text(viewModel.day(for: date)) // Day (e.g., "13")
-                                 .font(.headline)
-                                 .foregroundColor(viewModel.isSelectedDate(date) ? .white : .gray)
-                             Text(viewModel.weekday(for: date)) // Weekday (e.g., "Fr")
-                                 .font(.subheadline)
-                                 .foregroundColor(viewModel.isSelectedDate(date) ? .white : .gray)
-                         }
-                         .padding()
-                         .background(viewModel.isSelectedDate(date) ? Color.accentColor : Color.gray.opacity(0.2))
-                         .clipShape(RoundedRectangle(cornerRadius: 10))
-                         .id(date) // Assign a unique ID to each date
-                         .onTapGesture {
-                             viewModel.selectDate(date)
-                         }
-                     }
-                 }
-                 .onAppear {
-                     // Scroll to the current date on appear
-                     if let today = viewModel.currentMonthDays.first(where: { viewModel.isSelectedDate($0) }) {
-                         proxy.scrollTo(today, anchor: .leading)
-                     }
-                 }
-             }
-         }
-     }
- }
+    var body: some View {
+        ScrollViewReader { proxy in
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 12) {
+                    ForEach(viewModel.currentMonthDays, id: \.self) { date in
+                        VStack {
+                            Text(viewModel.day(for: date))  // Day (e.g., "13")
+                                .font(.headline)
+                                .foregroundColor(
+                                    viewModel.isSelectedDate(date)
+                                        ? .white : .gray)
+                            Text(viewModel.weekday(for: date))  // Weekday (e.g., "Fr")
+                                .font(.subheadline)
+                                .foregroundColor(
+                                    viewModel.isSelectedDate(date)
+                                        ? .white : .gray)
+                        }
+                        .padding()
+                        .background(
+                            viewModel.isSelectedDate(date)
+                                ? Color.accentColor : Color.gray.opacity(0.2)
+                        )
+                        .clipShape(RoundedRectangle(cornerRadius: 10))
+                        .id(date)  // Assign a unique ID to each date
+                        .onTapGesture {
+                            viewModel.selectDate(date)
+                        }
+                    }
+                }
+                .onAppear {
+                    // Scroll to the current date on appear
+                    let today: Date = viewModel.selectedDate
+                    scrollToSelectedDate(today, proxy)
+                }
+                .onChange(of: viewModel.selectedDate) { newDate in
+                    // Scroll to the selected date when it changes
+                    scrollToSelectedDate(newDate, proxy)
+                }
+            }
+        }
+    }
+    
+    private func scrollToSelectedDate(_ newDate: Date, _ proxy: ScrollViewProxy) {
+        if let today = viewModel.currentMonthDays.first(where: { viewModel.isSelectedDate($0) }) {
+            proxy.scrollTo(today, anchor: .leading)
+        }
+    }
+}
