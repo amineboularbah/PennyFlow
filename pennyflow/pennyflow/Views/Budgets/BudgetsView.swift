@@ -36,44 +36,49 @@ struct BudgetsView: View {
     @State private var spentAmount: Double = 0          // Total spent
 
     var body: some View {
-        VStack(spacing: 16) {
-            // Header
-            HStack {
-                Spacer()
-                Text("Spending & Budgets")
-                    .appTextStyle(font: .bodyLarge, color: .gray30)
-                Spacer()
-                Button(action: {
-                    print("Settings tapped")
-                }) {
-                    Image("settings")
-                        .resizable()
-                        .frame(width: 24, height: 24)
-                        .foregroundColor(.gray30)
+        ZStack {
+            VStack(spacing: 16) {
+                // Header
+                HStack {
+                    Spacer()
+                    Text("Spending & Budgets")
+                        .appTextStyle(font: .bodyLarge, color: .gray30)
+                    Spacer()
+                    Button(action: {
+                        print("Settings tapped")
+                    }) {
+                        Image("settings")
+                            .resizable()
+                            .frame(width: 24, height: 24)
+                            .foregroundColor(.gray30)
+                    }
                 }
+                .padding(.horizontal)
+                
+                // Circular Progress View
+                CircularProgressView(
+                    segments: $segments,
+                    totalBudget: $totalBudget,
+                    spentAmount: $spentAmount
+                )
+                .onAppear {
+                    updateSegments() // Reassign segments when the view appears
+                }
+                .padding(.horizontal)
+                Spacer()
             }
-            .padding(.horizontal)
-
-            // Circular Progress View
-            CircularProgressView(
-                            segments: $segments,
-                            totalBudget: $totalBudget,
-                            spentAmount: $spentAmount
-                        )
-                        .onAppear {
-                            updateSegments() // Reassign segments when the view appears
-                        }
-            .padding(.horizontal)
-
+            
+            
             // Status Banner
-            StatusBannerView(message: "Your budgets are on track 👍")
-
-            scrollableCategoriesView
-            Spacer().frame(height: 0)
-
-        }
-        .applyDefaultBackground()
-        
+            VStack(spacing: 16) {
+                Spacer().frame(height: .heightPer(per: 20))
+                StatusBannerView(message: "Your budgets are on track 👍")
+                
+                
+                scrollableCategoriesView
+                Spacer().frame(height: 0)
+            }
+        }.applyDefaultBackground()
     }
 
     private var scrollableCategoriesView: some View {
