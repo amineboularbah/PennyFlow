@@ -49,20 +49,21 @@ struct WeekView: View {
                 }
                 .onAppear {
                     // Scroll to the current date on appear
-                    let today: Date = viewModel.selectedDate
-                    scrollToSelectedDate(today, proxy)
+                    scrollToSelectedDate(proxy)
                 }
-                .onChange(of: viewModel.selectedDate) { newDate in
+                .onChange(of: viewModel.selectedDate) { _ in
                     // Scroll to the selected date when it changes
-                    scrollToSelectedDate(newDate, proxy)
+                    scrollToSelectedDate( proxy)
                 }
             }
         }
     }
     
-    private func scrollToSelectedDate(_ newDate: Date, _ proxy: ScrollViewProxy) {
+    private func scrollToSelectedDate(_ proxy: ScrollViewProxy) {
         if let today = viewModel.currentMonthDays.first(where: { viewModel.isSelectedDate($0) }) {
-            proxy.scrollTo(today, anchor: .leading)
+            withAnimation {
+                proxy.scrollTo(today, anchor: .leading)
+            }
         }
     }
 }

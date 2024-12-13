@@ -75,7 +75,7 @@ struct GradientLayer: View {
                 startPoint: .bottom,
                 endPoint: .top
             )
-            .frame(maxHeight: 120)  // Define gradient height
+            .frame(maxHeight: 100)  // Define gradient height
 
             .ignoresSafeArea(edges: .bottom)  // Completely ignore the bottom safe area
         }

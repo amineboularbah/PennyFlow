@@ -30,7 +30,6 @@ struct CalendarMonthlyBillsView: View {
                     .appTextStyle(font: .bodySmall, color: .gray30)
             }
         }
-        .padding(.horizontal)
     }
 
     // MARK: - Helper Functions
