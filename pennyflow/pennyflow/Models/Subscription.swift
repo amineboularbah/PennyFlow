@@ -10,8 +10,8 @@ struct Subscription: Codable, Identifiable {
     let id: Int // Use the id from JSON
     let name: String
     let description: String
-    let price: Double
-    let date: String
+    let price: Double?
+    let date: String?
     let image: String
 }
 

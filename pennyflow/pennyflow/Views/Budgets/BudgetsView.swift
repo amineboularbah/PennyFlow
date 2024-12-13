@@ -30,6 +30,15 @@ struct BudgetsView: View {
             progressColor: .primary10
         ),
     ]
+    
+    let segments: [ProgressSegment] = [
+        ProgressSegment(color: .orange, progress: (500 / 2000)), // Represents 25% of the budget
+        ProgressSegment(color: .purple, progress: (500 / 2000)), // Represents 40% of the budget
+        ProgressSegment(color: .green, progress: (1000 / 2000)),  // Represents 15% of the budget
+
+        
+    ]
+
     var body: some View {
         VStack(spacing: 16) {
             // Header
@@ -51,9 +60,9 @@ struct BudgetsView: View {
 
             // Circular Progress View
             CircularProgressView(
-                progress: 820.97 / 2000.0,
-                valueText: "$82.97",
-                subtitle: "of $2,000 budget"
+                segments: segments,
+                totalBudget: 2000.0, // Total budget amount
+                spentAmount: 2000.0  // Amount spent so far
             )
             .padding(.horizontal)
 
