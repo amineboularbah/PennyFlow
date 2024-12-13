@@ -10,7 +10,7 @@ struct BudgetsView: View {
     let categories: [BudgetCategory] = [
         BudgetCategory(
             name: "Auto & Transport",
-            spent: 400,
+            spent: 200,
             maxBudget: 400.0,
             icon: "auto_&_transport",
             progressColor: .secondaryG
@@ -73,14 +73,7 @@ struct BudgetsView: View {
 
         }
         .applyDefaultBackground()
-        .onAppear() {
-            print("BudgetsView loaded")
-            segments = [
-                ProgressSegment(color: .orange, progress: (500 / 2000)), // Represents 25% of the budget
-                ProgressSegment(color: .purple, progress: (500 / 2000)), // Represents 40% of the budget
-                ProgressSegment(color: .green, progress: (1000 / 2000)),  // Represents 15% of the budget
-            ]
-        }
+        
     }
 
     private var scrollableCategoriesView: some View {
@@ -90,12 +83,12 @@ struct BudgetsView: View {
                     BudgetCategoryRowView(category: category)
                 }
             }
-            .padding(.horizontal)
+            
 
             // Add New Category Button
             AddCategoryButton()  // Ensure total height including padding is 84
 
-        }.padding()
+        }.padding(.horizontal)
     }
     
     // MARK: - Update Segments

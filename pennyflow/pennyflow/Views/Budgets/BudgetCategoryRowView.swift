@@ -38,35 +38,36 @@ struct BudgetCategoryRowView: View {
             }
             Spacer().frame(height: 10)
             ZStack(alignment: .leading) {
-                // Background track
-                RoundedRectangle(cornerRadius: 16)
-                    .fill(Color.gray60)
-                    .frame(height: 4) // Adjust height for better visibility
+                GeometryReader { geometry in
+                    // Background track
+                    RoundedRectangle(cornerRadius: 16)
+                        .fill(Color.gray60)
+                        .frame(height: 4)  // Adjust height for better visibility
 
-                // Progress bar
-                RoundedRectangle(cornerRadius: 16)
-                    .fill(category.progressColor)
-                    .frame(
-                        width: CGFloat(category.progress) * UIScreen.main.bounds.width * 0.9, // Adjust width to fit layout
-                        height: 4 // Match the background height
-                    )
-            }
-        }.padding()
+                    // Progress bar
+                    RoundedRectangle(cornerRadius: 16)
+                        .fill(category.progressColor)
+                        .frame(
+                            width: geometry.size.width * CGFloat(category.progress), // Scale width dynamically
+                            height: 4  // Match the background height
+                        )
+                }
+                .frame(height: 4) // Ensure the ZStack has a fixed height
+            }        }.padding()
             .background(
-                RoundedRectangle(cornerRadius: 16)
-                    .fill(Color.gray60.opacity(0.2))
-                    .strokeBorder(
-                        LinearGradient(
-                            gradient: Gradient(colors: [
-                                Color.white.opacity(0.1),  // 15% opacity
-                                Color.white.opacity(0),  // 10% opacity,
-                            ]),
-                            startPoint: .topLeading,
-                            endPoint: .bottomTrailing
-                        ),
-                        lineWidth: 1  // Stroke thickness
-                    )
-            )
-
+            RoundedRectangle(cornerRadius: 16)
+                .fill(Color.gray60.opacity(0.2))
+                .strokeBorder(
+                    LinearGradient(
+                        gradient: Gradient(colors: [
+                            Color.white.opacity(0.1),  // 15% opacity
+                            Color.white.opacity(0),  // 10% opacity,
+                        ]),
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    ),
+                    lineWidth: 1  // Stroke thickness
+                )
+        )
     }
 }
