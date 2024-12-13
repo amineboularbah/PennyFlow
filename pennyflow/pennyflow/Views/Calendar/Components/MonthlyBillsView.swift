@@ -5,41 +5,34 @@
 //  Created by Amine on 13/12/2024.
 //
 
-
 import SwiftUI
 
 struct CalendarMonthlyBillsView: View {
-    @ObservedObject var viewModel: CalendarViewModel // Pass the ViewModel to access data
+    @ObservedObject var viewModel: CalendarViewModel  // Pass the ViewModel to access data
 
     var body: some View {
         HStack {
             // Month and Date
             VStack(alignment: .leading, spacing: 4) {
                 Text(viewModel.selectedMonth)
-                    .font(.title2).bold()
-                    .foregroundColor(.white)
-                Text(currentDateFormatted()) // Display today's date
-                    .font(.subheadline)
-                    .foregroundColor(.gray)
+                    .appTextStyle(font: .headline5)
+                Text(currentDateFormatted())  // Display today's date
+                    .appTextStyle(font: .bodySmall, color: .gray30)
             }
-            
+
             Spacer()
-            
+
             // Total Bills
             VStack(alignment: .trailing, spacing: 4) {
-                Text("$\(String(format: "%.2f", totalUpcomingBills()))") // Sum of all subscription prices
-                    .font(.headline).bold()
-                    .foregroundColor(.white)
+                Text("$\(String(format: "%.2f", totalUpcomingBills()))")  // Sum of all subscription prices
+                    .appTextStyle(font: .headline5)
                 Text("in upcoming bills")
-                    .font(.subheadline)
-                    .foregroundColor(.gray)
+                    .appTextStyle(font: .bodySmall, color: .gray30)
             }
         }
-        .padding()
-        .background(Color.gray.opacity(0.2)) // Background container
-        .clipShape(RoundedRectangle(cornerRadius: 15)) // Rounded edges
+        .padding(.horizontal)
     }
-    
+
     // MARK: - Helper Functions
 
     /// Calculates the total upcoming bills for the month
@@ -51,6 +44,6 @@ struct CalendarMonthlyBillsView: View {
     private func currentDateFormatted() -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MM.dd.yyyy"
-        return dateFormatter.string(from: Date())
+        return dateFormatter.string(from: viewModel.selectedDate)
     }
 }

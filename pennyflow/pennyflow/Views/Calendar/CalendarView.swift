@@ -10,7 +10,7 @@ struct CalendarView: View {
     @StateObject private var viewModel = CalendarViewModel()
 
     var body: some View {
-        VStack(spacing: 20) {
+        VStack {
             VStack(spacing: 20) {
                 topBar
                 CalendarHeaderView(viewModel: viewModel)
