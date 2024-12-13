@@ -7,7 +7,7 @@
 import SwiftUI
 
 struct MainScreen: View {
-    @State private var selectedTab: Int = 1
+    @State private var selectedTab: Int = 2
     @State private var isAddingSubscription = false  // Push to Add Subscription page
 
     var body: some View {
@@ -75,7 +75,7 @@ struct GradientLayer: View {
                 startPoint: .bottom,
                 endPoint: .top
             )
-            .frame(maxHeight: 120)  // Define gradient height
+            .frame(maxHeight: 100)  // Define gradient height
 
             .ignoresSafeArea(edges: .bottom)  // Completely ignore the bottom safe area
         }

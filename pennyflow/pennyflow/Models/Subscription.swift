@@ -4,6 +4,7 @@
 //
 //  Created by Amine on 7/12/2024.
 //
+
 import SwiftUI
 
 struct Subscription: Codable, Identifiable {
