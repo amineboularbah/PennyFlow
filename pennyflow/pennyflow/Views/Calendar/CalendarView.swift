@@ -38,17 +38,20 @@ struct CalendarView: View {
     private var topBar: some View {
         HStack {
             Spacer()
+            Text("      Calendar")
+                .appTextStyle(font: .bodyLarge, color: .gray30)
+            Spacer()
             Button(action: {
                 print("Settings tapped")
             }) {
                 Image("settings")
                     .resizable()
                     .frame(width: 24, height: 24)
-                    .foregroundColor(.gray)
+                    .foregroundColor(.gray30)
             }
-            .padding(.trailing, 20)
         }
         .padding(.top, .topInsets)
+        
     }
 }
 

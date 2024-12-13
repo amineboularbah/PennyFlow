@@ -41,7 +41,7 @@ struct BudgetsView: View {
                 // Header
                 HStack {
                     Spacer()
-                    Text("Spending & Budgets")
+                    Text("      Spending & Budgets")
                         .appTextStyle(font: .bodyLarge, color: .gray30)
                     Spacer()
                     Button(action: {

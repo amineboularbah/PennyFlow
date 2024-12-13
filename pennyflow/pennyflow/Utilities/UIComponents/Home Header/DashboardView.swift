@@ -25,6 +25,7 @@ struct DashboardView: View {
     // Top Bar with Gear Icon
     private var topBar: some View {
         HStack {
+           
             Spacer()
             Button(action: {
                 print("Settings tapped")
@@ -32,11 +33,11 @@ struct DashboardView: View {
                 Image("settings")
                     .resizable()
                     .frame(width: 24, height: 24)
-                    .foregroundColor(.gray)
+                    .foregroundColor(.gray30)
             }
-            .padding(.trailing, 20)
         }
         .padding(.top, .topInsets)
+        .padding(.horizontal)
     }
 
     // Circular Progress View
