@@ -11,16 +11,44 @@ struct CalendarView: View {
 
     var body: some View {
         VStack(spacing: 20) {
-            CalendarHeaderView(viewModel: viewModel)
-            WeekView(viewModel: viewModel)
-            CalendarMonthlyBillsView(viewModel: viewModel)
-            CalendarSubscriptionsGridView(viewModel: viewModel)
-            Spacer()
+            VStack(spacing: 20) {
+                topBar
+                CalendarHeaderView(viewModel: viewModel)
+
+                WeekView(viewModel: viewModel)
+            }.padding(.horizontal)
+                .padding(.bottom, 40)
+                .background(
+                    BottomRoundedRectangle(cornerRadius: 40)
+                        .fill(Color.gray70)  // Fill with a color
+                )
+                .ignoresSafeArea()
+            VStack {
+                CalendarMonthlyBillsView(viewModel: viewModel)
+                CalendarSubscriptionsGridView(viewModel: viewModel)
+                Spacer()
+            }.padding(.horizontal)
         }
-        .padding(.horizontal)
         .applyDefaultBackground()
         .navigationTitle("Calendar")
         .navigationBarTitleDisplayMode(.inline)
+    }
+
+    // Top Bar with Gear Icon
+    private var topBar: some View {
+        HStack {
+            Spacer()
+            Button(action: {
+                print("Settings tapped")
+            }) {
+                Image("settings")
+                    .resizable()
+                    .frame(width: 24, height: 24)
+                    .foregroundColor(.gray)
+            }
+            .padding(.trailing, 20)
+        }
+        .padding(.top, .topInsets)
     }
 }
 
@@ -31,4 +59,3 @@ struct CalendarView_Previews: PreviewProvider {
             .applyDefaultBackground()
     }
 }
-
