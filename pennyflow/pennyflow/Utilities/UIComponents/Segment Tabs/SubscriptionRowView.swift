@@ -40,16 +40,16 @@ struct SubscriptionRowView: View {
             // Price or Date + Price
             if showDate {
                 VStack(alignment: .trailing, spacing: 4) {
-                    Text(subscription.date)
+                    Text(subscription.date ?? "")
                         .font(.subheadline)
                         .foregroundColor(.gray)
 
-                    Text("$\(String(format: "%.2f", subscription.price))")
+                    Text("$\(String(format: "%.2f", subscription.price ?? 0))")
                         .font(.headline)
                         .foregroundColor(.white)
                 }
             } else {
-                Text("$\(String(format: "%.2f", subscription.price))")
+                Text("$\(String(format: "%.2f", subscription.price ?? 0 ))")
                     .font(.headline)
                     .foregroundColor(.white)
             }
