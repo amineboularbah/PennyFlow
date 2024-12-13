@@ -12,8 +12,9 @@ struct CircularProgressView: View {
     @Binding var spentAmount: Double         // Total spent amount
 
     // Constants
-    private let circleSize: Double = 210.0 // Circle dimensions
+    private let circleSize: Double = 206 // Circle dimensions
     private let halfCircleDegrees: Double = 180 // Represents a half-circle
+    private let lineThickness: Double = 10.0
 
     var body: some View {
         ZStack {
@@ -24,7 +25,6 @@ struct CircularProgressView: View {
             ForEach(0..<segments.count, id: \.self) { index in
                 drawSegment(index: index)
             }
-            
             // Center Text
             centerText
         }
@@ -42,7 +42,7 @@ struct CircularProgressView: View {
             .stroke(
                 segments[index].color,   // Apply the segment's color
                 style: StrokeStyle(
-                    lineWidth: 12.5,    // Thickness
+                    lineWidth: lineThickness,    // Thickness
                     lineCap: .round     // Smooth, rounded edges
                 )
             )
@@ -73,7 +73,7 @@ struct CircularProgressView: View {
             .stroke(
                 Color.gray60.opacity(0.2), // Static light gray arc
                 style: StrokeStyle(
-                    lineWidth: 10,      // Background arc thickness
+                    lineWidth: lineThickness / 2,      // Background arc thickness
                     lineCap: .round     // Smooth edges
                 )
             )
@@ -93,6 +93,7 @@ struct CircularProgressView: View {
             Text("of $\(formattedAmount(totalBudget)) budget")
                 .font(.subheadline)
                 .foregroundColor(.gray)
+            Spacer().frame(height: circleSize / 4)
         }
     }
 
