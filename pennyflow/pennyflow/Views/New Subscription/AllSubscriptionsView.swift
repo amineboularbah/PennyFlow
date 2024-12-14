@@ -9,8 +9,8 @@ import SwiftUI
 
 struct AllSubscriptionsView: View {
     @EnvironmentObject var subscriptionData: SubscriptionsViewModel // Environment object for subscriptions
-    @Binding var selectedPlatform: String?  // Binding to track selected subscription
-    var onSelect: (Int?) -> Void  // Callback to handle selection
+    @Binding var selectedPlatform: UUID?  // Binding to track selected subscription
+    var onSelect: (String?) -> Void  // Callback to handle selection
     @Environment(\.dismiss) private var dismiss  // Environment property to dismiss the sheet
     
     var body: some View {
