@@ -159,20 +159,20 @@ struct ProfileSection: View {
                 title: "Edit Profile",
                 action: {
                     viewModel.editProfile()
-                }, width: 87, isFilled: true, textColor: .white
-            ).frame(height: 32)
+                }, width: 87, height: 32, isFilled: true, textColor: .white
+            )
         }
     }
-    
-    
+
     private var profileImage: some View {
         if let imageData = viewModel.profileImageData,
-           let uiImage = UIImage(data: imageData) {
+            let uiImage = UIImage(data: imageData)
+        {
             Image(uiImage: uiImage)
                 .resizable()
                 .frame(width: 70, height: 70)
         } else {
-            Image("u1") // Fallback to default placeholder
+            Image("u1")  // Fallback to default placeholder
                 .resizable()
                 .frame(width: 70, height: 70)
         }

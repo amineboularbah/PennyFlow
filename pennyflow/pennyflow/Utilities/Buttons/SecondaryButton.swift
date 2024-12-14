@@ -12,6 +12,7 @@ struct SecondaryButton: View {
     var action: () -> Void
     var cornerRadius: Double?
     var width: Double?
+    var height: Double?
     var isFilled: Bool?
     var textColor: Color?
     var suffixIcon: String?
@@ -31,7 +32,7 @@ struct SecondaryButton: View {
             }
             .padding(12)
             .frame(maxWidth: width ?? .infinity, maxHeight: 48)  // Full-width button
-            .frame(height: 48)  // Full-width button
+            .frame(height: height ??  48)  // Full-width button
             .background(
                 RoundedRectangle(cornerRadius: cornerRadius ?? 50)
                     .fill(
