@@ -5,10 +5,17 @@
 //  Created by Amine on 7/12/2024.
 //
 import SwiftUI
+import CoreData
 
 struct CalendarView: View {
-    @StateObject private var viewModel = CalendarViewModel()
+    @Environment(\.managedObjectContext) var context
+    @StateObject private var viewModel: CalendarViewModel
     @State private var navigateToSettings = false
+    
+    init(context: NSManagedObjectContext) {
+        _viewModel = StateObject(wrappedValue: CalendarViewModel(context: context))
+    }
+    
     var body: some View {
         NavigationStack {
             VStack {
@@ -43,7 +50,9 @@ struct CalendarView: View {
 // MARK: Preview
 struct CalendarView_Previews: PreviewProvider {
     static var previews: some View {
-        CalendarView()
+        let context = PersistenceController.preview.context
+        
+        CalendarView(context: context)
             .applyDefaultBackground()
     }
 }
