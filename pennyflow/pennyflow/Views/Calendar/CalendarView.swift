@@ -20,6 +20,7 @@ struct CalendarView: View {
                 }
                     .padding(.bottom, 40)
                     .padding(.top, .topInsets)
+                    .padding(.horizontal)
                     .background(
                         BottomRoundedRectangle(cornerRadius: 40)
                             .fill(Color.gray70)  // Fill with a color

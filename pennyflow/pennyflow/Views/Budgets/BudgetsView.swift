@@ -67,6 +67,11 @@ struct BudgetsView: View {
                     Spacer().frame(height: 0)
                 }
             }.applyDefaultBackground()
+                .navigationDestination(
+                    isPresented: $navigateToSettings
+                ) {
+                    SettingsView()
+                }
         }
     }
 
