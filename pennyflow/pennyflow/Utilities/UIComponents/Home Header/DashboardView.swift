@@ -25,7 +25,6 @@ struct DashboardView: View {
     // Top Bar with Gear Icon
     private var topBar: some View {
         HStack {
-           
             Spacer()
             Button(action: {
                 print("Settings tapped")

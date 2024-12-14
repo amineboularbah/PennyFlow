@@ -8,30 +8,33 @@ import SwiftUI
 
 struct CalendarView: View {
     @StateObject private var viewModel = CalendarViewModel()
-
+    @State private var navigateToSettings = false
     var body: some View {
-        VStack {
-            VStack(spacing: 20) {
-                topBar
-                CalendarHeaderView(viewModel: viewModel)
-
-                WeekView(viewModel: viewModel)
-            }.padding(.horizontal)
-                .padding(.bottom, 40)
-                .background(
-                    BottomRoundedRectangle(cornerRadius: 40)
-                        .fill(Color.gray70)  // Fill with a color
-                )
-                .ignoresSafeArea()
+        NavigationStack {
             VStack {
-                CalendarMonthlyBillsView(viewModel: viewModel)
-                CalendarSubscriptionsGridView(viewModel: viewModel)
+                VStack(spacing: 20) {
+                    topBar
+                    CalendarHeaderView(viewModel: viewModel)
+
+                    WeekView(viewModel: viewModel)
+                }.padding(.horizontal)
+                    .padding(.bottom, 40)
+                    .background(
+                        BottomRoundedRectangle(cornerRadius: 40)
+                            .fill(Color.gray70)  // Fill with a color
+                    )
+                    .ignoresSafeArea()
+                VStack {
+                    CalendarMonthlyBillsView(viewModel: viewModel)
+                    CalendarSubscriptionsGridView(viewModel: viewModel)
+              
+                }.padding(.horizontal)
                 Spacer()
-            }.padding(.horizontal)
+            }.applyDefaultBackground()
+                .navigationDestination(isPresented: $navigateToSettings) {
+                    SettingsView()
+                }
         }
-        .applyDefaultBackground()
-        .navigationTitle("Calendar")
-        .navigationBarTitleDisplayMode(.inline)
     }
 
     // Top Bar with Gear Icon
@@ -43,6 +46,7 @@ struct CalendarView: View {
             Spacer()
             Button(action: {
                 print("Settings tapped")
+                navigateToSettings = true
             }) {
                 Image("settings")
                     .resizable()
@@ -51,7 +55,7 @@ struct CalendarView: View {
             }
         }
         .padding(.top, .topInsets)
-        
+
     }
 }
 

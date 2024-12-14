@@ -35,13 +35,13 @@ struct SecondaryButton: View {
                 RoundedRectangle(cornerRadius: cornerRadius ?? 50)
                     .fill(
                         isFilled == true
-                            ? .gray60.opacity(0.2) : Color.clear
+                            ? .white.opacity(0.1) : Color.clear
                     )
                     .strokeBorder(
                         LinearGradient(
                             gradient: Gradient(colors: [
                                 isFilled == true
-                                    ? Color.white.opacity(0.1)
+                                    ? Color.white.opacity(0.2)
                                     : Color.clear,  // 15% opacity
                                 isFilled == true
                                     ? Color.white.opacity(0)
