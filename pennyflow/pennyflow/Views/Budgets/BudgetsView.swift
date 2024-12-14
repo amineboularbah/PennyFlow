@@ -85,7 +85,9 @@ struct BudgetsView: View {
             
 
             // Add New Category Button
-            AddCategoryButton()  // Ensure total height including padding is 84
+            OutlinedDashButton(title: "Add New Category", onTap: {
+                
+            })  // Ensure total height including padding is 84
 
         }.padding(.horizontal)
     }
@@ -101,39 +103,6 @@ struct BudgetsView: View {
             let progress = category.spent / totalBudget
             return ProgressSegment(color: category.progressColor, progress: progress)
         }
-    }
-}
-
-struct AddCategoryButton: View {
-    var body: some View {
-        Button(action: {
-            print("Add new category tapped")
-        }) {
-            HStack {
-                Spacer()  // Push content to the center
-                Text("Add new category")
-                    .appTextStyle(font: .headline7, color: .gray30)
-                Image("add")
-                    .resizable()
-                    .renderingMode(.template)
-                    .frame(width: 16, height: 16)
-                    .foregroundColor(.gray30)
-                Spacer()  // Push content to the center
-            }
-            .frame(height: 64)  // Set the inner content height
-            .background(
-                RoundedRectangle(cornerRadius: 16)
-                    .strokeBorder(
-                        Color.gray60,
-                        style: StrokeStyle(
-                            lineWidth: 1,
-                            dash: [6]
-                        ))
-            )
-        }
-        .padding(.horizontal)  // Adds padding on the sides
-
-        .frame(height: 84)
     }
 }
 
