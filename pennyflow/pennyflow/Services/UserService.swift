@@ -12,16 +12,16 @@ class UserService {
 
     // MARK: - Fetch User
     func fetchUser() -> User? {
-        let fetchRequest: NSFetchRequest<User> = User.fetchRequest()
+        let request: NSFetchRequest<User> = User.fetchRequest()
+        request.fetchLimit = 1 // Fetch only one user
+
         do {
-            let users = try context.fetch(fetchRequest)
-            return users.first  // Assuming there's only one user
+            return try context.fetch(request).first
         } catch {
-            print("Failed to fetch user: \(error)")
+            print("Error fetching user: \(error.localizedDescription)")
             return nil
         }
     }
-
     // MARK: - Save User
     func saveUser(
         name: String, email: String, icloudSyncEnabled: Bool,
