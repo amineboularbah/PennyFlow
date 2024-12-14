@@ -9,62 +9,69 @@ import SwiftUI
 
 struct Registration: View {
     @Environment(\.presentationMode) var presentationMode // To handle dismissing
-
-    @State private var firstName: String = ""
-    @State private var lastName: String = ""
-    @State private var email: String = ""
-    @State private var startingBalance: String = ""
-    @State private var selectedCurrency: Currency = .usd  // Default selection
-    @State private var isFormValid: Bool = false  // Track form validation
+    @ObservedObject var viewModel: ProfileViewModel = ProfileViewModel()
     var body: some View {
-        ScrollView {
-            VStack(spacing: 20) {
-               
-                AppLogo().padding(.top, .topInsets)
-                Spacer()
-                CustomTextField(placeholder: "First name", text: $firstName)
-                CustomTextField(placeholder: "Last name", text: $lastName)
-                CustomTextField(placeholder: "Email", text: $email)
-                CustomTextField(
-                    placeholder: "Starting Balance", text: $startingBalance
-                )
-                .keyboardType(.decimalPad)
+        NavigationStack{
+            ScrollView {
+                VStack(spacing: 20) {
+                    
+                    AppLogo().padding(.top, .topInsets)
+                    Spacer()
+                    CustomTextField(placeholder: "Full name", text: $viewModel.name)
+                    CustomTextField(placeholder: "Email", text: $viewModel.email)
+                    CustomTextField(
+                        placeholder: "Starting Balance", text: $viewModel.balance
+                    )
+                    .keyboardType(.decimalPad)
+                    
+                    // Use the CurrencySelector
+                    CurrencySelector(selectedCurrency: $viewModel.selectedCurrency)
+                    
+                    PrimaryButton(
+                        title: "Submit", action: viewModel.saveUserData,
+                        isEnabled: viewModel.isFormValid)
+                    Button("Go Back", action: {
+                        presentationMode.wrappedValue.dismiss()
+                    }).foregroundColor(.white)
+                    Spacer()
+                    
+                }
                 
-                // Use the CurrencySelector
-                CurrencySelector(selectedCurrency: $selectedCurrency)
-                
-                PrimaryButton(
-                    title: "Submit", action: submitRegistration,
-                    isEnabled: isFormValid)
-                Button("Go Back", action: {
-                    presentationMode.wrappedValue.dismiss()
-                }).foregroundColor(.white)
-                Spacer()
                 
             }
+            .padding()
+            .padding(.bottom, .bottomInsets)
+            .ignoresSafeArea()
+            .frame(width: .screenWidth, height: .screenHeight)
+            .applyDefaultBackground()
+            .onReceive(viewModel.$name) { _ in
+                validateForm()
+            }
             
+            .onReceive(viewModel.$email) { _ in
+                validateForm()
+            }
+            .onReceive(viewModel.$balance) { _ in
+                validateForm()
+            }
+            .navigationDestination(isPresented: $viewModel.navigateToMainScreen) {
+                MainScreen() // Replace with your main screen view
+            }
+            .alert("Error", isPresented: .constant(viewModel.errorMessage != nil)) {
+                Button("OK", role: .cancel) {
+                    viewModel.errorMessage = nil // Clear the error message after dismissing
+                }
+            }
             
-        }
-        .padding()
-        .padding(.bottom, .bottomInsets)
-        .ignoresSafeArea()
-        .frame(width: .screenWidth, height: .screenHeight)
-        .applyDefaultBackground()
-        .onChange(of: firstName) { validateForm() }
-        .onChange(of: lastName) { validateForm() }
-        .onChange(of: email) { validateForm() }
-        .onChange(of: startingBalance) { validateForm() }
-        .navigationBarBackButtonHidden(true)
-
+        } .navigationBarBackButtonHidden(true)
+        
     }
 
     // Validate the form fields
-    private func validateForm() {
-        isFormValid =
-            !firstName.isEmpty
-            && !lastName.isEmpty
-            && isValidEmail(email)
-            && !startingBalance.isEmpty
+     private func validateForm() {
+        viewModel.isFormValid = !viewModel.name.isEmpty
+        && isValidEmail(viewModel.email)
+        && !viewModel.balance.isEmpty
     }
 
     // Check for valid email format
@@ -73,18 +80,11 @@ struct Registration: View {
         return NSPredicate(format: "SELF MATCHES %@", emailRegex).evaluate(
             with: email)
     }
-
-    private func submitRegistration() {
-        print("Registration Submitted:")
-        print("First Name: \(firstName)")
-        print("Last Name: \(lastName)")
-        print("Email: \(email)")
-        print("Starting Balance: \(startingBalance)")
-        print(
-            "Currency: \(selectedCurrency.rawValue) \(selectedCurrency.symbol)")
-    }
 }
 
-#Preview {
-    Registration().applyDefaultBackground()
+struct Registration_Previews: PreviewProvider {
+    static var previews: some View {
+        Registration()
+            .applyDefaultBackground()
+    }
 }
