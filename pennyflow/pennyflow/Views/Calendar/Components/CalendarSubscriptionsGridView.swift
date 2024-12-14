@@ -33,23 +33,20 @@ struct SubscriptionCard: View {
             HStack{
                 VStack(alignment: .leading, spacing: 8) {
                     // Subscription Logo
-                    Image(subscription.image)
+                    Image(subscription.icon ?? "logo")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .frame(height: CalendarStyles.iconSize) // Adjust logo height based on card height
                     Spacer()
                     // Subscription Name
-                    Text(subscription.name)
+                    Text(subscription.name ?? "Penny Flow")
                         .appTextStyle(font: .headline7)
 
                     // Subscription Price
-                    if let price = subscription.price {
-                        Text("$\(String(format: "%.2f", price))")
+                   
+                    Text("$\(String(format: "%.2f", subscription.price))")
                             .appTextStyle(font: .headline5)
-                    } else {
-                        Text("No price")
-                            .appTextStyle(font: .headline5)
-                    }
+                    
                 }
                 Spacer()
             }

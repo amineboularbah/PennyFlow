@@ -1,20 +1,28 @@
 import SwiftUI
 
 struct UpcomingBillsView: View {
+    @Environment(\.managedObjectContext) private var context
     @State private var subscriptions: [Subscription] = []
-    
+
     var body: some View {
         ScrollView {
             VStack(spacing: 8) {
                 ForEach(subscriptions) { subscription in
-                    SubscriptionRowView(subscription: subscription, showDate: true)
+                    SubscriptionRowView(
+                        subscription: subscription, showDate: true)
                 }
             }
             .padding(.horizontal)
         }
         .onAppear {
-            subscriptions = SubscriptionService.fetchSubscriptions()
+            fetchSubscriptions()
         }
+    }
+
+    // Fetch subscriptions from Core Data
+    private func fetchSubscriptions() {
+        subscriptions = SubscriptionService.shared.fetchSubscriptions(
+            context: context)
     }
 }
 

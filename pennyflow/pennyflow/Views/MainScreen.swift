@@ -7,7 +7,8 @@
 import SwiftUI
 
 struct MainScreen: View {
-    @State private var selectedTab: Int = 3
+    @Environment(\.managedObjectContext) var context
+    @State private var selectedTab: Int = 0
     @State private var isAddingSubscription = false  // Push to Add Subscription page
 
     var body: some View {
@@ -17,7 +18,7 @@ struct MainScreen: View {
                 TabView(selection: $selectedTab) {
                     HomeView().tag(0)
                     BudgetsView().tag(1)
-                    CalendarView().tag(2)
+                    CalendarView(context: context).tag(2)
                     CardsView().tag(3)
                 }.padding(.bottom, .bottomInsets)
                 GradientLayer()
@@ -51,8 +52,6 @@ struct NavigationItem {
 // Preview
 struct MainScreenPreview: PreviewProvider {
     static var previews: some View {
-        let subs = SubscriptionData()
-        MainScreen()
-            .environmentObject(subs)
+        MainScreen().applyDefaultBackground()
     }
 }

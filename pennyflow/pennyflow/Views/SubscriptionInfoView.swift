@@ -102,20 +102,20 @@ struct SubscriptionInfoCard: View {
 
     var body: some View {
         VStack(spacing: 15) {
-            Image(subscription.image)
+            Image(subscription.icon ?? "")
                 .resizable()
                 .scaledToFit()
                 .frame(width: 100, height: 100)
                 .shadow(radius: 31)
 
-            Text(subscription.name)
+            Text(subscription.name ?? "" )
                 .appTextStyle(font: .headline3)
 
-            if let price = subscription.price {
-                Text("$\(String(format: "%.2f", price))")
+          
+            Text("$\(String(format: "%.2f", subscription.price))")
                     .appTextStyle(font: .headline5, color: .gray30)
             
-            }
+            
         }
         .frame(maxWidth: .infinity)
         .padding()
@@ -129,10 +129,10 @@ struct DetailsSection: View {
 
     var body: some View {
         VStack(spacing: 8) {
-            DetailRow(title: "Name", value: subscription.name)
+            DetailRow(title: "Name", value: subscription.name ?? "")
             DetailRow(title: "Description", value: subscription.description)
             DetailRow(title: "Category", value: "Entertainment")
-            DetailRow(title: "First payment", value: subscription.date ?? "N/A")
+            DetailRow(title: "First payment", value: subscription.startDate?.formattedDate() ?? "N/A")
             DetailRow(title: "Reminder", value: "Never")
             DetailRow(title: "Currency", value: "USD ($)")
         }
@@ -174,16 +174,5 @@ struct DetailRow: View {
                 .foregroundColor(.gray30)
         }
         .padding(.vertical, 12)
-    }
-}
-
-// MARK: - Preview
-struct SubscriptionInfoView_Previews: PreviewProvider {
-    static var previews: some View {
-        SubscriptionInfoView(subscription: SubscriptionService.fetchSubscriptions()
-            .first!)
-        .applyDefaultBackground()
-            .preferredColorScheme(.dark)
-            
     }
 }

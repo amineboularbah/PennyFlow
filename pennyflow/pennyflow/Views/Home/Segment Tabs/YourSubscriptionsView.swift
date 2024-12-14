@@ -1,24 +1,28 @@
 import SwiftUI
+import CoreData
 
 struct YourSubscriptionsView: View {
-    @State private var subscriptions: [Subscription] = []
+    @EnvironmentObject var subscriptionsViewModel: SubscriptionsViewModel // Access the ViewModel
 
     var body: some View {
         ScrollView {
             VStack(spacing: 8) {
-                ForEach(subscriptions) { subscription in
+                ForEach(subscriptionsViewModel.subscriptions) { subscription in
                     SubscriptionRowView(subscription: subscription, showDate: false)
                 }
             }
             .padding(.horizontal)
         }
         .onAppear {
-            subscriptions = SubscriptionService.fetchSubscriptions()
+            subscriptionsViewModel.fetchSubscriptions() // Fetch subscriptions from the ViewModel
         }
     }
 }
+
 struct YourSubscriptionsView_Previews: PreviewProvider {
     static var previews: some View {
+        let viewModel = SubscriptionsViewModel(context: PersistenceController.preview.context)
         YourSubscriptionsView()
+            .environmentObject(viewModel) // Inject the mock ViewModel
     }
 }
