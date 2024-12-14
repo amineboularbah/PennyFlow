@@ -10,16 +10,21 @@ import SwiftUI
 @main
 struct pennyflowApp: App {
     let persistenceController = PersistenceController.shared
-    @StateObject private var subscriptionData = SubscriptionData() // Create an instance at app launch
-    
+
     var body: some Scene {
         WindowGroup {
-            MainScreen()
+            Welcome()
                 .preferredColorScheme(.dark)
-                .environment(\.managedObjectContext, persistenceController.container.viewContext)
-                .environmentObject(subscriptionData)
+                .environmentObject(
+                    SubscriptionsViewModel(
+                        context: persistenceController.container.viewContext)
+                )
+                .environment(
+                    \.managedObjectContext,
+                    persistenceController.container.viewContext
+                )
                 .background(Color.gray80)
-                
+
         }
     }
 }

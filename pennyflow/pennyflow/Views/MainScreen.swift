@@ -7,7 +7,7 @@
 import SwiftUI
 
 struct MainScreen: View {
-    @State private var selectedTab: Int = 3
+    @State private var selectedTab: Int = 0
     @State private var isAddingSubscription = false  // Push to Add Subscription page
 
     var body: some View {
@@ -51,8 +51,6 @@ struct NavigationItem {
 // Preview
 struct MainScreenPreview: PreviewProvider {
     static var previews: some View {
-        let subs = SubscriptionData()
-        MainScreen()
-            .environmentObject(subs)
+        MainScreen().applyDefaultBackground()
     }
 }

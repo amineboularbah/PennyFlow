@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct AllSubscriptionsView: View {
-    @EnvironmentObject var subscriptionData: SubscriptionData  // Environment object for subscriptions
-    @Binding var selectedPlatform: Int?  // Binding to track selected subscription
+    @EnvironmentObject var subscriptionData: SubscriptionsViewModel // Environment object for subscriptions
+    @Binding var selectedPlatform: String?  // Binding to track selected subscription
     var onSelect: (Int?) -> Void  // Callback to handle selection
     @Environment(\.dismiss) private var dismiss  // Environment property to dismiss the sheet
     
@@ -73,17 +73,46 @@ struct AllSubscriptionsView: View {
 
 struct AllSubscriptionsView_Previews: PreviewProvider {
     static var previews: some View {
-        let mockSubscriptionData = SubscriptionData()  // Initialize mock data
-        AllSubscriptionsView(
+        // Create an in-memory Core Data context for the preview
+        let context = PersistenceController.preview.container.viewContext
+        let mockViewModel = SubscriptionsViewModel(context: context)
+
+        // Populate mock subscriptions for preview
+        let mockSubscriptions = [
+            SubscriptionDTO(
+                id: UUID(),
+                name: "Spotify",
+                price: 9.99,
+                icon: "spotify_logo",
+                desc: "Music App",
+                startDate: Date(),
+                reminder: nil,
+                categoryName: "Entertainment"
+            ),
+            SubscriptionDTO(
+                id: UUID(),
+                name: "Netflix",
+                price: 15.99,
+                icon: "netflix_logo",
+                desc: "Video Streaming",
+                startDate: Date(),
+                reminder: nil,
+                categoryName: "Entertainment"
+            )
+        ]
+
+        for dto in mockSubscriptions {
+            mockViewModel.addSubscription(from: dto)
+        }
+
+        // Return the view for preview
+        return AllSubscriptionsView(
             selectedPlatform: .constant(2),
             onSelect: { selectedID in
-                print(
-                    "Selected platform ID in preview: \(String(describing: selectedID))"
-                )
+                print("Selected platform ID in preview: \(String(describing: selectedID))")
             }
         )
         .applyDefaultBackground()
-        .environmentObject(mockSubscriptionData)  // Inject into the preview
-
+        .environmentObject(mockViewModel)  // Inject mock view model
     }
 }

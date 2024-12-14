@@ -26,25 +26,29 @@ struct CardsView: View {
             month_year: "08/28"),
     ]
 
-    @State var subArr: [Subscription] = SubscriptionService.fetchSubscriptions()
+    @Environment(\.managedObjectContext) private var context
+    @State private var subArr: [Subscription] = []
     @State var showSettings: Bool = false
     var body: some View {
-        NavigationStack{
-            
+        NavigationStack {
+
             ScrollView {
 
                 VStack {
 
                     CustomAppBar(
-                        navigateToSettings: $showSettings, title: "Credit Cards")
+                        navigateToSettings: $showSettings, title: "Credit Cards"
+                    )
 
                     CardStack(cardArr) { cObj in
 
                         ZStack {
-                            RoundedRectangle(cornerRadius: 20, style: .continuous)
-                                .fill(Color.gray70)
-                                .frame(width: 232, height: 350)
-                                .shadow(color: .black.opacity(0.2), radius: 4)
+                            RoundedRectangle(
+                                cornerRadius: 20, style: .continuous
+                            )
+                            .fill(Color.gray70)
+                            .frame(width: 232, height: 350)
+                            .shadow(color: .black.opacity(0.2), radius: 4)
 
                             Image("card_blank")
                                 .resizable()
@@ -67,7 +71,8 @@ struct CardsView: View {
                                     .frame(height: 100)
 
                                 Text(cObj.name)
-                                    .appTextStyle(font: .headline8, color: .gray20)
+                                    .appTextStyle(
+                                        font: .headline8, color: .gray20)
 
                                 Text(cObj.number)
                                     .appTextStyle(font: .headline6)
@@ -93,7 +98,7 @@ struct CardsView: View {
                             Spacer()
 
                             ForEach(subArr) { sObj in
-                                Image(sObj.image)
+                                Image(sObj.icon ?? "")
                                     .resizable()
                                     .frame(width: 40, height: 40)
                             }
@@ -113,17 +118,22 @@ struct CardsView: View {
 
                 }
                 .padding(.top, .topInsets)
-                
+
             }.applyDefaultBackground()
                 .ignoresSafeArea()
-            .navigationDestination(
-                isPresented: $showSettings
-            ) {
-                SettingsView()
-            }
+                .navigationDestination(
+                    isPresented: $showSettings
+                ) {
+                    SettingsView()
+                }
+        }.onAppear {
+            loadSubscriptions()
         }
-        
+
     }
+    private func loadSubscriptions() {
+            subArr = SubscriptionService.shared.fetchSubscriptions(context: context)
+        }
 }
 
 struct CardsView_Previews: PreviewProvider {

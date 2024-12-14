@@ -16,7 +16,7 @@ struct SubscriptionRowView: View {
         NavigationStack {
             HStack(spacing: 16) {
                 // Subscription Image
-                Image(subscription.image)
+                Image(subscription.icon ?? "pennyflow")
                     .resizable()
                     .scaledToFit()
                     .frame(width: 50, height: 50)
@@ -24,7 +24,7 @@ struct SubscriptionRowView: View {
 
                 VStack(alignment: .leading, spacing: 4) {
                     // Subscription Name
-                    Text(subscription.name)
+                    Text(subscription.name ?? "Penny Flow")
                         .font(.headline)
                         .foregroundColor(.white)
 
@@ -42,18 +42,18 @@ struct SubscriptionRowView: View {
                 // Price or Date + Price
                 if showDate {
                     VStack(alignment: .trailing, spacing: 4) {
-                        Text(subscription.date ?? "")
+                        Text(subscription.startDate?.formattedDate() ?? "")
                             .font(.subheadline)
                             .foregroundColor(.gray)
 
                         Text(
-                            "$\(String(format: "%.2f", subscription.price ?? 0))"
+                            "$\(String(format: "%.2f", subscription.price))"
                         )
                         .font(.headline)
                         .foregroundColor(.white)
                     }
                 } else {
-                    Text("$\(String(format: "%.2f", subscription.price ?? 0 ))")
+                    Text("$\(String(format: "%.2f", subscription.price ))")
                         .font(.headline)
                         .foregroundColor(.white)
                 }
@@ -76,14 +76,7 @@ struct SubscriptionRowView_Previews: PreviewProvider {
     static var previews: some View {
         SubscriptionRowView(
             subscription:
-                Subscription(
-                    id: 1,
-                    name: "Spotify",
-                    description: "Music streaming service",
-                    price: 5.99,
-                    date: "Jun 25",
-                    image: "spotify_logo"
-                ),
+                Subscription(),
             showDate: true
         )
         .padding()

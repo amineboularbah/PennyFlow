@@ -11,7 +11,7 @@ import SwiftUI
 
 struct SettingsView: View {
     // MARK: - ViewModel
-    @StateObject private var viewModel = SettingsViewModel()  // Initialize ViewModel
+    @StateObject private var viewModel = ProfileViewModel()  // Initialize ViewModel
 
     var body: some View {
 
@@ -139,14 +139,12 @@ struct SettingsHeaderView: View {
 
 // MARK: - Profile Section
 struct ProfileSection: View {
-    @ObservedObject var viewModel: SettingsViewModel  // Inject ViewModel
+    @ObservedObject var viewModel: ProfileViewModel  // Inject ViewModel
 
     var body: some View {
         VStack(spacing: 15) {
             // Profile Image
-            Image(viewModel.profileImage)
-                .resizable()
-                .frame(width: 70, height: 70)
+            profileImage
 
             // Profile Name
             Text(viewModel.name)
@@ -163,6 +161,20 @@ struct ProfileSection: View {
                     viewModel.editProfile()
                 }, width: 87, isFilled: true, textColor: .white
             ).frame(height: 32)
+        }
+    }
+    
+    
+    private var profileImage: some View {
+        if let imageData = viewModel.profileImageData,
+           let uiImage = UIImage(data: imageData) {
+            Image(uiImage: uiImage)
+                .resizable()
+                .frame(width: 70, height: 70)
+        } else {
+            Image("u1") // Fallback to default placeholder
+                .resizable()
+                .frame(width: 70, height: 70)
         }
     }
 }

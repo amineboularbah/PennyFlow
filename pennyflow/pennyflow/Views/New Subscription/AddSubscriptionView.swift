@@ -7,7 +7,7 @@
 import SwiftUI
 
 struct AddSubscriptionView: View {
-    @EnvironmentObject var subscriptionData: SubscriptionData
+    @EnvironmentObject var subscriptionData: SubscriptionsViewModel
     @State private var description: String = ""
     @State private var selectedPlatform: Int?
     @State private var price: Double = 0.00

@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct SubscriptionsGridView: View {
-    @EnvironmentObject var subscriptionData: SubscriptionData  // Access via environment
-    @Binding var selectedPlatform: Int?  // Track selected subscription ID
+    @EnvironmentObject var subscriptionData: SubscriptionsViewModel  // Access via environment
+    @Binding var selectedPlatform: String?  // Track selected subscription ID
     @State private var showAllSubscriptions = false  // Show the "See All" list
     @State private var topSubscriptions: [Subscription] = []  // Top 6 subscriptions
     var body: some View {
@@ -35,12 +35,12 @@ struct SubscriptionsGridView: View {
                 ForEach(topSubscriptions) { subscription in
                     VStack {
                         SubscriptionImageView(
-                            imageName: subscription.image,
-                            subscriptionTitle: subscription.name,
+                            imageName: subscription.icon ?? "",
+                            subscriptionTitle: subscription.name ?? "",
                             imageSize: 70
                         )
 
-                        Text(subscription.name)
+                        Text(subscription.name ?? "")
                             .appTextStyle(font: .bodyLarge)
                             .lineLimit(1)
                     }
@@ -83,7 +83,7 @@ struct SubscriptionsGridView: View {
     }
 
     // Logic to Update Top Subscriptions
-    private func updateTopSubscriptions(with selectedID: Int?) {
+    private func updateTopSubscriptions(with selectedID: String?) {
         guard let selectedID = selectedID,
             let selectedSubscription = subscriptionData.subscriptions.first(
                 where: { $0.id == selectedID })
