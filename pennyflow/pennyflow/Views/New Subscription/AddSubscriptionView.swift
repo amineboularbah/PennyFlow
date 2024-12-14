@@ -9,7 +9,7 @@ import SwiftUI
 struct AddSubscriptionView: View {
     @EnvironmentObject var subscriptionData: SubscriptionsViewModel
     @State private var description: String = ""
-    @State private var selectedPlatform: Int?
+    @State private var selectedPlatform: UUID?
     @State private var price: Double = 0.00
     @State private var isEditingPrice: Bool = false  // Track if the price is being edited
     @State private var priceInput: String = ""  // Temporary input string for editing
@@ -63,9 +63,14 @@ struct AddSubscriptionView: View {
 
 struct AddSubscriptionView_Previews: PreviewProvider {
     static var previews: some View {
-        let subs = SubscriptionData()
+        // Use a mock SubscriptionViewModel or Core Data preview context
+        let context = PersistenceController.preview.container.viewContext
+        let viewModel = SubscriptionsViewModel(context: context)
+        
         AddSubscriptionView()
-            .environmentObject(subs)
+            .environmentObject(viewModel) // Inject the mock ViewModel
             .applyDefaultBackground()
+            .previewDisplayName("Add Subscription View")
+            .preferredColorScheme(.dark) // Ensure consistency with dark mode
     }
 }
