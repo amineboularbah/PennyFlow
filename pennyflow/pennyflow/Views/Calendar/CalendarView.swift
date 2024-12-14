@@ -13,12 +13,13 @@ struct CalendarView: View {
         NavigationStack {
             VStack {
                 VStack(spacing: 20) {
-                    topBar
+                    CustomAppBar(navigateToSettings: $navigateToSettings, title: "Calendar")
                     CalendarHeaderView(viewModel: viewModel)
 
                     WeekView(viewModel: viewModel)
-                }.padding(.horizontal)
+                }
                     .padding(.bottom, 40)
+                    .padding(.top, .topInsets)
                     .background(
                         BottomRoundedRectangle(cornerRadius: 40)
                             .fill(Color.gray70)  // Fill with a color
@@ -35,27 +36,6 @@ struct CalendarView: View {
                     SettingsView()
                 }
         }
-    }
-
-    // Top Bar with Gear Icon
-    private var topBar: some View {
-        HStack {
-            Spacer()
-            Text("      Calendar")
-                .appTextStyle(font: .bodyLarge, color: .gray30)
-            Spacer()
-            Button(action: {
-                print("Settings tapped")
-                navigateToSettings = true
-            }) {
-                Image("settings")
-                    .resizable()
-                    .frame(width: 24, height: 24)
-                    .foregroundColor(.gray30)
-            }
-        }
-        .padding(.top, .topInsets)
-
     }
 }
 
