@@ -8,47 +8,35 @@ import SwiftUI
 
 struct CalendarView: View {
     @StateObject private var viewModel = CalendarViewModel()
-
+    @State private var navigateToSettings = false
     var body: some View {
-        VStack {
-            VStack(spacing: 20) {
-                topBar
-                CalendarHeaderView(viewModel: viewModel)
-
-                WeekView(viewModel: viewModel)
-            }.padding(.horizontal)
-                .padding(.bottom, 40)
-                .background(
-                    BottomRoundedRectangle(cornerRadius: 40)
-                        .fill(Color.gray70)  // Fill with a color
-                )
-                .ignoresSafeArea()
+        NavigationStack {
             VStack {
-                CalendarMonthlyBillsView(viewModel: viewModel)
-                CalendarSubscriptionsGridView(viewModel: viewModel)
-                Spacer()
-            }.padding(.horizontal)
-        }
-        .applyDefaultBackground()
-        .navigationTitle("Calendar")
-        .navigationBarTitleDisplayMode(.inline)
-    }
+                VStack(spacing: 20) {
+                    CustomAppBar(navigateToSettings: $navigateToSettings, title: "Calendar")
+                    CalendarHeaderView(viewModel: viewModel)
 
-    // Top Bar with Gear Icon
-    private var topBar: some View {
-        HStack {
-            Spacer()
-            Button(action: {
-                print("Settings tapped")
-            }) {
-                Image("settings")
-                    .resizable()
-                    .frame(width: 24, height: 24)
-                    .foregroundColor(.gray)
-            }
-            .padding(.trailing, 20)
+                    WeekView(viewModel: viewModel)
+                }
+                    .padding(.bottom, 40)
+                    .padding(.top, .topInsets)
+                    .padding(.horizontal)
+                    .background(
+                        BottomRoundedRectangle(cornerRadius: 40)
+                            .fill(Color.gray70)  // Fill with a color
+                    )
+                    .ignoresSafeArea()
+                VStack {
+                    CalendarMonthlyBillsView(viewModel: viewModel)
+                    CalendarSubscriptionsGridView(viewModel: viewModel)
+              
+                }.padding(.horizontal)
+                Spacer()
+            }.applyDefaultBackground()
+                .navigationDestination(isPresented: $navigateToSettings) {
+                    SettingsView()
+                }
         }
-        .padding(.top, .topInsets)
     }
 }
 

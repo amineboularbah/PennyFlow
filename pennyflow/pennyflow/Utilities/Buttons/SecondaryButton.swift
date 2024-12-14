@@ -30,18 +30,19 @@ struct SecondaryButton: View {
                 }
             }
             .padding(12)
-            .frame(maxWidth: width ?? .infinity)  // Full-width button
+            .frame(maxWidth: width ?? .infinity, maxHeight: 48)  // Full-width button
+            .frame(height: 48)  // Full-width button
             .background(
                 RoundedRectangle(cornerRadius: cornerRadius ?? 50)
                     .fill(
                         isFilled == true
-                            ? .gray60.opacity(0.2) : Color.clear
+                            ? .white.opacity(0.1) : Color.clear
                     )
                     .strokeBorder(
                         LinearGradient(
                             gradient: Gradient(colors: [
                                 isFilled == true
-                                    ? Color.white.opacity(0.1)
+                                    ? Color.white.opacity(0.2)
                                     : Color.clear,  // 15% opacity
                                 isFilled == true
                                     ? Color.white.opacity(0)

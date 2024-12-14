@@ -8,10 +8,16 @@ import SwiftUI
 
 struct HomeView: View {
     @State private var selectedTab: Int = 0
+    @State private var navigateToSettings: Bool = false
     var body: some View {
+
+        NavigationStack {
+
             VStack {
-                DashboardView()
-                SegmentedControlView(selectedTab: $selectedTab).padding(.vertical, 4)
+
+                DashboardView(navigateToSettings: $navigateToSettings)
+                SegmentedControlView(selectedTab: $selectedTab).padding(
+                    .vertical, 4)
                 // Show the selected page
                 TabView(selection: $selectedTab) {
                     YourSubscriptionsView().tag(0)
@@ -19,9 +25,17 @@ struct HomeView: View {
                 }
                 .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
                 Spacer()
-            }.ignoresSafeArea()
+
+            }
+            .ignoresSafeArea()
             .applyDefaultBackground()
-        
+            .navigationDestination(
+                isPresented: $navigateToSettings
+            ) {
+                SettingsView()
+            }
+        }
+
     }
 }
 

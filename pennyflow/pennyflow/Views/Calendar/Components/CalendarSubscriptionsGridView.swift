@@ -20,6 +20,7 @@ struct CalendarSubscriptionsGridView: View {
             }
             .padding(.top, 16)
         }
+        .frame(maxHeight: .infinity)
     }
 }
 
@@ -54,9 +55,10 @@ struct SubscriptionCard: View {
             }
             .padding()
             .frame(maxWidth: 160, maxHeight: 168) // Full size
-            .background(Color.gray30.opacity(0.15)) // Card background
+            .background(Color.gray30.opacity(0.2)) // Card background
             .clipShape(RoundedRectangle(cornerRadius: CalendarStyles.cornerRadius)) // Rounded corners
         }
+       
         .aspectRatio(4 / 4, contentMode: .fill) // Ensures cards maintain a consistent aspect ratio
     }
 }

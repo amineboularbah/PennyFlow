@@ -27,6 +27,7 @@ struct FloatingBottomNavigationBar: View {
         VStack {
             Spacer()
             ZStack {
+
                 // Custom Arc Shape with Circular Edges
                 ArcBackground()
                     .fill(Color.gray60)
@@ -115,5 +116,7 @@ struct FloatingBottomNavigationBar: View {
 }
 
 #Preview {
-    FloatingBottomNavigationBar(selectedTab: .constant(0), isAddingSubscription: .constant(false)).applyDefaultBackground()
+    FloatingBottomNavigationBar(
+        selectedTab: .constant(0), isAddingSubscription: .constant(false)
+    ).applyDefaultBackground()
 }

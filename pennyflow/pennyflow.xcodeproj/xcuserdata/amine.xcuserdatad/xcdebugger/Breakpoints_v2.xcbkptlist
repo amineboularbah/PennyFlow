@@ -7,17 +7,17 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "B5B51C0B-90C0-4B8A-960C-919A9D66A181"
+            uuid = "A9792947-7F06-47F9-8CE9-B92FA395CC0B"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "pennyflow/Views/Calendar/CalendarView.swift"
+            filePath = "pennyflow/Models/Subscription.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "18"
-            endingLineNumber = "18"
-            landmarkName = "body"
-            landmarkType = "24">
+            startingLineNumber = "9"
+            endingLineNumber = "9"
+            landmarkName = "Subscription"
+            landmarkType = "14">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

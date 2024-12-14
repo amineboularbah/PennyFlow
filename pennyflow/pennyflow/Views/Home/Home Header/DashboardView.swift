@@ -4,17 +4,17 @@ struct DashboardView: View {
     @State private var progress: Double = 0
     private let circleSize: Double = 290.0
     private let circleRotationDegree: Double = 130
-
+    @Binding var navigateToSettings: Bool
     var body: some View {
         ZStack {
             VStack(spacing: 0) {
-                topBar
-
+                CustomAppBar(navigateToSettings: $navigateToSettings)
+                    .padding(.top, .topInsets)
                 progressCircle
 
                 SubscriptionSummaryView()
                     .padding(.bottom)
-            }
+            }.frame(maxWidth: .infinity)
             .background(
                 BottomRoundedRectangle(cornerRadius: 40)
                     .fill(Color.gray70)  // Fill with a color
@@ -22,22 +22,6 @@ struct DashboardView: View {
         }
     }
 
-    // Top Bar with Gear Icon
-    private var topBar: some View {
-        HStack {
-            Spacer()
-            Button(action: {
-                print("Settings tapped")
-            }) {
-                Image("settings")
-                    .resizable()
-                    .frame(width: 24, height: 24)
-                    .foregroundColor(.gray)
-            }
-            .padding(.trailing, 20)
-        }
-        .padding(.top, .topInsets)
-    }
 
     // Circular Progress View
     private var progressCircle: some View {
@@ -105,7 +89,7 @@ struct DashboardView: View {
             Circle()
                 .fill(Color.purple)
                 .frame(width: 20, height: 20)
-            Text("TRACKIZER")
+            Text("PENNYFLOW")
                 .font(.headline)
                 .foregroundColor(.white)
         }
@@ -152,7 +136,7 @@ struct DashboardView: View {
 
 struct DashboardView_Previews: PreviewProvider {
     static var previews: some View {
-        DashboardView()
+        DashboardView(navigateToSettings: .constant(false))
             .applyDefaultBackground()
     }
 }
