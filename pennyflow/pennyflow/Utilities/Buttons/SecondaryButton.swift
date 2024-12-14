@@ -30,7 +30,8 @@ struct SecondaryButton: View {
                 }
             }
             .padding(12)
-            .frame(maxWidth: width ?? .infinity)  // Full-width button
+            .frame(maxWidth: width ?? .infinity, maxHeight: 48)  // Full-width button
+            .frame(height: 48)  // Full-width button
             .background(
                 RoundedRectangle(cornerRadius: cornerRadius ?? 50)
                     .fill(
