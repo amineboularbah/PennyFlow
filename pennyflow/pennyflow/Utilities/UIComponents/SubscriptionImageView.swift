@@ -7,9 +7,9 @@
 import SwiftUI
 
 struct SubscriptionImageView: View {
-    let imageName: String // The image name in the asset catalog
-    let subscriptionTitle: String // The title of the subscription
-    let imageSize: CGFloat? // Image size (width and height)
+    let imageName: String  // The image name in the asset catalog
+    let subscriptionTitle: String  // The title of the subscription
+    let imageSize: CGFloat?  // Image size (width and height)
 
     var body: some View {
         if UIImage(named: imageName) != nil {
@@ -30,7 +30,7 @@ struct SubscriptionImageView: View {
     private func fallbackWithInitials(for title: String) -> some View {
         let initials = extractInitials(from: title)
         ZStack {
-            RoundedRectangle(cornerRadius: 20) // Square with rounded corners
+            RoundedRectangle(cornerRadius: 20)  // Square with rounded corners
                 .fill(Color.gray.opacity(0.3))
                 .frame(width: imageSize, height: imageSize)
 
@@ -42,10 +42,10 @@ struct SubscriptionImageView: View {
 
     // Helper to Extract Initials
     private func extractInitials(from title: String) -> String {
-        let words = title.split(separator: " ") // Split title into words
+        let words = title.split(separator: " ")  // Split title into words
         if words.count > 1 {
-            let firstInitial = words[0].prefix(1) // First letter of first word
-            let secondInitial = words[1].prefix(1) // First letter of second word
+            let firstInitial = words[0].prefix(1)  // First letter of first word
+            let secondInitial = words[1].prefix(1)  // First letter of second word
             return "\(firstInitial)\(secondInitial)".uppercased()
         } else {
             // Single word, return the first letter

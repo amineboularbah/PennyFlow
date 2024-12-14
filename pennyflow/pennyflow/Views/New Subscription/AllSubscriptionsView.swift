@@ -10,27 +10,27 @@ import SwiftUI
 struct AllSubscriptionsView: View {
     @EnvironmentObject var subscriptionData: SubscriptionsViewModel // Environment object for subscriptions
     @Binding var selectedPlatform: UUID?  // Binding to track selected subscription
-    var onSelect: (String?) -> Void  // Callback to handle selection
+    var onSelect: (UUID?) -> Void  // Callback to handle selection
     @Environment(\.dismiss) private var dismiss  // Environment property to dismiss the sheet
-    
+
     var body: some View {
         NavigationView {
             ScrollView {
                 LazyVStack(spacing: 16) {
-                    ForEach(subscriptionData.subscriptions) { subscription in
+                    ForEach(subscriptionData.subscriptions, id: \.id) { subscription in
                         HStack {
                             // Icon/Image
                             SubscriptionImageView(
-                                imageName: subscription.image,
-                                subscriptionTitle: subscription.name,
+                                imageName: subscription.icon ?? "",
+                                subscriptionTitle: subscription.name ?? "",
                                 imageSize: 60
                             )
 
                             // Name and Description
                             VStack(alignment: .leading) {
-                                Text(subscription.name)
+                                Text(subscription.name ?? "Unknown")
                                     .font(.headline)
-                                Text(subscription.description)
+                                Text(subscription.desc ?? "No description available")
                                     .font(.subheadline)
                                     .foregroundColor(.gray)
                                     .lineLimit(2)
@@ -60,17 +60,18 @@ struct AllSubscriptionsView: View {
                 // Done button to close the sheet
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button("Done") {
-                        // Logic to close the sheet (handled by parent view)
-                        onSelect(selectedPlatform)  // Pass selected ID to parent
-                        // we should dismiss the bottom sheet
+                        // Pass selected ID to parent and close the sheet
+                        onSelect(selectedPlatform)
                         dismiss()
                     }
                 }
             }
-        }.applyDefaultBackground()
+        }
+        .applyDefaultBackground()
     }
 }
 
+// MARK: - Preview
 struct AllSubscriptionsView_Previews: PreviewProvider {
     static var previews: some View {
         // Create an in-memory Core Data context for the preview
@@ -107,7 +108,7 @@ struct AllSubscriptionsView_Previews: PreviewProvider {
 
         // Return the view for preview
         return AllSubscriptionsView(
-            selectedPlatform: .constant(2),
+            selectedPlatform: .constant(mockSubscriptions.first?.id),
             onSelect: { selectedID in
                 print("Selected platform ID in preview: \(String(describing: selectedID))")
             }

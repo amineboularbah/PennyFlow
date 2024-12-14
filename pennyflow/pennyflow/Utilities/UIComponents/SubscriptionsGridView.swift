@@ -83,11 +83,11 @@ struct SubscriptionsGridView: View {
         )
     }
 
-    private func updateTopSubscriptions(with selectedID: String?) {
+    private func updateTopSubscriptions(with selectedID: UUID?) {
         guard let selectedID = selectedID,
               let selectedSubscription = subscriptionData.subscriptions.first(where: {
                   if let id = $0.id {
-                      return String(describing: id) == selectedID
+                      return  id == selectedID
                   }
                   return false
               })        else { return }
