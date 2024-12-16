@@ -25,6 +25,8 @@ extension Subscription {
     @NSManaged public var reminder: String?
     @NSManaged public var user: User?
     @NSManaged public var category: Category?
+    @NSManaged public var dueDate: Date?
+
 
 }
 

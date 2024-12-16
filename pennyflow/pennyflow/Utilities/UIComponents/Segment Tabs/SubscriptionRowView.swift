@@ -22,21 +22,11 @@ struct SubscriptionRowView: View {
                     .frame(width: 50, height: 50)
                     .clipShape(RoundedRectangle(cornerRadius: 10))
 
-                VStack(alignment: .leading, spacing: 4) {
                     // Subscription Name
                     Text(subscription.name ?? "Penny Flow")
                         .font(.headline)
                         .foregroundColor(.white)
-
-                    // Optional Description
-                    if !subscription.description.isEmpty {
-                        Text(subscription.description)
-                            .font(.subheadline)
-                            .foregroundColor(.gray)
-                            .lineLimit(1)
-                    }
-                }
-
+                
                 Spacer()
 
                 // Price or Date + Price

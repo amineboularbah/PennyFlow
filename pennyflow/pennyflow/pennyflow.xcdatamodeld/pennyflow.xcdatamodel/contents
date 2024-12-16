@@ -18,6 +18,7 @@
     </entity>
     <entity name="Subscription" representedClassName="Subscription" syncable="YES">
         <attribute name="desc" optional="YES" attributeType="String"/>
+        <attribute name="dueDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="icon" optional="YES" attributeType="String"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="name" optional="YES" attributeType="String"/>

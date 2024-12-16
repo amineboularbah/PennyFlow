@@ -9,15 +9,20 @@ import SwiftUI
 
 @main
 struct pennyflowApp: App {
-    // Initialize the Persistence Controller and AppViewModel
     let persistenceController = PersistenceController.shared
     @StateObject private var appViewModel = AppViewModel()
+    
+    
+    init() {
+        // Initialize subscriptions if needed
+        let context = persistenceController.container.viewContext
+        SubscriptionService.shared.initializeSubscriptionsIfNeeded(context: context)
+    }
 
     var body: some Scene {
         WindowGroup {
-            // Conditionally show the appropriate screen based on login status
             if appViewModel.isUserLoggedIn {
-                MainScreen() // Navigate to MainScreen if logged in
+                MainScreen()
                     .preferredColorScheme(.dark)
                     .environmentObject(appViewModel)
                     .environmentObject(
@@ -25,13 +30,11 @@ struct pennyflowApp: App {
                             context: persistenceController.container.viewContext
                         )
                     )
-                    .environment(
-                        \.managedObjectContext,
-                        persistenceController.container.viewContext
-                    )
+                    .environment(\.managedObjectContext, persistenceController.container.viewContext)
                     .background(Color.gray80)
+                    
             } else {
-                Welcome() // Navigate to Welcome screen if not logged in
+                Welcome()
                     .preferredColorScheme(.dark)
                     .environmentObject(appViewModel)
                     .environmentObject(
@@ -39,11 +42,9 @@ struct pennyflowApp: App {
                             context: persistenceController.container.viewContext
                         )
                     )
-                    .environment(
-                        \.managedObjectContext,
-                        persistenceController.container.viewContext
-                    )
+                    .environment(\.managedObjectContext, persistenceController.container.viewContext)
                     .background(Color.gray80)
+                    
             }
         }
     }

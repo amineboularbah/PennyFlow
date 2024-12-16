@@ -88,7 +88,8 @@ struct AllSubscriptionsView_Previews: PreviewProvider {
                 desc: "Music App",
                 startDate: Date(),
                 reminder: nil,
-                categoryName: "Entertainment"
+                categoryName: "Entertainment",
+                dueDate: Calendar.current.date(byAdding: .month,value: 1,  to: Date())
             ),
             SubscriptionDTO(
                 id: UUID(),
@@ -98,7 +99,8 @@ struct AllSubscriptionsView_Previews: PreviewProvider {
                 desc: "Video Streaming",
                 startDate: Date(),
                 reminder: nil,
-                categoryName: "Entertainment"
+                categoryName: "Entertainment",
+                dueDate: Calendar.current.date(byAdding: .year,value: 1,  to: Date())
             )
         ]
 
