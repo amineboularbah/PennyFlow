@@ -9,7 +9,7 @@ import CoreData
 
 class UserService {
     private let context = PersistenceController.shared.context
-
+    
     // MARK: - Fetch User
     func fetchUser() -> User? {
         let request: NSFetchRequest<User> = User.fetchRequest()

@@ -65,7 +65,7 @@ struct AddSubscriptionView_Previews: PreviewProvider {
     static var previews: some View {
         // Use a mock SubscriptionViewModel or Core Data preview context
         let context = PersistenceController.preview.container.viewContext
-        let viewModel = SubscriptionsViewModel(context: context)
+        let viewModel = SubscriptionsViewModel(context: context, currentUser: nil)
         
         AddSubscriptionView()
             .environmentObject(viewModel) // Inject the mock ViewModel

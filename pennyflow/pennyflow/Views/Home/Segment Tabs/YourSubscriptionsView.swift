@@ -7,21 +7,23 @@ struct YourSubscriptionsView: View {
     var body: some View {
         ScrollView {
             VStack(spacing: 8) {
-                ForEach(subscriptionsViewModel.subscriptions) { subscription in
+                ForEach(subscriptionsViewModel.userSubscriptions) { subscription in
                     SubscriptionRowView(subscription: subscription, showDate: false)
                 }
             }
             .padding(.horizontal)
         }
         .onAppear {
-            subscriptionsViewModel.fetchSubscriptions() // Fetch subscriptions from the ViewModel
+            subscriptionsViewModel.fetchUserSubscriptions() // Fetch subscriptions from the ViewModel
         }
     }
 }
 
 struct YourSubscriptionsView_Previews: PreviewProvider {
     static var previews: some View {
-        let viewModel = SubscriptionsViewModel(context: PersistenceController.preview.context)
+        let profileViewModel = ProfileViewModel()
+
+        let viewModel = SubscriptionsViewModel(context: PersistenceController.preview.context, currentUser: profileViewModel.user)
         YourSubscriptionsView()
             .environmentObject(viewModel) // Inject the mock ViewModel
     }

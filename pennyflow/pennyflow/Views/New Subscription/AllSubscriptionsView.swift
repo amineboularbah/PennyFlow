@@ -76,7 +76,7 @@ struct AllSubscriptionsView_Previews: PreviewProvider {
     static var previews: some View {
         // Create an in-memory Core Data context for the preview
         let context = PersistenceController.preview.container.viewContext
-        let mockViewModel = SubscriptionsViewModel(context: context)
+        let mockViewModel = SubscriptionsViewModel(context: context,currentUser: nil)
 
         // Populate mock subscriptions for preview
         let mockSubscriptions = [

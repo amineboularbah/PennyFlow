@@ -11,6 +11,7 @@ import SwiftUI
 struct pennyflowApp: App {
     let persistenceController = PersistenceController.shared
     @StateObject private var appViewModel = AppViewModel()
+    @StateObject private var profileViewModel = ProfileViewModel()
     
     
     init() {
@@ -27,7 +28,8 @@ struct pennyflowApp: App {
                     .environmentObject(appViewModel)
                     .environmentObject(
                         SubscriptionsViewModel(
-                            context: persistenceController.container.viewContext
+                            context: persistenceController.container.viewContext,
+                            currentUser: profileViewModel.user
                         )
                     )
                     .environment(\.managedObjectContext, persistenceController.container.viewContext)
@@ -39,7 +41,8 @@ struct pennyflowApp: App {
                     .environmentObject(appViewModel)
                     .environmentObject(
                         SubscriptionsViewModel(
-                            context: persistenceController.container.viewContext
+                            context: persistenceController.container.viewContext,
+                            currentUser: nil
                         )
                     )
                     .environment(\.managedObjectContext, persistenceController.container.viewContext)

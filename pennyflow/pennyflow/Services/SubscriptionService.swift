@@ -183,6 +183,36 @@ class SubscriptionService {
             return []
         }
     }
+    
+    // MARK: - Fetch Subscriptions for Current User
+    /**
+     Fetches all subscriptions associated with the specified user from Core Data.
+
+     - Parameters:
+        - user: The `User` entity for which to fetch subscriptions.
+        - context: The Core Data managed object context used to perform the fetch request.
+     
+     - Returns: An array of `Subscription` entities linked to the provided user.
+
+     - Example:
+     ```swift
+     let subscriptions = SubscriptionService.shared.fetchUserSubscriptions(for: currentUser, context: context)
+     print("User Subscriptions: \(subscriptions)")
+     ```
+     */
+    func fetchUserSubscriptions(for user: User, context: NSManagedObjectContext) -> [Subscription] {
+        let fetchRequest: NSFetchRequest<Subscription> = Subscription.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "user == %@", user) // Filter subscriptions by user relationship
+
+        do {
+            let subscriptions = try context.fetch(fetchRequest)
+            print("Fetched \(subscriptions.count) subscriptions for user: \(user.name ?? "Unknown")")
+            return subscriptions
+        } catch {
+            print("Failed to fetch subscriptions for the current user: \(error.localizedDescription)")
+            return []
+        }
+    }
 
     // MARK: - Delete a Subscription
     /**
