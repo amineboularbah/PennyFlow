@@ -234,4 +234,69 @@ class SubscriptionService {
                 "Failed to delete subscription: \(error.localizedDescription)")
         }
     }
+    
+    
+    // MARK: - Fetch Subscription by ID
+    func fetchSubscriptionByID(id: UUID, context: NSManagedObjectContext) -> Subscription? {
+        let fetchRequest: NSFetchRequest<Subscription> = Subscription.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "id == %@", id as CVarArg)
+        do {
+            return try context.fetch(fetchRequest).first
+        } catch {
+            print("Error fetching subscription by ID: \(error.localizedDescription)")
+            return nil
+        }
+    }
+
+    // MARK: - Save a New Subscription
+    func saveSubscription(
+        user: User,
+        platform: Subscription?,
+        description: String,
+        price: Double,
+        startDate: Date?,
+        context: NSManagedObjectContext
+    ) {
+        guard let platform = platform else { return }
+
+        let subscription = Subscription(context: context)
+        subscription.id = UUID()
+        subscription.name = platform.name
+        subscription.desc = description
+        subscription.price = price
+        subscription.icon = platform.icon
+        subscription.startDate = startDate ?? Date() // Default to the current date
+        subscription.reminder = platform.reminder
+        subscription.category = platform.category
+        subscription.user = user
+
+        do {
+            try context.save()
+            print("Subscription saved successfully.")
+        } catch {
+            print("Failed to save subscription: \(error.localizedDescription)")
+        }
+    }
+
+    // MARK: - Update an Existing Subscription
+    func updateSubscription(
+        subscription: Subscription,
+        name: String?,
+        description: String?,
+        price: Double?,
+        reminder: String?,
+        context: NSManagedObjectContext
+    ) {
+        if let name = name { subscription.name = name }
+        if let description = description { subscription.desc = description }
+        if let price = price { subscription.price = price }
+        if let reminder = reminder { subscription.reminder = reminder }
+
+        do {
+            try context.save()
+            print("Subscription updated successfully.")
+        } catch {
+            print("Failed to update subscription: \(error.localizedDescription)")
+        }
+    }
 }

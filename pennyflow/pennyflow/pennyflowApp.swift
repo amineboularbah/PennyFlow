@@ -12,12 +12,12 @@ struct pennyflowApp: App {
     let persistenceController = PersistenceController.shared
     @StateObject private var appViewModel = AppViewModel()
     @StateObject private var profileViewModel = ProfileViewModel()
-    
-    
+
     init() {
         // Initialize subscriptions if needed
         let context = persistenceController.container.viewContext
-        SubscriptionService.shared.initializeSubscriptionsIfNeeded(context: context)
+        SubscriptionService.shared.initializeSubscriptionsIfNeeded(
+            context: context)
     }
 
     var body: some Scene {
@@ -28,26 +28,48 @@ struct pennyflowApp: App {
                     .environmentObject(appViewModel)
                     .environmentObject(
                         SubscriptionsViewModel(
-                            context: persistenceController.container.viewContext,
+                            context: persistenceController.container
+                                .viewContext,
                             currentUser: profileViewModel.user
                         )
                     )
-                    .environment(\.managedObjectContext, persistenceController.container.viewContext)
+                    .environmentObject(
+                        AddSubscriptionViewModel(
+                            context: persistenceController.container
+                                .viewContext,
+                            currentUser: profileViewModel.user
+                        )
+                    )
+                    .environment(
+                        \.managedObjectContext,
+                        persistenceController.container.viewContext
+                    )
                     .background(Color.gray80)
-                    
+
             } else {
                 Welcome()
                     .preferredColorScheme(.dark)
                     .environmentObject(appViewModel)
                     .environmentObject(
                         SubscriptionsViewModel(
-                            context: persistenceController.container.viewContext,
+                            context: persistenceController.container
+                                .viewContext,
                             currentUser: nil
                         )
                     )
-                    .environment(\.managedObjectContext, persistenceController.container.viewContext)
+                    .environmentObject(
+                        AddSubscriptionViewModel(
+                            context: persistenceController.container
+                                .viewContext,
+                            currentUser: nil
+                        )
+                    )
+                    .environment(
+                        \.managedObjectContext,
+                        persistenceController.container.viewContext
+                    )
                     .background(Color.gray80)
-                    
+
             }
         }
     }

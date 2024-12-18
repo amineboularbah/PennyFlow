@@ -1,3 +1,4 @@
+import CoreData
 //
 //  AddSubscriptionView.swift
 //  pennyflow
@@ -7,70 +8,216 @@
 import SwiftUI
 
 struct AddSubscriptionView: View {
-    @EnvironmentObject var subscriptionData: SubscriptionsViewModel
-    @State private var description: String = ""
-    @State private var selectedPlatform: UUID?
-    @State private var price: Double = 0.00
-    @State private var isEditingPrice: Bool = false  // Track if the price is being edited
-    @State private var priceInput: String = ""  // Temporary input string for editing
+    @EnvironmentObject var viewModel: AddSubscriptionViewModel
+    @Environment(\.presentationMode) var presentationMode
+    @Environment(\.managedObjectContext) var context
 
-    init() {
-        // Use SwiftUI Color and convert it to UIColor
-        let backgroundColor = UIColor(.gray70)  // Replace with your custom color name
-        let titleColor = UIColor(.gray30)  // Replace with your custom color name
-
-        // Customize the navigation bar appearance
-        let appearance = UINavigationBarAppearance()
-        appearance.configureWithOpaqueBackground()  // Makes the background opaque
-        appearance.backgroundColor = backgroundColor  // Use converted UIColor
-        appearance.titleTextAttributes = [.foregroundColor: titleColor]  // Title color
-        appearance.largeTitleTextAttributes = [.foregroundColor: titleColor]  // Large title color
-
-        UINavigationBar.appearance().standardAppearance = appearance
-        UINavigationBar.appearance().scrollEdgeAppearance = appearance
-    }
+    @State private var showCategorySelection = false
 
     var body: some View {
         NavigationView {
-            VStack {
-                SubscriptionsGridView(selectedPlatform: $selectedPlatform)
-
+            ZStack(alignment: .bottom) {
                 VStack {
-                    
-                    CustomTextField(placeholder: "Description", text: $description)
-                    
-                    PriceSetupView(
-                        price: $price, isEditingPrice: $isEditingPrice,
-                        priceInput: $priceInput)
-                    Spacer()
-                    PrimaryButton(title: "Add Subscription", action: handleAddSubscription)
-                    Spacer()
-                }.padding()
-                
-            }
-            .applyDefaultBackground()
-                .navigationTitle("New Subscription")
-                .navigationBarTitleDisplayMode(.inline)
+                    // Subscription Platform Grid
+                    SubscriptionsGridView(
+                        selectedPlatform: $viewModel.selectedPlatform
+                    )
+                    .onChange(of: viewModel.selectedPlatform) { _ in
+                        viewModel.validateForm()
+                    }
 
-        }
+                    ScrollView {
+                        VStack {
+
+                            // Description Field
+                            CustomTextField(
+                                placeholder: "Description",
+                                text: $viewModel.description
+                            )
+                            .onChange(of: viewModel.description) { _ in
+                                viewModel.validateForm()
+                            }
+                            // Horizontal Divider
+                            Divider()
+                                .background(Color.gray70)
+                                .padding(.vertical, 8)
+                            // Category Selection
+                            CategorySelectionRow(
+                                title: "Category",
+                                onTap: {
+                                    viewModel.showCategoryPicker = true
+                                },
+                                selectedValue: viewModel.selectedCategory?.name
+                                    ?? "Select Category")
+                            // Horizontal Divider
+                            Divider()
+                                .background(Color.gray70)
+                                .padding(.vertical, 8)
+                            // Starting Date Selection
+                            CategorySelectionRow(
+                                title: "Starting Date",
+                                onTap: {
+                                    viewModel.showDatePicker = true
+                                },
+                                selectedValue:
+                                    viewModel.selectedDate.formattedDate()
+                            )
+                            .sheet(isPresented: $viewModel.showDatePicker) {
+                                StartingDatePickerView()
+                            }
+                            .sheet(isPresented: $viewModel.showCategoryPicker) {
+                                CategorySelectionView(
+                                    selectedCategory: $viewModel
+                                        .selectedCategory)
+                            }
+
+                            // Horizontal Divider
+                            Divider()
+                                .background(Color.gray70)
+                                .padding(.vertical, 8)
+
+                            // Frequency Picker
+                            VStack(alignment: .leading, spacing: 0) {
+                                HStack {
+                                    Text("Billing Frequency").appTextStyle(
+                                        font: .headline7, color: .gray50
+                                    )
+                                    Spacer()
+                                }
+                                Picker(
+                                    "", selection: $viewModel.billingFrequency
+                                ) {
+                                    ForEach(
+                                        AddSubscriptionViewModel.Frequency
+                                            .allCases, id: \.self
+                                    ) { frequency in
+                                        Text(frequency.rawValue.capitalized)
+                                            .tag(frequency)
+                                    }
+                                }
+                                .pickerStyle(SegmentedPickerStyle())
+                                .padding(.vertical)
+                            }
+                            // Horizontal Divider
+                            Divider()
+                                .background(Color.gray70)
+                                .padding(.vertical, 8)
+                            // Price Setup
+                            PriceSetupView(
+                                price: $viewModel.price,
+                                isEditingPrice: .constant(false),
+                                priceInput: $viewModel.priceInput
+                            )
+                            .onChange(of: viewModel.price) { _ in
+                                viewModel.validateForm()
+                            }
+
+                            // Error Message
+                            if let errorMessage = viewModel.errorMessage {
+                                Text(errorMessage)
+                                    .foregroundColor(.red)
+                                    .padding()
+                            }
+                            Spacer().frame(height: .bottomInsets * 2)
+
+                        }.padding()
+                    }
+                }
+
+                // Floating Button
+                VStack {
+                    Spacer()
+                    // Add Subscription Button
+                    PrimaryButton(
+                        title: "Add Subscription",
+                        action: handleAddSubscription,
+                        isEnabled: viewModel.isFormValid
+                    )
+                    .padding(.horizontal, 20)
+                    .padding(.bottom, .bottomInsets)
+                }
+            }
+
+            .ignoresSafeArea()
+            .applyDefaultBackground()
+
+            .navigationBarTitleDisplayMode(.inline)
+        }.navigationBarBackButtonHidden(true)  // Hide the navigation bar
 
     }
-    
-    private func handleAddSubscription(){
-        print("Add subscription logic is unimplemented")
+
+    private func handleAddSubscription() {
+        print("Pressed")
+        do {
+            try viewModel.addSubscription()
+            presentationMode.wrappedValue.dismiss()
+        } catch {
+            if let error = error as? AddSubscriptionViewModel.ValidationError {
+                viewModel.errorMessage = error.errorDescription
+            } else {
+                viewModel.errorMessage =
+                    "An unexpected error occurred. Please try again."
+            }
+        }
     }
 }
 
-struct AddSubscriptionView_Previews: PreviewProvider {
-    static var previews: some View {
-        // Use a mock SubscriptionViewModel or Core Data preview context
-        let context = PersistenceController.preview.container.viewContext
-        let viewModel = SubscriptionsViewModel(context: context, currentUser: nil)
-        
-        AddSubscriptionView()
-            .environmentObject(viewModel) // Inject the mock ViewModel
-            .applyDefaultBackground()
-            .previewDisplayName("Add Subscription View")
-            .preferredColorScheme(.dark) // Ensure consistency with dark mode
+// MARK: - Date Picker Sheet View
+struct StartingDatePickerView: View {
+    @EnvironmentObject var viewModel: AddSubscriptionViewModel
+
+    var body: some View {
+        VStack {
+            // Graphical Date Picker
+            DatePicker(
+                "Select Date",
+                selection: $viewModel.selectedDate,
+                displayedComponents: [.date]
+            )
+            .datePickerStyle(GraphicalDatePickerStyle())
+            .cornerRadius(15)
+            .padding()
+            .onChange(of: viewModel.selectedDate) { _ in
+                viewModel.showDatePicker = false  // Close the sheet after selection
+            }
+            .tint(.secondaryC)
+            .colorScheme(.dark)
+
+            Spacer()
+        }
+        .frame(minHeight: 400) 
+        .background(Color.gray80)
+        .presentationDetents([.height(400), .medium, .large])  // Fixed detents
+    }
+}
+
+// MARK: - Reusable Category Selection Row
+struct CategorySelectionRow: View {
+    let title: String
+    let onTap: () -> Void
+    let selectedValue: String
+
+    var body: some View {
+        HStack {
+            Text(title)
+                .appTextStyle(
+                    font: .headline7, color: .gray50)
+
+            Spacer()
+
+            Button(action: onTap) {
+                HStack {
+
+                    Text(selectedValue)
+                        .appTextStyle(
+                            font: .headline7, color: .gray30)
+                    Image("next")
+                        .resizable()
+                        .frame(width: 12, height: 12)
+
+                }
+            }
+        }
+        .padding(.vertical, 10)
     }
 }
