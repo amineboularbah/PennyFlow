@@ -88,7 +88,7 @@ struct AddSubscriptionView: View {
                                     "", selection: $viewModel.billingFrequency
                                 ) {
                                     ForEach(
-                                        AddSubscriptionViewModel.Frequency
+                                        Frequency
                                             .allCases, id: \.self
                                     ) { frequency in
                                         Text(frequency.rawValue.capitalized)
@@ -185,7 +185,7 @@ struct StartingDatePickerView: View {
 
             Spacer()
         }
-        .frame(minHeight: 400) 
+        .frame(minHeight: 400)
         .background(Color.gray80)
         .presentationDetents([.height(400), .medium, .large])  // Fixed detents
     }

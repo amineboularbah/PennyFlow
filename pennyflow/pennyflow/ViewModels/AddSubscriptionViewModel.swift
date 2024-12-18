@@ -22,10 +22,6 @@ class AddSubscriptionViewModel: ObservableObject {
     @Published var showCategoryPicker: Bool = false
     @Published var selectedCategory: Category? = nil
 
-    enum Frequency: String, CaseIterable {
-        case daily, weekly, monthly, yearly
-    }
-
     private let context: NSManagedObjectContext
     private let subscriptionService: SubscriptionService
     private let currentUser: User?
@@ -82,6 +78,7 @@ class AddSubscriptionViewModel: ObservableObject {
                 description: description,
                 price: price,
                 startDate: selectedDate,
+                freaquency: billingFrequency,
                 context: PersistenceController.shared.container.viewContext
             )
             

@@ -32,7 +32,7 @@ struct SubscriptionRowView: View {
                 // Price or Date + Price
                 if showDate {
                     VStack(alignment: .trailing, spacing: 4) {
-                        Text(subscription.startDate?.formattedDate() ?? "")
+                        Text(subscription.calculateDueDate()?.formattedDate() ?? "ddd")
                             .font(.subheadline)
                             .foregroundColor(.gray)
 

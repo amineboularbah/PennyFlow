@@ -255,6 +255,7 @@ class SubscriptionService {
         description: String,
         price: Double,
         startDate: Date?,
+        freaquency: Frequency,
         context: NSManagedObjectContext
     ) {
         guard let platform = platform else { return }
@@ -269,6 +270,7 @@ class SubscriptionService {
         subscription.reminder = platform.reminder
         subscription.category = platform.category
         subscription.user = user
+        subscription.reminder = freaquency.toString
 
         do {
             try context.save()
