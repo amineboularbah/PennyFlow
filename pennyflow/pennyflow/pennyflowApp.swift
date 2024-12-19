@@ -14,10 +14,14 @@ struct pennyflowApp: App {
     @StateObject private var profileViewModel = ProfileViewModel()
 
     init() {
-        // Initialize subscriptions if needed
+        // Initialize Core Data context
         let context = persistenceController.container.viewContext
-        SubscriptionService.shared.initializeSubscriptionsIfNeeded(
-            context: context)
+
+        // Initialize subscriptions if needed
+        SubscriptionService.shared.initializeSubscriptionsIfNeeded(context: context)
+
+        // Initialize categories if needed
+        CategoryService.shared.initializeCategoriesIfNeeded(context: context)
     }
 
     var body: some Scene {
@@ -35,6 +39,13 @@ struct pennyflowApp: App {
                     )
                     .environmentObject(
                         AddSubscriptionViewModel(
+                            context: persistenceController.container
+                                .viewContext,
+                            currentUser: profileViewModel.user
+                        )
+                    )
+                    .environmentObject(
+                        CategoryViewModel(
                             context: persistenceController.container
                                 .viewContext,
                             currentUser: profileViewModel.user
@@ -59,6 +70,13 @@ struct pennyflowApp: App {
                     )
                     .environmentObject(
                         AddSubscriptionViewModel(
+                            context: persistenceController.container
+                                .viewContext,
+                            currentUser: nil
+                        )
+                    )
+                    .environmentObject(
+                        CategoryViewModel(
                             context: persistenceController.container
                                 .viewContext,
                             currentUser: nil

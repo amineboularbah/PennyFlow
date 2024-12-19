@@ -2,7 +2,7 @@
 //  Category+CoreDataProperties.swift
 //  pennyflow
 //
-//  Created by Amine on 14/12/2024.
+//  Created by Amine on 19/12/2024.
 //
 //
 
@@ -16,11 +16,13 @@ extension Category {
         return NSFetchRequest<Category>(entityName: "Category")
     }
 
+    @NSManaged public var color: String?
     @NSManaged public var id: UUID?
     @NSManaged public var name: String?
-    @NSManaged public var color: String?
-    @NSManaged public var user: User?
+    @NSManaged public var budget: Double
+    @NSManaged public var image: String?
     @NSManaged public var subscriptions: NSSet?
+    @NSManaged public var user: User?
 
 }
 
