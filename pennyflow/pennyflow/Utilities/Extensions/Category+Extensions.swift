@@ -11,7 +11,7 @@ extension Category {
         return "Category"
     }
     // Computed property to calculate the total amount dynamically
-    var totalAmount: Double {
+    var totalAmountSpent: Double {
         guard let subscriptions = subscriptions as? Set<Subscription> else {
             return 0.0
         }
@@ -19,11 +19,11 @@ extension Category {
     }
     
     var remainingAmount: Double {
-        return budget - totalAmount
+        return budget - totalAmountSpent
     }
     
     // Progress relative to the budget
     var progress: Double {
-        return totalAmount / budget
+        return totalAmountSpent / budget
     }
 }

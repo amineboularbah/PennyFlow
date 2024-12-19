@@ -81,11 +81,11 @@ struct BudgetsView: View {
         
         // Calculate the total budget and total spent amount
         totalBudget = categories.reduce(0) { $0 + $1.budget }
-        spentAmount = categories.reduce(0) { $0 + $1.totalAmount }
+        spentAmount = categories.reduce(0) { $0 + $1.totalAmountSpent }
 
         // Map categories to progress segments
         segments = categories.map { category in
-            let progress = category.totalAmount / totalBudget
+            let progress = category.totalAmountSpent / totalBudget
             return ProgressSegment(color: Color(hex: category.color ?? "FFA699"), progress: progress)
         }
     }

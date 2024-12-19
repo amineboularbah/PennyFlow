@@ -85,28 +85,18 @@ struct CircularProgressView: View {
     private var centerText: some View {
         VStack(spacing: 8) {
             // Spent Amount
-            Text("$\(formattedAmount(spentAmount))")
+            Text("$\(String(describing: spentAmount.formatted()))")
                 .font(.system(size: 32, weight: .bold))
                 .foregroundColor(.white)
 
             // Total Budget
-            Text("of $\(formattedAmount(totalBudget)) budget")
+            Text("of $\(String(describing: totalBudget.formatted())) budget")
                 .font(.subheadline)
                 .foregroundColor(.gray)
             Spacer().frame(height: circleSize / 4)
         }
     }
 
-    // Helper Function for Conditional Formatting
-    private func formattedAmount(_ amount: Double) -> String {
-        if amount.truncatingRemainder(dividingBy: 1) == 0 {
-            // If the decimal part is zero, return without decimals
-            return String(format: "%.0f", amount)
-        } else {
-            // Otherwise, return with two decimal places
-            return String(format: "%.2f", amount)
-        }
-    }
 }
 
 // MARK: - Models

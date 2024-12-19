@@ -20,16 +20,16 @@ struct BudgetCategoryRowView: View {
                 VStack(alignment: .leading, spacing: 4) {
                     Text(category.name ?? "")
                         .appTextStyle(font: .headline7)
-                    Text("\(category.remainingAmount) left to spend")
+                    Text("$\(category.remainingAmount.formatted()) left to spend")
                         .appTextStyle(font: .bodySmall, color: .gray30)
                 }
                 Spacer()
 
                 // Amount Spent
                 VStack {
-                    Text("Spent amount")
+                    Text(category.totalAmountSpent.formatted())
                         .appTextStyle(font: .headline7)
-                    Text(String(category.totalAmount))
+                    Text("of $\(String(describing: category.budget.formatted()))")
                         .appTextStyle(font: .bodySmall, color: .gray30)
                 }
             }
