@@ -9,12 +9,13 @@ import SwiftUI
 
 struct SubscriptionsGridView: View {
     @EnvironmentObject var subscriptionData: SubscriptionsViewModel
-    @Binding var selectedPlatform: UUID? // Track selected subscription ID
+    @Binding var selectedPlatform: Subscription? // Track selected subscription ID
     @State private var showAllSubscriptions = false
     @State private var topSubscriptions: [Subscription] = []
 
     var body: some View {
         VStack {
+            Spacer().frame(height: .topInsets)
             HStack {
                 Text("Top Subscriptions")
                     .appTextStyle(font: .headline5)
@@ -49,14 +50,14 @@ struct SubscriptionsGridView: View {
                     .background(
                         RoundedRectangle(cornerRadius: 20)
                             .stroke(
-                                selectedPlatform == subscription.id
+                                selectedPlatform?.id == subscription.id
                                     ? .secondaryC
                                     : Color.clear,
                                 lineWidth: 3
                             )
                     )
                     .onTapGesture {
-                        selectedPlatform = subscription.id
+                        selectedPlatform?.id = subscription.id
                         print("Selected subscription: \(subscription.name ?? "")")
                     }
                 }
@@ -69,8 +70,8 @@ struct SubscriptionsGridView: View {
             .sheet(isPresented: $showAllSubscriptions) {
                 AllSubscriptionsView(
                     selectedPlatform: $selectedPlatform, // Convert Int? to String? and back
-                    onSelect: { selectedID in
-                        updateTopSubscriptions(with: selectedID)
+                    onSelect: { subscription in
+                        updateTopSubscriptions(with: subscription?.id)
                     }
                 )
                 .environmentObject(subscriptionData)
@@ -83,11 +84,11 @@ struct SubscriptionsGridView: View {
         )
     }
 
-    private func updateTopSubscriptions(with selectedID: UUID?) {
-        guard let selectedID = selectedID,
+    private func updateTopSubscriptions(with subscription: UUID?) {
+        guard let subscription = subscription,
               let selectedSubscription = subscriptionData.subscriptions.first(where: {
                   if let id = $0.id {
-                      return  id == selectedID
+                      return  id == subscription
                   }
                   return false
               })        else { return }

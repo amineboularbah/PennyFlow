@@ -10,31 +10,65 @@ import Foundation
 import CoreData
 
 class SubscriptionsViewModel: ObservableObject {
-    @Published var subscriptions: [Subscription] = [] // Subscriptions array
+    @Published var subscriptions: [Subscription] = [] // All Subscriptions array
+    @Published var userSubscriptions: [Subscription] = [] // User current subscriptions array
+    @Published var user: User?
     private let context: NSManagedObjectContext
+    private var currentUser: User?                          // Current user reference
 
     // MARK: - Initializer
-    init(context: NSManagedObjectContext) {
+
+    // MARK: - Initialization
+    init(context: NSManagedObjectContext, currentUser: User?) {
         self.context = context
+        self.currentUser = currentUser
         fetchSubscriptions()
+        fetchUserSubscriptions()
     }
 
     // MARK: - Fetch Subscriptions
     func fetchSubscriptions() {
         subscriptions = SubscriptionService.shared.fetchSubscriptions(context: context)
     }
-
-    // MARK: - Add a Subscription
-    func addSubscription(from dto: SubscriptionDTO) {
-        let _ = SubscriptionService.shared.mapDTOToSubscription(dto: dto, context: context)
-        saveChanges()
-        fetchSubscriptions()
+    
+    // MARK: - Fetch User Subscriptions
+    /**
+     Fetch subscriptions linked to the current user and update `userSubscriptions`.
+     */
+    func fetchUserSubscriptions() {
+        guard let user = currentUser else {
+            print("No user is set in ProfileViewModel.")
+            return
+        }
+        userSubscriptions = SubscriptionService.shared.fetchUserSubscriptions(for: user, context: context)
     }
 
-    // MARK: - Delete a Subscription
+    // MARK: - Add Subscription
+    /**
+     Adds a new subscription to Core Data and links it to the current user.
+
+     - Parameter dto: The `SubscriptionDTO` object to map and save.
+     */
+    func addSubscription(from dto: SubscriptionDTO) {
+        guard let user = currentUser else {
+            print("Error: No user to associate with the subscription.")
+            return
+        }
+        let newSubscription = SubscriptionService.shared.mapDTOToSubscription(dto: dto, context: context)
+        newSubscription.user = user // Associate the subscription with the current user
+        saveChanges()
+        userSubscriptions.append(newSubscription)
+    }
+
+    // MARK: - Delete Subscription
+    /**
+     Deletes a subscription from Core Data.
+
+     - Parameter subscription: The `Subscription` entity to delete.
+     */
     func deleteSubscription(_ subscription: Subscription) {
         SubscriptionService.shared.deleteSubscription(subscription, context: context)
-        fetchSubscriptions()
+        userSubscriptions.removeAll { $0.id == subscription.id }
     }
 
     // MARK: - Save Changes

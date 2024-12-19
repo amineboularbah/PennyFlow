@@ -9,20 +9,46 @@ import SwiftUI
 
 @main
 struct pennyflowApp: App {
-    // Initialize the Persistence Controller and AppViewModel
     let persistenceController = PersistenceController.shared
     @StateObject private var appViewModel = AppViewModel()
+    @StateObject private var profileViewModel = ProfileViewModel()
+
+    init() {
+        // Initialize Core Data context
+        let context = persistenceController.container.viewContext
+
+        // Initialize subscriptions if needed
+        SubscriptionService.shared.initializeSubscriptionsIfNeeded(context: context)
+
+        // Initialize categories if needed
+        CategoryService.shared.initializeCategoriesIfNeeded(context: context)
+    }
 
     var body: some Scene {
         WindowGroup {
-            // Conditionally show the appropriate screen based on login status
             if appViewModel.isUserLoggedIn {
-                MainScreen() // Navigate to MainScreen if logged in
+                MainScreen()
                     .preferredColorScheme(.dark)
                     .environmentObject(appViewModel)
                     .environmentObject(
                         SubscriptionsViewModel(
-                            context: persistenceController.container.viewContext
+                            context: persistenceController.container
+                                .viewContext,
+                            currentUser: profileViewModel.user
+                        )
+                    )
+                    .environmentObject(
+                        AddSubscriptionViewModel(
+                            context: persistenceController.container
+                                .viewContext,
+                            currentUser: profileViewModel.user
+                        )
+                    )
+                    .environmentObject(
+                        CategoryViewModel(
+                            context: persistenceController.container
+                                .viewContext,
+                            currentUser: profileViewModel.user
                         )
                     )
                     .environment(
@@ -30,13 +56,30 @@ struct pennyflowApp: App {
                         persistenceController.container.viewContext
                     )
                     .background(Color.gray80)
+
             } else {
-                Welcome() // Navigate to Welcome screen if not logged in
+                Welcome()
                     .preferredColorScheme(.dark)
                     .environmentObject(appViewModel)
                     .environmentObject(
                         SubscriptionsViewModel(
-                            context: persistenceController.container.viewContext
+                            context: persistenceController.container
+                                .viewContext,
+                            currentUser: nil
+                        )
+                    )
+                    .environmentObject(
+                        AddSubscriptionViewModel(
+                            context: persistenceController.container
+                                .viewContext,
+                            currentUser: nil
+                        )
+                    )
+                    .environmentObject(
+                        CategoryViewModel(
+                            context: persistenceController.container
+                                .viewContext,
+                            currentUser: nil
                         )
                     )
                     .environment(
@@ -44,6 +87,7 @@ struct pennyflowApp: App {
                         persistenceController.container.viewContext
                     )
                     .background(Color.gray80)
+
             }
         }
     }

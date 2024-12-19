@@ -12,7 +12,7 @@ struct MainScreen: View {
     @State private var isAddingSubscription = false  // Push to Add Subscription page
 
     var body: some View {
-        NavigationView {
+        NavigationStack {
             ZStack {
                 // Show the selected page
                 TabView(selection: $selectedTab) {
@@ -30,13 +30,15 @@ struct MainScreen: View {
                 .edgesIgnoringSafeArea(.bottom)  // Allow the bar to float at the bottom
             }
             .applyDefaultBackground()
+            .navigationDestination(
+                isPresented: $isAddingSubscription
+            ) {
+                AddSubscriptionView()
+            }
+
         }
         .navigationBarBackButtonHidden(true)  // Hide the navigation bar
-        .sheet(
-            isPresented: $isAddingSubscription
-        ) {
-            AddSubscriptionView()  // Show Add Subscription page
-        }
+        
     }
 }
 

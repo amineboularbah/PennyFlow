@@ -21,7 +21,7 @@ struct SegmentedControlView: View {
                         selectedTab = 0
                     }
 
-                }, cornerRadius: cornerRadius, isFilled: selectedTab == 0,
+                }, cornerRadius: cornerRadius, height: 36, isFilled: selectedTab == 0,
                 textColor: selectedTab == 0 ? .white : .gray30)
             // Upcoming Bills Button
             SecondaryButton(
@@ -31,11 +31,11 @@ struct SegmentedControlView: View {
                         selectedTab = 1
                     }
 
-                }, cornerRadius: cornerRadius, isFilled: selectedTab == 1,
+                }, cornerRadius: cornerRadius, height: 36, isFilled: selectedTab == 1,
                 textColor: selectedTab == 1 ? .white : .gray30)
         }
+        .frame(height: 50)
         .padding(.horizontal, 10)
-        .padding(.vertical, 7)
         .background(
             RoundedRectangle(cornerRadius: cornerRadius)
                 .fill(Color.grayC)  // Background for the entire segment control

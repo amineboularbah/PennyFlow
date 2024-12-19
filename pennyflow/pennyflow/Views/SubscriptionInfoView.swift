@@ -130,7 +130,7 @@ struct DetailsSection: View {
     var body: some View {
         VStack(spacing: 8) {
             DetailRow(title: "Name", value: subscription.name ?? "")
-            DetailRow(title: "Description", value: subscription.description)
+            DetailRow(title: "Description", value: subscription.desc ?? "")
             DetailRow(title: "Category", value: "Entertainment")
             DetailRow(title: "First payment", value: subscription.startDate?.formattedDate() ?? "N/A")
             DetailRow(title: "Reminder", value: "Never")

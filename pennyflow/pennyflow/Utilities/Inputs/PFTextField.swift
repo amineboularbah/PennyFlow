@@ -15,7 +15,7 @@ struct CustomTextField: View {
     var body: some View {
         VStack(alignment: .leading) {
             Text(placeholder).appTextStyle(
-                font: .bodySmall, color: isFocused ? .secondaryC : .gray50
+                font: .headline7, color: isFocused ? .secondaryC : .gray50
             )
             .frame(maxWidth: .infinity, alignment: .leading)
             TextField(placeholder, text: $text)
