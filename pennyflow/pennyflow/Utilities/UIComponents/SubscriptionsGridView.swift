@@ -10,13 +10,23 @@ import SwiftUI
 struct SubscriptionsGridView: View {
     @EnvironmentObject var subscriptionData: SubscriptionsViewModel
     @Binding var selectedPlatform: Subscription? // Track selected subscription ID
+    let dismiss: () -> Void
     @State private var showAllSubscriptions = false
     @State private var topSubscriptions: [Subscription] = []
-
     var body: some View {
         VStack {
             Spacer().frame(height: .topInsets)
             HStack {
+                Button {
+                    // Handle back navigation
+                    dismiss()
+                } label: {
+                    Image("back")
+                        .resizable()
+                        .renderingMode(.template)
+                        .frame(width: 20, height: 20)
+                        .foregroundColor(.gray30)
+                }
                 Text("Top Subscriptions")
                     .appTextStyle(font: .headline5)
 
@@ -50,14 +60,14 @@ struct SubscriptionsGridView: View {
                     .background(
                         RoundedRectangle(cornerRadius: 20)
                             .stroke(
-                                selectedPlatform?.id == subscription.id
+                                selectedPlatform == subscription
                                     ? .secondaryC
                                     : Color.clear,
                                 lineWidth: 3
                             )
                     )
                     .onTapGesture {
-                        selectedPlatform?.id = subscription.id
+                        selectedPlatform = subscription
                         print("Selected subscription: \(subscription.name ?? "")")
                     }
                 }

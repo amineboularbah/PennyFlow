@@ -27,7 +27,7 @@ struct BudgetCategoryRowView: View {
 
                 // Amount Spent
                 VStack {
-                    Text(category.totalAmountSpent.formatted())
+                    Text("$\(category.totalAmountSpent.formatted())")
                         .appTextStyle(font: .headline7)
                     Text("of $\(String(describing: category.budget.formatted()))")
                         .appTextStyle(font: .bodySmall, color: .gray30)

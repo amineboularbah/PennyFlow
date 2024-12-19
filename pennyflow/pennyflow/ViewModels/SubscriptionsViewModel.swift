@@ -66,9 +66,16 @@ class SubscriptionsViewModel: ObservableObject {
 
      - Parameter subscription: The `Subscription` entity to delete.
      */
-    func deleteSubscription(_ subscription: Subscription) {
-        SubscriptionService.shared.deleteSubscription(subscription, context: context)
-        userSubscriptions.removeAll { $0.id == subscription.id }
+    func deleteSubscription(_ subscription: Subscription) throws {
+        do {
+            try SubscriptionService.shared.deleteSubscription(subscription, context: context)
+            userSubscriptions.removeAll { $0.id == subscription.id }
+        } catch {
+            print("Failed to delete subscription: \(error.localizedDescription)")
+            throw error
+            
+            
+        }
     }
 
     // MARK: - Save Changes

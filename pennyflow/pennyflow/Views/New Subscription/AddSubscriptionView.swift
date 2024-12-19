@@ -13,14 +13,16 @@ struct AddSubscriptionView: View {
     @Environment(\.managedObjectContext) var context
 
     @State private var showCategorySelection = false
-
+    @Environment(\.dismiss) var dismiss
     var body: some View {
         NavigationView {
             ZStack(alignment: .bottom) {
-                VStack {
-                    // Subscription Platform Grid
+                VStack {                    // Subscription Platform Grid
                     SubscriptionsGridView(
-                        selectedPlatform: $viewModel.selectedPlatform
+                        selectedPlatform: $viewModel.selectedPlatform,
+                        dismiss: {
+                            dismiss()
+                        }
                     )
                     .onChange(of: viewModel.selectedPlatform) { _ in
                         viewModel.validateForm()

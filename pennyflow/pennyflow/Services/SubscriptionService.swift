@@ -224,7 +224,7 @@ class SubscriptionService {
      */
     func deleteSubscription(
         _ subscription: Subscription, context: NSManagedObjectContext
-    ) {
+    ) throws {
         context.delete(subscription)
         do {
             try context.save()
@@ -232,6 +232,7 @@ class SubscriptionService {
         } catch {
             print(
                 "Failed to delete subscription: \(error.localizedDescription)")
+            throw error
         }
     }
     
@@ -252,6 +253,7 @@ class SubscriptionService {
     func saveSubscription(
         user: User,
         platform: Subscription?,
+        category: Category,
         description: String,
         price: Double,
         startDate: Date?,
@@ -270,6 +272,7 @@ class SubscriptionService {
         subscription.reminder = platform.reminder
         subscription.category = platform.category
         subscription.user = user
+        subscription.category = category
         subscription.reminder = freaquency.toString
 
         do {
@@ -287,12 +290,14 @@ class SubscriptionService {
         description: String?,
         price: Double?,
         reminder: String?,
+        category: Category?,
         context: NSManagedObjectContext
     ) {
         if let name = name { subscription.name = name }
         if let description = description { subscription.desc = description }
         if let price = price { subscription.price = price }
         if let reminder = reminder { subscription.reminder = reminder }
+        if let category = category { subscription.category = category }
 
         do {
             try context.save()

@@ -15,7 +15,7 @@ class AddSubscriptionViewModel: ObservableObject {
     @Published var priceInput: String = ""
     @Published var billingFrequency: Frequency = .monthly
     @Published var selectedPlatform: Subscription?
-    @Published var selectedDate: Date = Date() // Default to today
+    @Published var selectedDate: Date = Date()  // Default to today
     @Published var isFormValid: Bool = false
     @Published var showDatePicker: Bool = false
     @Published var errorMessage: String?
@@ -46,51 +46,53 @@ class AddSubscriptionViewModel: ObservableObject {
         } else if selectedDate > Date() {
             errorMessage = "Start date cannot be in the future."
         } else {
-            errorMessage = nil // No errors
+            errorMessage = nil  // No errors
         }
-        
+
         isFormValid = errorMessage == nil
     }
-    
+
     // MARK: - Helper Method for Month Name
     func monthName(for date: Date) -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = "MMMM d, yyyy"
         return formatter.string(from: date)
     }
-    
-    
+
     func addSubscription() {
         do {
             guard isFormValid else {
                 throw ValidationError.invalidForm
             }
-            
+
             // Ensure current user exists
             guard let user = currentUser else {
                 throw ValidationError.userNotFound
             }
-            
+
             // Attempt to save subscription
             try SubscriptionService.shared.saveSubscription(
                 user: user,
-                platform: selectedPlatform,
+                platform: selectedPlatform, category: selectedCategory!,
                 description: description,
                 price: price,
                 startDate: selectedDate,
+
                 freaquency: billingFrequency,
+
                 context: PersistenceController.shared.container.viewContext
             )
-            
+
             // Clear error message on success
             errorMessage = nil
-            
+
         } catch ValidationError.invalidForm {
             errorMessage = ValidationError.invalidForm.errorDescription
         } catch ValidationError.userNotFound {
             errorMessage = ValidationError.userNotFound.errorDescription
         } catch {
-            errorMessage = "An unexpected error occurred: \(error.localizedDescription)"
+            errorMessage =
+                "An unexpected error occurred: \(error.localizedDescription)"
         }
     }
 
