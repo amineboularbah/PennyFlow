@@ -9,6 +9,10 @@ import Foundation
 
 
 extension Subscription {
+    // Entity name on CoreData
+    var entityName: String {
+        return "Subscription"
+    }
     // Computed property for due date
     func calculateDueDate() -> Date? {
         // Ensure `startDate` and `reminder` are non-nil

@@ -21,11 +21,31 @@ class CategoryViewModel: ObservableObject {
         self.currentUser = currentUser
         fetchCategories()
     }
+    
+    // MARK: Calculate the total budget of all categories
+    func totalBudget() -> Double {
+        return categories.reduce(0) { $0 + $1.budget }
+    }
+        
+    // MARK: Calculate the total spent across all categories
+    func totalSpent() -> Double {
+        return categories.reduce(0) { total, category in
+            // Calculate the total spent for each category
+            let categorySpent = category.subscriptions?.reduce(0) { subtotal, subscription in
+                let price = (subscription as? Subscription)?.price ?? 0.0 // Safely unwrap price
+                return subtotal + price
+            } ?? 0.0
+            return total + categorySpent
+        }
+    }
 
     // MARK: - Fetch Categories
     func fetchCategories() {
         categories = CategoryService.shared.fetchCategories(context: context)
+        print(categories.count)
     }
+    
+    
     
     // MARK: - Fetch User Categories
     /**

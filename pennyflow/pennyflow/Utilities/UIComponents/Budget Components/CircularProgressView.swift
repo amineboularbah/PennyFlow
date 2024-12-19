@@ -8,8 +8,8 @@ import SwiftUI
 
 struct CircularProgressView: View {
     @Binding var segments: [ProgressSegment] // Represents the progress bar segments
-    @Binding var totalBudget: Double         // Total budget for the half-circle
-    @Binding var spentAmount: Double         // Total spent amount
+     var totalBudget: Double         // Total budget for the half-circle
+     var spentAmount: Double         // Total spent amount
 
     // Constants
     private let circleSize: Double = 206 // Circle dimensions
@@ -127,8 +127,8 @@ struct CircularProgressView_Previews: PreviewProvider {
                 ProgressSegment(color: .purple, progress: 0.40), // 40% progress
                 ProgressSegment(color: .green, progress: 0.15)   // 15% progress
             ]),
-            totalBudget: .constant(2000.0),  // Total budget
-            spentAmount: .constant(820.97)  // Total spent amount
+            totalBudget: 2000.0,  // Total budget
+            spentAmount: 820.97  // Total spent amount
         )
         .applyDefaultBackground() // Apply a dark background for preview
     }

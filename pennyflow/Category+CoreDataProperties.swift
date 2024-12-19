@@ -21,6 +21,7 @@ extension Category {
     @NSManaged public var name: String?
     @NSManaged public var budget: Double
     @NSManaged public var image: String?
+    @NSManaged public var amount: Double
     @NSManaged public var subscriptions: NSSet?
     @NSManaged public var user: User?
 

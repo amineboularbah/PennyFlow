@@ -37,6 +37,9 @@ class CategoryService {
     func fetchCategories(context: NSManagedObjectContext) -> [Category] {
         let fetchRequest: NSFetchRequest<Category> = Category.fetchRequest()
         
+        // fetchRequest.predicate = NSPredicate(format: "budget > 0.0")
+        
+        
         do {
             return try context.fetch(fetchRequest)
         } catch {
@@ -78,12 +81,14 @@ class CategoryService {
         color: String? = nil,
         budget: Double? = nil,
         image: String? = nil,
+        user: User? = nil,
         context: NSManagedObjectContext
     ) throws {
         if let name = name { category.name = name }
         if let color = color { category.color = color }
         if let budget = budget { category.budget = budget }
         if let image = image { category.image = image }
+        if let user = user { category.user = user }
 
         try saveContext(context: context)
     }

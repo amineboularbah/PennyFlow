@@ -6,7 +6,6 @@
         "price": 9.99,
         "startDate": "2024-01-01T00:00:00Z",
         "reminder": "Monthly",
-        "categoryName": "Entertainment",
         "image": "spotify_logo",
         "dueDate": "2024-02-01T00:00:00Z"
     },
@@ -17,7 +16,6 @@
         "price": 15.99,
         "startDate": "2024-02-01T00:00:00Z",
         "reminder": "Never",
-        "categoryName": "Entertainment",
         "image": "youtube_logo",
         "dueDate": null
     },
@@ -28,7 +26,6 @@
         "price": 6.99,
         "startDate": "2024-03-01T00:00:00Z",
         "reminder": "Yearly",
-        "categoryName": "Productivity",
         "image": "onedrive_logo",
         "dueDate": "2025-03-01T00:00:00Z"
     },
@@ -39,7 +36,6 @@
         "price": 19.99,
         "startDate": "2024-01-15T00:00:00Z",
         "reminder": "Monthly",
-        "categoryName": "Entertainment",
         "image": "netflix_logo",
         "dueDate": "2024-02-15T00:00:00Z"
     },
@@ -50,7 +46,6 @@
         "price": 14.99,
         "startDate": "2024-04-01T00:00:00Z",
         "reminder": "Quarterly",
-        "categoryName": "Entertainment",
         "image": "hbo_logo",
         "dueDate": "2024-07-01T00:00:00Z"
     }
