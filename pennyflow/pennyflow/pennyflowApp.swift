@@ -45,6 +45,11 @@ struct PennyflowApp: App {
                         currentUser: profileViewModel.user
                     )
                 )
+                .environmentObject(
+                    PlatformViewModel(
+                        context: persistenceController.container.viewContext
+                    )
+                )
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
                 .background(Color.gray80)
         }
@@ -58,6 +63,7 @@ struct PennyflowApp: App {
     private func initializeServices(context: NSManagedObjectContext) {
         SubscriptionService.shared.initializeSubscriptionsIfNeeded(context: context)
         CategoryService.shared.initializeCategoriesIfNeeded(context: context)
+        PlatformService.shared.initializePlatformsIfNeeded(context: context)
     }
 }
 

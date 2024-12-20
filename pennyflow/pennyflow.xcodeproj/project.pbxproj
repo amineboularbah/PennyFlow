@@ -16,6 +16,8 @@
 		6795D13E2D0DD1A300B966D0 /* Subscription+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6795D1342D0DD1A300B966D0 /* Subscription+CoreDataClass.swift */; };
 		6795D13F2D0DD1A300B966D0 /* User+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6795D1362D0DD1A300B966D0 /* User+CoreDataClass.swift */; };
 		67F5B1662D143DD400277028 /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 67F5B1652D143DD400277028 /* SDWebImageSwiftUI */; };
+		67F5B1812D150C9200277028 /* Platform+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67F5B17F2D150C9200277028 /* Platform+CoreDataClass.swift */; };
+		67F5B1822D150C9200277028 /* Platform+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67F5B1802D150C9200277028 /* Platform+CoreDataProperties.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +30,8 @@
 		6795D1352D0DD1A300B966D0 /* Subscription+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Subscription+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		6795D1362D0DD1A300B966D0 /* User+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "User+CoreDataClass.swift"; sourceTree = "<group>"; };
 		6795D1372D0DD1A300B966D0 /* User+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "User+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		67F5B17F2D150C9200277028 /* Platform+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Platform+CoreDataClass.swift"; sourceTree = "<group>"; };
+		67F5B1802D150C9200277028 /* Platform+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Platform+CoreDataProperties.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -53,6 +57,8 @@
 		670E95902CF9D3F300358D58 = {
 			isa = PBXGroup;
 			children = (
+				67F5B17F2D150C9200277028 /* Platform+CoreDataClass.swift */,
+				67F5B1802D150C9200277028 /* Platform+CoreDataProperties.swift */,
 				6795D1302D0DD1A300B966D0 /* Card+CoreDataClass.swift */,
 				6795D1312D0DD1A300B966D0 /* Card+CoreDataProperties.swift */,
 				6795D1322D0DD1A300B966D0 /* Category+CoreDataClass.swift */,
@@ -158,6 +164,8 @@
 				6795D13B2D0DD1A300B966D0 /* Category+CoreDataClass.swift in Sources */,
 				6795D13C2D0DD1A300B966D0 /* User+CoreDataProperties.swift in Sources */,
 				6795D13D2D0DD1A300B966D0 /* Category+CoreDataProperties.swift in Sources */,
+				67F5B1812D150C9200277028 /* Platform+CoreDataClass.swift in Sources */,
+				67F5B1822D150C9200277028 /* Platform+CoreDataProperties.swift in Sources */,
 				6795D13E2D0DD1A300B966D0 /* Subscription+CoreDataClass.swift in Sources */,
 				6795D13F2D0DD1A300B966D0 /* User+CoreDataClass.swift in Sources */,
 			);

@@ -2,7 +2,7 @@
 //  User+CoreDataProperties.swift
 //  pennyflow
 //
-//  Created by Amine on 14/12/2024.
+//  Created by Amine on 20/12/2024.
 //
 //
 
@@ -16,36 +16,36 @@ extension User {
         return NSFetchRequest<User>(entityName: "User")
     }
 
+    @NSManaged public var appIcon: String?
+    @NSManaged public var defaultCurrency: String?
+    @NSManaged public var email: String?
+    @NSManaged public var font: String?
+    @NSManaged public var icloudSyncEnabled: Bool
     @NSManaged public var id: UUID?
     @NSManaged public var name: String?
-    @NSManaged public var email: String?
     @NSManaged public var profilePicture: Data?
-    @NSManaged public var icloudSyncEnabled: Bool
     @NSManaged public var securityMethod: String?
-    @NSManaged public var defaultCurrency: String?
-    @NSManaged public var appIcon: String?
     @NSManaged public var theme: String?
-    @NSManaged public var font: String?
-    @NSManaged public var subscriptions: NSSet?
-    @NSManaged public var categories: NSSet?
     @NSManaged public var cards: NSSet?
+    @NSManaged public var categories: NSSet?
+    @NSManaged public var subscriptions: NSSet?
 
 }
 
-// MARK: Generated accessors for subscriptions
+// MARK: Generated accessors for cards
 extension User {
 
-    @objc(addSubscriptionsObject:)
-    @NSManaged public func addToSubscriptions(_ value: Subscription)
+    @objc(addCardsObject:)
+    @NSManaged public func addToCards(_ value: Card)
 
-    @objc(removeSubscriptionsObject:)
-    @NSManaged public func removeFromSubscriptions(_ value: Subscription)
+    @objc(removeCardsObject:)
+    @NSManaged public func removeFromCards(_ value: Card)
 
-    @objc(addSubscriptions:)
-    @NSManaged public func addToSubscriptions(_ values: NSSet)
+    @objc(addCards:)
+    @NSManaged public func addToCards(_ values: NSSet)
 
-    @objc(removeSubscriptions:)
-    @NSManaged public func removeFromSubscriptions(_ values: NSSet)
+    @objc(removeCards:)
+    @NSManaged public func removeFromCards(_ values: NSSet)
 
 }
 
@@ -66,20 +66,20 @@ extension User {
 
 }
 
-// MARK: Generated accessors for cards
+// MARK: Generated accessors for subscriptions
 extension User {
 
-    @objc(addCardsObject:)
-    @NSManaged public func addToCards(_ value: Card)
+    @objc(addSubscriptionsObject:)
+    @NSManaged public func addToSubscriptions(_ value: Subscription)
 
-    @objc(removeCardsObject:)
-    @NSManaged public func removeFromCards(_ value: Card)
+    @objc(removeSubscriptionsObject:)
+    @NSManaged public func removeFromSubscriptions(_ value: Subscription)
 
-    @objc(addCards:)
-    @NSManaged public func addToCards(_ values: NSSet)
+    @objc(addSubscriptions:)
+    @NSManaged public func addToSubscriptions(_ values: NSSet)
 
-    @objc(removeCards:)
-    @NSManaged public func removeFromCards(_ values: NSSet)
+    @objc(removeSubscriptions:)
+    @NSManaged public func removeFromSubscriptions(_ values: NSSet)
 
 }
 

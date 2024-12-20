@@ -7,32 +7,32 @@
 import SwiftUI
 
 // MARK: - All Subscriptions View
-/// Displays a list of subscriptions, allowing the user to select one and pass it back to the parent view.
-struct AllSubscriptionsView: View {
+/// Displays a list of platforms, allowing the user to select one and pass it back to the parent view.
+struct AllPlatformsView: View {
     // MARK: Properties
-    @EnvironmentObject var subscriptionData: SubscriptionsViewModel // Environment object for subscriptions
-    @Binding var selectedPlatform: Subscription?  // Binding to track selected subscription
-    var onSelect: (Subscription?) -> Void  // Callback to handle selection
+    @EnvironmentObject var viewModel: PlatformViewModel // Environment object for platforms
+    @Binding var selectedPlatform: Platform?  // Binding to track selected platform
+    var onSelect: (Platform?) -> Void  // Callback to handle selection
     @Environment(\.dismiss) private var dismiss  // Environment property to dismiss the sheet
 
     // MARK: Body
     var body: some View {
         NavigationView {
             ScrollView {
-                // MARK: LazyVStack for Subscription Rows
+                // MARK: LazyVStack for platform Rows
                 LazyVStack(spacing: 16) {
-                    ForEach(subscriptionData.subscriptions, id: \.id) { subscription in
-                        SubscriptionRow(
-                            subscription: subscription,
-                            isSelected: selectedPlatform?.id == subscription.id
+                    ForEach(viewModel.platforms, id: \.id) { platform in
+                        PlatformRow(
+                            platform: platform,
+                            isSelected: selectedPlatform == platform
                         ) {
-                            selectedPlatform = subscription
+                            selectedPlatform = platform
                         }
                     }
                 }
                 .padding(.vertical)
             }
-            .navigationTitle("All Subscriptions")
+            .navigationTitle("All platforms")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 // MARK: Done Button
@@ -48,11 +48,11 @@ struct AllSubscriptionsView: View {
     }
 }
 
-// MARK: - Subscription Row
-/// Represents a single row in the subscriptions list, displaying subscription details and selection status.
-struct SubscriptionRow: View {
+// MARK: - Platform Row
+/// Represents a single row in the platforms list, displaying platform details and selection status.
+struct PlatformRow: View {
     // MARK: Properties
-    let subscription: Subscription
+    let platform: Platform
     let isSelected: Bool
     let onTap: () -> Void
 
@@ -61,16 +61,16 @@ struct SubscriptionRow: View {
         HStack {
             // MARK: Icon/Image
             SubscriptionImageView(
-                imageName: subscription.icon ?? "",
-                subscriptionTitle: subscription.name ?? "",
+                imageName: platform.image ?? "",
+                subscriptionTitle: platform.name ?? "",
                 imageSize: 60
             )
 
             // MARK: Name and Description
             VStack(alignment: .leading) {
-                Text(subscription.name ?? "Unknown")
+                Text(platform.name ?? "Unknown")
                     .font(.headline)
-                Text(subscription.desc ?? "No description available")
+                Text(platform.desc ?? "No description available")
                     .font(.subheadline)
                     .foregroundColor(.gray)
                     .lineLimit(2)

@@ -252,7 +252,7 @@ class SubscriptionService {
     // MARK: - Save a New Subscription
     func saveSubscription(
         user: User,
-        platform: Subscription?,
+        platform: Platform?,
         category: Category,
         description: String,
         price: Double,
@@ -267,9 +267,9 @@ class SubscriptionService {
         subscription.name = platform.name
         subscription.desc = description
         subscription.price = price
-        subscription.icon = platform.icon
+        subscription.icon = platform.image
         subscription.startDate = startDate ?? Date() // Default to the current date
-        subscription.reminder = platform.reminder
+        subscription.reminder = freaquency.toString
         subscription.category = platform.category
         subscription.user = user
         subscription.category = category

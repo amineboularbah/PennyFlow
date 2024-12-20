@@ -14,7 +14,7 @@ class AddSubscriptionViewModel: ObservableObject {
     @Published var price: Double = 0.0
     @Published var priceInput: String = ""
     @Published var billingFrequency: Frequency = .monthly
-    @Published var selectedPlatform: Subscription?
+    @Published var selectedPlatform: Platform?
     @Published var selectedDate: Date = Date()  // Default to today
     @Published var isFormValid: Bool = false
     @Published var showDatePicker: Bool = false
@@ -73,18 +73,18 @@ class AddSubscriptionViewModel: ObservableObject {
             // Attempt to save subscription
             try SubscriptionService.shared.saveSubscription(
                 user: user,
-                platform: selectedPlatform, category: selectedCategory!,
+                platform: selectedPlatform,
+                category: selectedCategory!,
                 description: description,
                 price: price,
                 startDate: selectedDate,
-
                 freaquency: billingFrequency,
-
                 context: PersistenceController.shared.container.viewContext
             )
 
             // Clear error message on success
             errorMessage = nil
+            clearAllProperties()
 
         } catch ValidationError.invalidForm {
             errorMessage = ValidationError.invalidForm.errorDescription
@@ -94,6 +94,21 @@ class AddSubscriptionViewModel: ObservableObject {
             errorMessage =
                 "An unexpected error occurred: \(error.localizedDescription)"
         }
+    }
+    
+    
+    // MARK: - Clear All Properties
+    func clearAllProperties() {
+        // Reset all published properties to their initial state
+        selectedPlatform = nil
+        description = ""
+        price = 0.0
+        priceInput = ""
+        selectedCategory = nil
+        billingFrequency = .monthly
+        selectedDate = Date() // Reset to the current date
+        errorMessage = nil
+        isFormValid = false
     }
 
     // MARK: - Error Definitions
