@@ -132,7 +132,9 @@ struct DashboardView: View {
     private func handleSeeYourBudget() {
         print("See Your Budget tapped")
         // Take the user to the budgets & spendings view
-        appViewModel.bnbIndex = 1
+        if !appViewModel.forceShowBudget {
+            appViewModel.forceShowBudget = true
+        }
     }
 }
 

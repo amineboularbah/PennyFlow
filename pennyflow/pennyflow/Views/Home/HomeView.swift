@@ -9,6 +9,7 @@ import SwiftUI
 struct HomeView: View {
     @State private var selectedTab: Int = 0
     @State private var navigateToSettings: Bool = false
+    @EnvironmentObject var subscriptionsViewModel: SubscriptionsViewModel
     var body: some View {
 
         NavigationStack {
@@ -26,7 +27,10 @@ struct HomeView: View {
                 .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
                 Spacer()
 
+            }.onAppear {
+                subscriptionsViewModel.fetchUserSubscriptions() // Fetch subscriptions from the ViewModel
             }
+
             .ignoresSafeArea()
             .applyDefaultBackground()
             .navigationDestination(

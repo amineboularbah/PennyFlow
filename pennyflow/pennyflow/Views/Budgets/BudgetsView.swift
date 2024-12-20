@@ -8,6 +8,7 @@ import SwiftUI
 
 struct BudgetsView: View {
     @EnvironmentObject var categoryViewModel: CategoryViewModel  // Access category data from the ViewModel
+    @EnvironmentObject var appViewModel: AppViewModel
     @State private var segments: [ProgressSegment] = []  // Segments for CircularProgressView
     @State private var totalBudget: Double = 0  // Total of maxBudget
     @State private var spentAmount: Double = 0  // Total spent
@@ -50,6 +51,12 @@ struct BudgetsView: View {
                 isPresented: $navigateToSettings
             ) {
                 SettingsView()
+            }
+            .onDisappear {
+                print("Cleanup or perform action here when dismissed.")
+                if appViewModel.forceShowBudget {
+                    appViewModel.forceShowBudget = false
+                }
             }
         }
     }

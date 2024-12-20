@@ -70,8 +70,9 @@ class SubscriptionsViewModel: ObservableObject {
         }
         userSubscriptions = SubscriptionService.shared.fetchUserSubscriptions(
             for: user, context: context)
+        
+        //calculateMonthlyBills()
     }
-
     // MARK: - Add Subscription
     /**
      Adds a new subscription to Core Data and links it to the current user.

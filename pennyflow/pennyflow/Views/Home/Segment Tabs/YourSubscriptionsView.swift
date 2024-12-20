@@ -8,13 +8,10 @@ struct YourSubscriptionsView: View {
         ScrollView {
             VStack(spacing: 8) {
                 ForEach(subscriptionsViewModel.userSubscriptions) { subscription in
-                    SubscriptionRowView(subscription: subscription, showDate: false, dueDate: nil)
+                    SubscriptionRowView(subscription: subscription, showDate: false,dueDate: nil)
                 }
             }
             .padding(.horizontal)
-        }
-        .onAppear {
-            subscriptionsViewModel.fetchUserSubscriptions() // Fetch subscriptions from the ViewModel
         }
     }
 }
