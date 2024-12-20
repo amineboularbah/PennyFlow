@@ -7,10 +7,10 @@
 import SwiftUI
 
 struct BudgetsView: View {
-    @EnvironmentObject var categoryViewModel: CategoryViewModel // Access category data from the ViewModel
-    @State private var segments: [ProgressSegment] = []         // Segments for CircularProgressView
-    @State private var totalBudget: Double = 0                  // Total of maxBudget
-    @State private var spentAmount: Double = 0                  // Total spent
+    @EnvironmentObject var categoryViewModel: CategoryViewModel  // Access category data from the ViewModel
+    @State private var segments: [ProgressSegment] = []  // Segments for CircularProgressView
+    @State private var totalBudget: Double = 0  // Total of maxBudget
+    @State private var spentAmount: Double = 0  // Total spent
     @State private var navigateToSettings = false
 
     var body: some View {
@@ -18,8 +18,10 @@ struct BudgetsView: View {
             ZStack {
                 VStack(spacing: 16) {
                     // Header
-                    CustomAppBar(navigateToSettings: $navigateToSettings, title: "Spending & Budgets")
-                    
+                    CustomAppBar(
+                        navigateToSettings: $navigateToSettings,
+                        title: "Spending & Budgets")
+
                     // Circular Progress View
                     CircularProgressView(
                         segments: $segments,
@@ -27,8 +29,8 @@ struct BudgetsView: View {
                         spentAmount: categoryViewModel.totalSpent()
                     )
                     .onAppear {
-                        loadCategoriesIfNeeded() // Load categories if not already loaded
-                        updateSegments() // Update progress view data
+                        loadCategoriesIfNeeded()  // Load categories if not already loaded
+                        updateSegments()  // Update progress view data
                     }
                     .padding(.horizontal)
                     Spacer()
@@ -38,7 +40,7 @@ struct BudgetsView: View {
                 VStack(spacing: 16) {
                     Spacer().frame(height: .heightPer(per: 20))
                     StatusBannerView(message: "Your budgets are on track 👍")
-                    
+
                     scrollableCategoriesView
                     Spacer().frame(height: 0)
                 }
@@ -61,24 +63,24 @@ struct BudgetsView: View {
             }
 
             // Add New Category Button
-            OutlinedDashButton(title: "Add New Category", onTap: {
-                 // Example action to add a new category
-            })
+            OutlinedDashButton(
+                title: "Add New Category",
+                onTap: {
+                    // Example action to add a new category
+                })
         }
         .padding(.horizontal)
     }
-    
+
     // MARK: - Load Categories If Needed
     private func loadCategoriesIfNeeded() {
-        if categoryViewModel.categories.isEmpty {
-            categoryViewModel.fetchCategories()
-        }
+        categoryViewModel.fetchCategories()
     }
 
     // MARK: - Update Segments
     private func updateSegments() {
         let categories = categoryViewModel.categories
-        
+
         // Calculate the total budget and total spent amount
         totalBudget = categories.reduce(0) { $0 + $1.budget }
         spentAmount = categories.reduce(0) { $0 + $1.totalAmountSpent }
@@ -86,7 +88,9 @@ struct BudgetsView: View {
         // Map categories to progress segments
         segments = categories.map { category in
             let progress = category.totalAmountSpent / totalBudget
-            return ProgressSegment(color: Color(hex: category.color ?? "FFA699"), progress: progress)
+            return ProgressSegment(
+                color: Color(hex: category.color ?? "FFA699"),
+                progress: progress)
         }
     }
 }
@@ -100,7 +104,7 @@ struct BudgetsView_Previews: PreviewProvider {
                 currentUser: nil
             )
             BudgetsView()
-                .environmentObject(mockCategoryViewModel) // Inject mock data
+                .environmentObject(mockCategoryViewModel)  // Inject mock data
                 .applyDefaultBackground()
         }
     }

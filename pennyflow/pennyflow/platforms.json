@@ -3,50 +3,30 @@
         "id": "d1e29c1f-6c01-4a84-a7a1-1d0c9c8ed882",
         "name": "Spotify",
         "description": "Music App.",
-        "price": 9.99,
-        "startDate": "2024-01-01T00:00:00Z",
-        "reminder": "Monthly",
         "image": "spotify_logo",
-        "dueDate": "2024-02-01T00:00:00Z"
     },
     {
         "id": "7b7e3251-942f-45e8-b453-1a01cb0929b0",
         "name": "YouTube",
         "description": "Enjoy millions of videos and channels on YouTube.",
-        "price": 15.99,
-        "startDate": "2024-02-01T00:00:00Z",
-        "reminder": "Never",
         "image": "youtube_logo",
-        "dueDate": null
     },
     {
         "id": "e4a58fa4-d803-43e4-b4e5-2eb21c79e3d3",
         "name": "OneDrive",
         "description": "Store, sync, and share files securely with OneDrive.",
-        "price": 6.99,
-        "startDate": "2024-03-01T00:00:00Z",
-        "reminder": "Yearly",
         "image": "onedrive_logo",
-        "dueDate": "2025-03-01T00:00:00Z"
     },
     {
         "id": "94cbd3d5-fc1e-476c-b00f-74b917f4ae3c",
         "name": "Netflix",
         "description": "Stream TV shows and movies anytime on Netflix.",
-        "price": 19.99,
-        "startDate": "2024-01-15T00:00:00Z",
-        "reminder": "Monthly",
         "image": "netflix_logo",
-        "dueDate": "2024-02-15T00:00:00Z"
     },
     {
         "id": "ec2f8f9c-0b4c-43d4-a18f-5d8503191bb2",
         "name": "HBO Go",
         "description": "Access your favorite HBO shows and movies.",
-        "price": 14.99,
-        "startDate": "2024-04-01T00:00:00Z",
-        "reminder": "Quarterly",
         "image": "hbo_logo",
-        "dueDate": "2024-07-01T00:00:00Z"
     }
 ]

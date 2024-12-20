@@ -8,14 +8,14 @@ import SwiftUI
 
 struct MainScreen: View {
     @Environment(\.managedObjectContext) var context
-    @State private var selectedTab: Int = 0
+    @EnvironmentObject var appViewModel: AppViewModel
     @State private var isAddingSubscription = false  // Push to Add Subscription page
 
     var body: some View {
         NavigationStack {
             ZStack {
                 // Show the selected page
-                TabView(selection: $selectedTab) {
+                TabView(selection: $appViewModel.bnbIndex) {
                     HomeView().tag(0)
                     BudgetsView().tag(1)
                     CalendarView(context: context).tag(2)
@@ -24,7 +24,7 @@ struct MainScreen: View {
                 GradientLayer()
                 // Floating Bottom Navigation Bar
                 FloatingBottomNavigationBar(
-                    selectedTab: $selectedTab,
+                    selectedTab: $appViewModel.bnbIndex,
                     isAddingSubscription: $isAddingSubscription
                 )
                 .edgesIgnoringSafeArea(.bottom)  // Allow the bar to float at the bottom

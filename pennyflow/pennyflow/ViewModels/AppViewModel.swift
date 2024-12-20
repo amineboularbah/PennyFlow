@@ -11,6 +11,7 @@ import CoreData
 
 class AppViewModel: ObservableObject {
     @Published var isUserLoggedIn: Bool = false // Tracks login state
+    @Published var bnbIndex: Int = 0 // Tracks login state
 
     private let userService: UserService
 
