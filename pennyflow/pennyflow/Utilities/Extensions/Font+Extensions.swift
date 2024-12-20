@@ -39,6 +39,8 @@ extension Font {
     static var bodyLarge: Font { customFont(.regular, fontSize: 16) }
     static var bodyMedium: Font { customFont(.regular, fontSize: 14) }
     static var bodySmall: Font { customFont(.medium, fontSize: 12) }
+    static var bodySmall2: Font { customFont(.medium, fontSize: 10) }
+    
     
     // Subtitle Style
     static var subtitle: Font { customFont(.medium, fontSize: 20) }

@@ -66,7 +66,7 @@ struct DashboardView: View {
             .frame(width: circleSize, height: circleSize)
             .shadow(color: Color.secondaryC.opacity(0.5), radius: 10)
             .onAppear {
-                withAnimation(.easeOut(duration: 2.0)) {
+                withAnimation(.easeOut(duration: 0.5)) {
                     subViewModel.calculateMonthlyBills()
                 }
             }

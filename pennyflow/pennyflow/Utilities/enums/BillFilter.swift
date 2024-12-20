@@ -7,10 +7,10 @@
 
 
 enum BillFilter: String, CaseIterable {
-    case month = "Next Month"
+    case month = "This Month"
     case threeMonths = "Next 3 Months"
     case sixMonths = "Next 6 Months"
-    case year = "Next Year"
+    case year = "This Year"
 
     // Get the time interval in months for each filter
     var monthsInterval: Int {

@@ -8,10 +8,18 @@
 import Foundation
 
 extension Date {
-    func formattedDate(style: DateFormatter.Style = .medium) -> String {
+    func formattedDate(informal: Bool = false) -> String {
         let formatter = DateFormatter()
-        formatter.dateStyle = style
-        formatter.timeStyle = .none
+        
+        if informal {
+            // Use a casual, minimalist style
+            formatter.dateFormat = "MMM d, yyyy"
+        } else {
+            // Use the default medium style
+            formatter.dateStyle = .medium
+            formatter.timeStyle = .none
+        }
+        
         return formatter.string(from: self)
     }
 }
