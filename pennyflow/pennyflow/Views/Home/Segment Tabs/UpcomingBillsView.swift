@@ -6,21 +6,21 @@ struct UpcomingBillsView: View {
     var body: some View {
         ScrollView {
             VStack(spacing: 8) {
-                ForEach(viewModel.userSubscriptions) { subscription in
+                ForEach(viewModel.upcomingBills) { bill in
                     SubscriptionRowView(
-                        subscription: subscription, showDate: true)
+                        subscription: bill.subscription, showDate: true, dueDate: bill.dueDate)
                 }
             }
             .padding(.horizontal)
         }
         .onAppear {
-            fetchSubscriptions()
+            filterSubscriptions()
         }
     }
 
     // Fetch subscriptions from Core Data
-    private func fetchSubscriptions() {
-        viewModel.fetchUserSubscriptions()
+    private func filterSubscriptions() {
+        viewModel.filterSubscriptions()
     }
 }
 

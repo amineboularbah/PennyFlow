@@ -8,6 +8,7 @@ import SwiftUI
 
 struct MainScreen: View {
     @Environment(\.managedObjectContext) var context
+    @EnvironmentObject var appViewModel: AppViewModel
     @State private var selectedTab: Int = 0
     @State private var isAddingSubscription = false  // Push to Add Subscription page
 
@@ -37,6 +38,12 @@ struct MainScreen: View {
             }
 
         }
+        .onChange(of: appViewModel.forceShowBudget, {
+            if appViewModel.forceShowBudget && selectedTab != 1 {
+                selectedTab = 1
+            }
+            
+        })
         .navigationBarBackButtonHidden(true)  // Hide the navigation bar
         
     }

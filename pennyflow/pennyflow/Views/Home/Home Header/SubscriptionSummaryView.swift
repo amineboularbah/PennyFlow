@@ -9,23 +9,20 @@
 import SwiftUI
 
 struct SubscriptionSummaryView: View {
-    var activeSubs: Int = 12
-    var highestSubs: Double = 19.99
-    var lowestSubs: Double = 5.99
-
+    @EnvironmentObject var viewModel: SubscriptionsViewModel
     var body: some View {
         HStack(spacing: 16) {
             // Active Subs Card
             SummaryCard(
                 title: "Active subs",
-                value: "\(activeSubs)",
+                value: "\(viewModel.userSubscriptions.count)",
                 indicatorColor: .secondary50
             )
 
             // Highest Subs Card
             SummaryCard(
                 title: "Highest subs",
-                value: "$\(String(format: "%.2f", highestSubs))",
+                value: viewModel.getHighestSubscription(),
                 indicatorColor: .primary10,
                 isSelected: true // Highlighted card
             )
@@ -33,7 +30,7 @@ struct SubscriptionSummaryView: View {
             // Lowest Subs Card
             SummaryCard(
                 title: "Lowest subs",
-                value: "$\(String(format: "%.2f", lowestSubs))",
+                value: viewModel.getLowestSubscription(),
                 indicatorColor: .secondaryG50
             )
         }

@@ -11,6 +11,7 @@ import CoreData
 
 class AppViewModel: ObservableObject {
     @Published var isUserLoggedIn: Bool = false // Tracks login state
+    @Published var forceShowBudget: Bool = false
 
     private let userService: UserService
 

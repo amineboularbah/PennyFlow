@@ -1,11 +1,15 @@
 import SwiftUI
 
 struct DashboardView: View {
-    @State private var progress: Double = 0
+    @EnvironmentObject var appViewModel : AppViewModel
+    @EnvironmentObject var subViewModel : SubscriptionsViewModel
+    @Binding var navigateToSettings: Bool
+
     private let circleSize: Double = 290.0
     private let circleRotationDegree: Double = 130
-    @Binding var navigateToSettings: Bool
+
     var body: some View {
+
         ZStack {
             VStack(spacing: 0) {
                 CustomAppBar(navigateToSettings: $navigateToSettings)
@@ -35,7 +39,7 @@ struct DashboardView: View {
     // Static Progress Arc
     private var staticProgressArc: some View {
         Circle()
-            .trim(from: 0, to: 0.75)  // Show only the top 75% of the circle
+            .trim(from: 0, to: 0.78)  // Show only the top 75% of the circle
             .stroke(
                 Color.gray60.opacity(0.2),
                 style: StrokeStyle(
@@ -48,9 +52,9 @@ struct DashboardView: View {
     }
 
     // Animated Progress Arc
-    private var animatedProgressArc: some View {
+    private var animatedProgressArc : some View {
         Circle()
-            .trim(from: 0, to: progress)
+            .trim(from: 0, to: subViewModel.calculateCircleProgress())
             .stroke(
                 Color.secondaryC,
                 style: StrokeStyle(
@@ -62,8 +66,8 @@ struct DashboardView: View {
             .frame(width: circleSize, height: circleSize)
             .shadow(color: Color.secondaryC.opacity(0.5), radius: 10)
             .onAppear {
-                withAnimation(.easeOut(duration: 2.0)) {
-                    progress = 0.77  // Animate to 75%
+                withAnimation(.easeOut(duration: 0.5)) {
+                    subViewModel.calculateMonthlyBills()
                 }
             }
     }
@@ -72,7 +76,7 @@ struct DashboardView: View {
     private var innerCircleContent: some View {
         VStack(spacing: 20) {
             appName
-            Text("$1,235")
+            Text("$\(subViewModel.monthlyBills.total.formatted())")
                 .font(.system(size: 48, weight: .bold))
                 .foregroundColor(.white)
             Text("This month bills")
@@ -85,14 +89,10 @@ struct DashboardView: View {
 
     // App Name with Icon
     private var appName: some View {
-        HStack(spacing: 5) {
-            Circle()
-                .fill(Color.purple)
-                .frame(width: 20, height: 20)
             Text("PENNYFLOW")
                 .font(.headline)
                 .foregroundColor(.white)
-        }
+        
     }
 
     // See Your Budget Button
@@ -131,12 +131,16 @@ struct DashboardView: View {
 
     private func handleSeeYourBudget() {
         print("See Your Budget tapped")
+        // Take the user to the budgets & spendings view
+        if !appViewModel.forceShowBudget {
+            appViewModel.forceShowBudget = true
+        }
     }
 }
 
 struct DashboardView_Previews: PreviewProvider {
     static var previews: some View {
-        DashboardView(navigateToSettings: .constant(false))
+        DashboardView(navigateToSettings: .constant(false) )
             .applyDefaultBackground()
     }
 }
