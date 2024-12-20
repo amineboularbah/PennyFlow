@@ -11,12 +11,15 @@ import Foundation
 class SubscriptionsViewModel: ObservableObject {
     @Published var userSubscriptions: [Subscription] = []  // User current subscriptions array
     @Published var user: User?
-    private let context: NSManagedObjectContext
-    private var currentUser: User?
     @Published var monthlyBills: (total: Double, spent: Double) = (
         total: 0, spent: 0
     )
+    @Published var selectedFilter: BillFilter = .month // Default filter
+    @Published var upcomingBills: [Bill] = []
 
+    private let context: NSManagedObjectContext
+    private var currentUser: User?
+    
     // Current user reference
 
     // MARK: - Initialization
@@ -105,7 +108,57 @@ class SubscriptionsViewModel: ObservableObject {
 
         }
     }
+    
+    // MARK: Filter subscriptions based on the selected filter
+    func filterSubscriptions() {
+        // Get the current date and calendar
+        let calendar = Calendar.current
+        let currentDate = Date()
 
+        // Calculate the start of the current month
+        guard let startOfCurrentMonth = calendar.date(from: calendar.dateComponents([.year, .month], from: currentDate)),
+              let endDate = calendar.date(byAdding: .month, value: selectedFilter.monthsInterval, to: startOfCurrentMonth) else {
+            return
+        }        // Create an empty list for the filtered results
+        var results: [Bill] = []
+
+        // Loop through all subscriptions and calculate due dates
+        for subscription in userSubscriptions {
+            var nextDueDate = subscription.startDate ?? Date()
+
+            while nextDueDate <= endDate {
+                if nextDueDate >= currentDate {
+                    results.append(Bill(subscription: subscription, dueDate: nextDueDate)) // Add subscription with the calculated due date
+                }
+
+                // Increment the due date based on the subscription frequency
+                nextDueDate = calculateNextDueDate(from: nextDueDate, frequency: subscription.reminder ?? "monthly")
+            }
+        }
+
+        // Sort results by due date
+        upcomingBills = results.sorted { $0.dueDate < $1.dueDate }
+    }
+    
+    private func calculateNextDueDate(from date: Date, frequency: String) -> Date {
+        let calendar = Calendar.current
+        guard let frequencyEnum = Frequency(rawValue: frequency.lowercased()) else {
+            return date
+        }
+
+        switch frequencyEnum {
+        case .daily:
+            return calendar.date(byAdding: .day, value: 1, to: date) ?? date
+        case .weekly:
+            return calendar.date(byAdding: .weekOfYear, value: 1, to: date) ?? date
+        case .monthly:
+            return calendar.date(byAdding: .month, value: 1, to: date) ?? date
+        case .yearly:
+            return calendar.date(byAdding: .year, value: 1, to: date) ?? date
+        }
+    }
+    
+    
     // MARK: - Calculate Monthly Bills and Spent Amount
     func calculateMonthlyBills() {
         print("Starting to calculate monthly bills...")
@@ -185,6 +238,7 @@ class SubscriptionsViewModel: ObservableObject {
         
         return dueDates
     }
+
     // MARK: - Save Changes
     private func saveChanges() {
         do {

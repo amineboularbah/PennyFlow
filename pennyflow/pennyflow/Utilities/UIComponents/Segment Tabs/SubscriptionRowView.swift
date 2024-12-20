@@ -10,6 +10,7 @@ import SwiftUI
 struct SubscriptionRowView: View {
     let subscription: Subscription
     let showDate: Bool
+    let dueDate: Date?
     @State private var navigateToSettings = false
 
     var body: some View {
@@ -32,7 +33,7 @@ struct SubscriptionRowView: View {
                 // Price or Date + Price
                 if showDate {
                     VStack(alignment: .trailing, spacing: 4) {
-                        Text(subscription.calculateDueDate()?.formattedDate() ?? "ddd")
+                        Text(dueDate?.formattedDate() ?? "")
                             .font(.subheadline)
                             .foregroundColor(.gray)
 
@@ -67,7 +68,8 @@ struct SubscriptionRowView_Previews: PreviewProvider {
         SubscriptionRowView(
             subscription:
                 Subscription(),
-            showDate: true
+            showDate: true,
+            dueDate: nil
         )
         .padding()
         .background(Color.black)
