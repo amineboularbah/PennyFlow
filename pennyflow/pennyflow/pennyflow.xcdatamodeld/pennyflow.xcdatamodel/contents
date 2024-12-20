@@ -10,14 +10,27 @@
         <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="cards" inverseEntity="User"/>
     </entity>
     <entity name="Category" representedClassName="Category" syncable="YES">
+        <attribute name="amount" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="budget" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="color" optional="YES" attributeType="String"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="image" optional="YES" attributeType="String"/>
         <attribute name="name" optional="YES" attributeType="String"/>
+        <relationship name="platforms" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Platform" inverseName="category" inverseEntity="Platform"/>
         <relationship name="subscriptions" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Subscription" inverseName="category" inverseEntity="Subscription"/>
         <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="categories" inverseEntity="User"/>
     </entity>
+    <entity name="Platform" representedClassName="Platform" syncable="YES">
+        <attribute name="desc" optional="YES" attributeType="String"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="image" optional="YES" attributeType="String"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <relationship name="category" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Category" inverseName="platforms" inverseEntity="Category"/>
+        <relationship name="subscriptions" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Subscription" inverseName="platform" inverseEntity="Subscription"/>
+    </entity>
     <entity name="Subscription" representedClassName="Subscription" syncable="YES">
         <attribute name="desc" optional="YES" attributeType="String"/>
+        <attribute name="dueDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="icon" optional="YES" attributeType="String"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="name" optional="YES" attributeType="String"/>
@@ -25,6 +38,7 @@
         <attribute name="reminder" optional="YES" attributeType="String"/>
         <attribute name="startDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <relationship name="category" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Category" inverseName="subscriptions" inverseEntity="Category"/>
+        <relationship name="platform" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Platform" inverseName="subscriptions" inverseEntity="Platform"/>
         <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="subscriptions" inverseEntity="User"/>
     </entity>
     <entity name="User" representedClassName="User" syncable="YES">

@@ -8,14 +8,25 @@
 import SwiftUI
 
 struct SubscriptionsGridView: View {
-    @EnvironmentObject var subscriptionData: SubscriptionsViewModel
-    @Binding var selectedPlatform: UUID? // Track selected subscription ID
+    @EnvironmentObject var platformViewModel: PlatformViewModel
+    @Binding var selectedPlatform: Platform? // Track selected subscription ID
+    let dismiss: () -> Void
     @State private var showAllSubscriptions = false
-    @State private var topSubscriptions: [Subscription] = []
-
+    @State private var topSubscriptions: [Platform] = []
     var body: some View {
         VStack {
+            Spacer().frame(height: .topInsets)
             HStack {
+                Button {
+                    // Handle back navigation
+                    dismiss()
+                } label: {
+                    Image("back")
+                        .resizable()
+                        .renderingMode(.template)
+                        .frame(width: 20, height: 20)
+                        .foregroundColor(.gray30)
+                }
                 Text("Top Subscriptions")
                     .appTextStyle(font: .headline5)
 
@@ -33,15 +44,15 @@ struct SubscriptionsGridView: View {
                 columns: [GridItem(.adaptive(minimum: 100), spacing: 20)],
                 spacing: 20
             ) {
-                ForEach(topSubscriptions, id: \.id) { subscription in
+                ForEach(topSubscriptions, id: \.id) { platform in
                     VStack {
                         SubscriptionImageView(
-                            imageName: subscription.icon ?? "",
-                            subscriptionTitle: subscription.name ?? "",
+                            imageName: platform.image ?? "",
+                            subscriptionTitle: platform.name ?? "",
                             imageSize: 70
                         )
 
-                        Text(subscription.name ?? "")
+                        Text(platform.name ?? "")
                             .appTextStyle(font: .bodyLarge)
                             .lineLimit(1)
                     }
@@ -49,31 +60,31 @@ struct SubscriptionsGridView: View {
                     .background(
                         RoundedRectangle(cornerRadius: 20)
                             .stroke(
-                                selectedPlatform == subscription.id
+                                selectedPlatform == platform
                                     ? .secondaryC
                                     : Color.clear,
                                 lineWidth: 3
                             )
                     )
                     .onTapGesture {
-                        selectedPlatform = subscription.id
-                        print("Selected subscription: \(subscription.name ?? "")")
+                        selectedPlatform = platform
+                        print("Selected subscription: \(platform.name ?? "")")
                     }
                 }
             }
             .onAppear {
                 if topSubscriptions.isEmpty {
-                    topSubscriptions = Array(subscriptionData.subscriptions.prefix(6))
+                    topSubscriptions = Array(platformViewModel.platforms.prefix(6))
                 }
             }
             .sheet(isPresented: $showAllSubscriptions) {
-                AllSubscriptionsView(
+                AllPlatformsView(
                     selectedPlatform: $selectedPlatform, // Convert Int? to String? and back
-                    onSelect: { selectedID in
-                        updateTopSubscriptions(with: selectedID)
+                    onSelect: { subscription in
+                        updateTopSubscriptions(with: subscription?.id)
                     }
                 )
-                .environmentObject(subscriptionData)
+                .environmentObject(platformViewModel)
             }
         }
         .padding()
@@ -83,11 +94,11 @@ struct SubscriptionsGridView: View {
         )
     }
 
-    private func updateTopSubscriptions(with selectedID: UUID?) {
-        guard let selectedID = selectedID,
-              let selectedSubscription = subscriptionData.subscriptions.first(where: {
+    private func updateTopSubscriptions(with platform: UUID?) {
+        guard let subscription = platform,
+              let selectedSubscription = platformViewModel.platforms.first(where: {
                   if let id = $0.id {
-                      return  id == selectedID
+                      return  id == platform
                   }
                   return false
               })        else { return }

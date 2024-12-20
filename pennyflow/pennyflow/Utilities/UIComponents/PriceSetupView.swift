@@ -13,7 +13,7 @@ struct PriceSetupView: View {
     @Binding var priceInput: String  // Temporary input string for editing
     @FocusState private var isTextFieldFocused: Bool // To manage keyboard focus
     var body: some View {
-        VStack(spacing: 20) {
+        VStack {
             // Title
             Text("Monthly price")
                 .appTextStyle(font: .headline8, color: .gray40)
@@ -86,8 +86,7 @@ struct PriceSetupView: View {
                 .padding()
 
         }
-        .padding()
-        // Background color
+      
     }
     
     // Handle Price Submission

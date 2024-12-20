@@ -1,5 +1,5 @@
 //
-//  Category+CoreDataProperties.swift
+//  Platform+CoreDataProperties.swift
 //  pennyflow
 //
 //  Created by Amine on 20/12/2024.
@@ -10,26 +10,23 @@ import Foundation
 import CoreData
 
 
-extension Category {
+extension Platform {
 
-    @nonobjc public class func fetchRequest() -> NSFetchRequest<Category> {
-        return NSFetchRequest<Category>(entityName: "Category")
+    @nonobjc public class func fetchRequest() -> NSFetchRequest<Platform> {
+        return NSFetchRequest<Platform>(entityName: "Platform")
     }
 
-    @NSManaged public var color: String?
     @NSManaged public var id: UUID?
     @NSManaged public var name: String?
-    @NSManaged public var budget: Double
     @NSManaged public var image: String?
-    @NSManaged public var amount: Double
+    @NSManaged public var desc: String?
+    @NSManaged public var category: Category?
     @NSManaged public var subscriptions: NSSet?
-    @NSManaged public var user: User?
-    @NSManaged public var platforms: Platform?
 
 }
 
 // MARK: Generated accessors for subscriptions
-extension Category {
+extension Platform {
 
     @objc(addSubscriptionsObject:)
     @NSManaged public func addToSubscriptions(_ value: Subscription)
@@ -45,6 +42,6 @@ extension Category {
 
 }
 
-extension Category : Identifiable {
+extension Platform : Identifiable {
 
 }

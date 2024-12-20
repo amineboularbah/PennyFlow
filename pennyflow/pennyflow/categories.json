@@ -1,0 +1,25 @@
+[
+    {
+        "id": "4f58d6d3-5cb4-4f98-bb5e-2cb9379e256f",
+        "name": "Entertainment",
+        "color": "FFA699",
+        "budget": 150.0,
+        "image": "entertainment"
+    },
+    {
+        "id": "8c4de6b7-a4e9-4f22-bd80-3cbad9f163f2",
+        "name": "Auto & Transport",
+        "color": "00FAD9",
+        "budget": 200.00,
+        "image": "auto_&_transport"
+    },
+    {
+        "id": "3a9452ec-0e24-499c-b7c4-7d153aa27e3d",
+        "name": "Security",
+        "color": "AD7BFF",
+        "budget": 70.00,
+        "image": "security"
+    }
+
+]
+

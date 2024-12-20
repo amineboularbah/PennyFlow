@@ -6,45 +6,75 @@
 //
 
 import SwiftUI
+import CoreData
 
 @main
-struct pennyflowApp: App {
-    // Initialize the Persistence Controller and AppViewModel
-    let persistenceController = PersistenceController.shared
+struct PennyflowApp: App {
+    // MARK: - Properties
+    private let persistenceController = PersistenceController.shared
     @StateObject private var appViewModel = AppViewModel()
+    @StateObject private var profileViewModel = ProfileViewModel()
+    
+    // MARK: - Initializer
+    init() {
+        let context = persistenceController.container.viewContext
+        initializeServices(context: context)
+    }
 
+    // MARK: - Body
     var body: some Scene {
         WindowGroup {
-            // Conditionally show the appropriate screen based on login status
-            if appViewModel.isUserLoggedIn {
-                MainScreen() // Navigate to MainScreen if logged in
-                    .preferredColorScheme(.dark)
-                    .environmentObject(appViewModel)
-                    .environmentObject(
-                        SubscriptionsViewModel(
-                            context: persistenceController.container.viewContext
-                        )
+            AppContentView()
+                .preferredColorScheme(.dark)
+                .environmentObject(appViewModel)
+                .environmentObject(
+                    SubscriptionsViewModel(
+                        context: persistenceController.container.viewContext,
+                        currentUser: profileViewModel.user
                     )
-                    .environment(
-                        \.managedObjectContext,
-                        persistenceController.container.viewContext
+                )
+                .environmentObject(
+                    AddSubscriptionViewModel(
+                        context: persistenceController.container.viewContext,
+                        currentUser: profileViewModel.user
                     )
-                    .background(Color.gray80)
-            } else {
-                Welcome() // Navigate to Welcome screen if not logged in
-                    .preferredColorScheme(.dark)
-                    .environmentObject(appViewModel)
-                    .environmentObject(
-                        SubscriptionsViewModel(
-                            context: persistenceController.container.viewContext
-                        )
+                )
+                .environmentObject(
+                    CategoryViewModel(
+                        context: persistenceController.container.viewContext,
+                        currentUser: profileViewModel.user
                     )
-                    .environment(
-                        \.managedObjectContext,
-                        persistenceController.container.viewContext
+                )
+                .environmentObject(
+                    PlatformViewModel(
+                        context: persistenceController.container.viewContext
                     )
-                    .background(Color.gray80)
-            }
+                )
+                .environment(\.managedObjectContext, persistenceController.container.viewContext)
+                .background(Color.gray80)
+        }
+    }
+    
+    // MARK: - Helper Methods
+    /**
+     Initializes services that require data loading on app launch.
+     - Parameter context: Core Data context.
+     */
+    private func initializeServices(context: NSManagedObjectContext) {
+        SubscriptionService.shared.initializeSubscriptionsIfNeeded(context: context)
+        CategoryService.shared.initializeCategoriesIfNeeded(context: context)
+        PlatformService.shared.initializePlatformsIfNeeded(context: context)
+    }
+}
+
+struct AppContentView: View {
+    @EnvironmentObject var appViewModel: AppViewModel
+    
+    var body: some View {
+        if appViewModel.isUserLoggedIn {
+            MainScreen()
+        } else {
+            Welcome()
         }
     }
 }

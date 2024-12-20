@@ -2,7 +2,7 @@
 //  Card+CoreDataProperties.swift
 //  pennyflow
 //
-//  Created by Amine on 14/12/2024.
+//  Created by Amine on 20/12/2024.
 //
 //
 
@@ -16,12 +16,12 @@ extension Card {
         return NSFetchRequest<Card>(entityName: "Card")
     }
 
-    @NSManaged public var id: UUID?
     @NSManaged public var bankName: String?
-    @NSManaged public var cardType: String?
     @NSManaged public var cardNumber: String?
+    @NSManaged public var cardType: String?
     @NSManaged public var expirationDate: Date?
     @NSManaged public var icon: String?
+    @NSManaged public var id: UUID?
     @NSManaged public var user: User?
 
 }

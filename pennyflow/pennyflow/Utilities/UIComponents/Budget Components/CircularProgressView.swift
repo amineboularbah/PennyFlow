@@ -8,8 +8,8 @@ import SwiftUI
 
 struct CircularProgressView: View {
     @Binding var segments: [ProgressSegment] // Represents the progress bar segments
-    @Binding var totalBudget: Double         // Total budget for the half-circle
-    @Binding var spentAmount: Double         // Total spent amount
+     var totalBudget: Double         // Total budget for the half-circle
+     var spentAmount: Double         // Total spent amount
 
     // Constants
     private let circleSize: Double = 206 // Circle dimensions
@@ -85,28 +85,18 @@ struct CircularProgressView: View {
     private var centerText: some View {
         VStack(spacing: 8) {
             // Spent Amount
-            Text("$\(formattedAmount(spentAmount))")
+            Text("$\(String(describing: spentAmount.formatted()))")
                 .font(.system(size: 32, weight: .bold))
                 .foregroundColor(.white)
 
             // Total Budget
-            Text("of $\(formattedAmount(totalBudget)) budget")
+            Text("of $\(String(describing: totalBudget.formatted())) budget")
                 .font(.subheadline)
                 .foregroundColor(.gray)
             Spacer().frame(height: circleSize / 4)
         }
     }
 
-    // Helper Function for Conditional Formatting
-    private func formattedAmount(_ amount: Double) -> String {
-        if amount.truncatingRemainder(dividingBy: 1) == 0 {
-            // If the decimal part is zero, return without decimals
-            return String(format: "%.0f", amount)
-        } else {
-            // Otherwise, return with two decimal places
-            return String(format: "%.2f", amount)
-        }
-    }
 }
 
 // MARK: - Models
@@ -127,8 +117,8 @@ struct CircularProgressView_Previews: PreviewProvider {
                 ProgressSegment(color: .purple, progress: 0.40), // 40% progress
                 ProgressSegment(color: .green, progress: 0.15)   // 15% progress
             ]),
-            totalBudget: .constant(2000.0),  // Total budget
-            spentAmount: .constant(820.97)  // Total spent amount
+            totalBudget: 2000.0,  // Total budget
+            spentAmount: 820.97  // Total spent amount
         )
         .applyDefaultBackground() // Apply a dark background for preview
     }

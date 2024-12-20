@@ -7,33 +7,10 @@
 import SwiftUI
 
 struct BudgetsView: View {
-    let categories: [BudgetCategory] = [
-        BudgetCategory(
-            name: "Auto & Transport",
-            spent: 200,
-            maxBudget: 400.0,
-            icon: "auto_&_transport",
-            progressColor: .secondaryG
-        ),
-        BudgetCategory(
-            name: "Entertainment",
-            spent: 600.00,
-            maxBudget: 600.0,
-            icon: "entertainment",
-            progressColor: .secondary50
-        ),
-        BudgetCategory(
-            name: "Security",
-            spent: 600,
-            maxBudget: 600.0,
-            icon: "security",
-            progressColor: .primary10
-        ),
-    ]
-    
-    @State private var segments: [ProgressSegment] = [] // Segments for CircularProgressView
-    @State private var totalBudget: Double = 0          // Total of maxBudget
-    @State private var spentAmount: Double = 0          // Total spent
+    @EnvironmentObject var categoryViewModel: CategoryViewModel // Access category data from the ViewModel
+    @State private var segments: [ProgressSegment] = []         // Segments for CircularProgressView
+    @State private var totalBudget: Double = 0                  // Total of maxBudget
+    @State private var spentAmount: Double = 0                  // Total spent
     @State private var navigateToSettings = false
 
     var body: some View {
@@ -46,62 +23,70 @@ struct BudgetsView: View {
                     // Circular Progress View
                     CircularProgressView(
                         segments: $segments,
-                        totalBudget: $totalBudget,
-                        spentAmount: $spentAmount
+                        totalBudget: categoryViewModel.totalBudget(),
+                        spentAmount: categoryViewModel.totalSpent()
                     )
                     .onAppear {
-                        updateSegments() // Reassign segments when the view appears
+                        loadCategoriesIfNeeded() // Load categories if not already loaded
+                        updateSegments() // Update progress view data
                     }
                     .padding(.horizontal)
                     Spacer()
                 }
-                
-                
+
                 // Status Banner
                 VStack(spacing: 16) {
                     Spacer().frame(height: .heightPer(per: 20))
                     StatusBannerView(message: "Your budgets are on track 👍")
                     
-                    
                     scrollableCategoriesView
                     Spacer().frame(height: 0)
                 }
-            }.applyDefaultBackground()
-                .navigationDestination(
-                    isPresented: $navigateToSettings
-                ) {
-                    SettingsView()
-                }
+            }
+            .applyDefaultBackground()
+            .navigationDestination(
+                isPresented: $navigateToSettings
+            ) {
+                SettingsView()
+            }
         }
     }
 
     private var scrollableCategoriesView: some View {
-        return ScrollView {
+        ScrollView {
             VStack(spacing: 16) {
-                ForEach(categories) { category in
+                ForEach(categoryViewModel.categories) { category in
                     BudgetCategoryRowView(category: category)
                 }
             }
-            
 
             // Add New Category Button
             OutlinedDashButton(title: "Add New Category", onTap: {
-                
-            })  // Ensure total height including padding is 84
-
-        }.padding(.horizontal)
+                 // Example action to add a new category
+            })
+        }
+        .padding(.horizontal)
     }
     
+    // MARK: - Load Categories If Needed
+    private func loadCategoriesIfNeeded() {
+        if categoryViewModel.categories.isEmpty {
+            categoryViewModel.fetchCategories()
+        }
+    }
+
     // MARK: - Update Segments
     private func updateSegments() {
+        let categories = categoryViewModel.categories
+        
         // Calculate the total budget and total spent amount
-        totalBudget = categories.reduce(0) { $0 + $1.maxBudget }
-        spentAmount = categories.reduce(0) { $0 + $1.spent }
+        totalBudget = categories.reduce(0) { $0 + $1.budget }
+        spentAmount = categories.reduce(0) { $0 + $1.totalAmountSpent }
 
         // Map categories to progress segments
         segments = categories.map { category in
-            let progress = category.spent / totalBudget
-            return ProgressSegment(color: category.progressColor, progress: progress)
+            let progress = category.totalAmountSpent / totalBudget
+            return ProgressSegment(color: Color(hex: category.color ?? "FFA699"), progress: progress)
         }
     }
 }
@@ -109,10 +94,14 @@ struct BudgetsView: View {
 struct BudgetsView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            // Preview for Default Configuration
+            // Preview with mock ViewModel
+            let mockCategoryViewModel = CategoryViewModel(
+                context: PersistenceController.preview.container.viewContext,
+                currentUser: nil
+            )
             BudgetsView()
+                .environmentObject(mockCategoryViewModel) // Inject mock data
                 .applyDefaultBackground()
-
         }
     }
 }

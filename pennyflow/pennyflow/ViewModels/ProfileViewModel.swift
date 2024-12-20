@@ -18,13 +18,13 @@ class ProfileViewModel: ObservableObject {
     @Published var isFormValid = false
     @Published var errorMessage: String? = nil // Holds the error message for the View
     @Published var navigateToMainScreen: Bool = false // Tracks navigation state
-    
+    @Published var user: User? // Hold the Core Data User object
+
     // MARK: - State for Switches
     @Published var isICloudSyncEnabled: Bool = false
 
     // MARK: - Private Properties
     private let userService = UserService()
-    private var user: User? // Hold the Core Data User object
     
     // MARK: - Initialization
     init() {

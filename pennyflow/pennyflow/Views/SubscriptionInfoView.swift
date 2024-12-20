@@ -8,8 +8,10 @@ import SwiftUI
 
 struct SubscriptionInfoView: View {
     @Environment(\.dismiss) private var dismiss
-
+    @EnvironmentObject var subsViewModel: SubscriptionsViewModel
     let subscription: Subscription
+    @State private var showAlert = false
+    @State private var alertMessage: String = ""
 
     var body: some View {
     
@@ -21,7 +23,9 @@ struct SubscriptionInfoView: View {
                         title: "Subscription info",
                         dismissAction: {
                             dismiss()
-                        })
+                        },
+                        deleteAction: deleteSubscription
+                    )
 
                     // Subscription Info
                     SubscriptionInfoCard(subscription: subscription)
@@ -56,11 +60,27 @@ struct SubscriptionInfoView: View {
                     
 
             }
+        }.alert(isPresented: $showAlert) {
+            Alert(
+                title: Text("Error"),
+                message: Text(alertMessage),
+                dismissButton: .default(Text("OK"))
+            )
         }
             .applyDefaultBackground()
             .navigationBarBackButtonHidden(true)
         
 
+    }
+    private func deleteSubscription() {
+        do {
+            try subsViewModel.deleteSubscription(subscription)
+            dismiss()
+        } catch {
+            // Show an alert if something goes wrong
+            alertMessage = "Failed to delete subscription: \(error.localizedDescription)"
+            showAlert = true
+        }
     }
 }
 
@@ -68,6 +88,7 @@ struct SubscriptionInfoView: View {
 struct HeaderView: View {
     let title: String
     let dismissAction: () -> Void
+    let deleteAction: () -> Void
 
     var body: some View {
         HStack {
@@ -83,7 +104,7 @@ struct HeaderView: View {
                 .appTextStyle(font: .bodyLarge, color: .gray30)
             Spacer()
             Button(action: {
-                print("Delete tapped")
+                deleteAction()
             }) {
                 Image(systemName: "trash")
                     .resizable()
@@ -130,7 +151,7 @@ struct DetailsSection: View {
     var body: some View {
         VStack(spacing: 8) {
             DetailRow(title: "Name", value: subscription.name ?? "")
-            DetailRow(title: "Description", value: subscription.description)
+            DetailRow(title: "Description", value: subscription.desc ?? "")
             DetailRow(title: "Category", value: "Entertainment")
             DetailRow(title: "First payment", value: subscription.startDate?.formattedDate() ?? "N/A")
             DetailRow(title: "Reminder", value: "Never")
